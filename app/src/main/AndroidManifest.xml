@@ -24,9 +24,6 @@
             android:name=".WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name=".Model.Onboarding1"
-            android:exported="false" />
-        <activity
             android:name=".TrangChu"
             android:exported="false" />
         <activity
