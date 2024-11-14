@@ -8,21 +8,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+public class Onboarding1 extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
-
-
-    String name = "test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_onboarding1);
 
-        DatabaseReference db;
-        db = FirebaseDatabase.getInstance().getReference();
-        db.child("tests").child(name).setValue("bl");
     }
 }
