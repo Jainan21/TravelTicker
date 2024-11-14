@@ -51,8 +51,7 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_margin="4dp"
-            android:background="@drawable/indicator_selected"
-            android:selected="true" />
+            android:background="@drawable/indicator_selected"/>
 
         <ImageView
             android:layout_width="12dp"
