@@ -59,7 +59,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
         return data.length;
     }
 
-    class holder extends RecyclerView.ViewHolder{
+    public class holder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView tv;
         ImageButton imgbt;
