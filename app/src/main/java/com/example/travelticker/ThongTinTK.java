@@ -15,7 +15,7 @@ import com.example.travelticker.Adapter.PersonAdapter;
 
 public class ThongTinTK extends AppCompatActivity {
 
-    private RecyclerView rcv_1;
+    RecyclerView rcv_1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
