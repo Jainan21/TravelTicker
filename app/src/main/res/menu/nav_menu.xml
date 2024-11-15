@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/icon_home_menu"
+        android:title="Trang chủ"
+        android:icon="@drawable/icon_home_menu"/>
+    <item
+        android:id="@+id/icon_fav_menu"
+        android:title="Yêu thích"
+        android:icon="@drawable/icon_favorite_menu"/>
+    <item
+        android:id="@+id/icon_add_menu"
+        android:title="Đăng bài"
+        android:icon="@drawable/icon_add_menu"/>
+    <item
+        android:id="@+id/icon_noti_menu"
+        android:title="Thông báo"
+        android:icon="@drawable/icon_noti_menu"/>
+    <item
+        android:id="@+id/icon_user_menu"
+        android:title="Tài khoản"
+        android:icon="@drawable/icon_user_menu"/>
+</menu>

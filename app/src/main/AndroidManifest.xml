@@ -15,9 +15,12 @@
         android:theme="@style/Theme.TravelTicker"
         tools:targetApi="31">
         <activity
+            android:name=".TrangChu"
+            android:exported="false" />
+        <activity
             android:name=".ThongTinTK"
-            android:exported="false"/>
-       <activity
+            android:exported="true" />
+        <activity
             android:name=".Onboarding2"
             android:exported="false" />
         <activity
@@ -27,7 +30,7 @@
             android:name=".WelcomeActivity"
             android:exported="false" />
         <activity
-            android:name=".TrangChu"
+            android:name=".BaiDang"
             android:exported="true" />
         <activity
             android:name=".dangky"

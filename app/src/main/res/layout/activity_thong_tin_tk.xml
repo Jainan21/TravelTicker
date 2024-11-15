@@ -46,8 +46,8 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="180dp"
-                android:layout_height="180dp"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
                 android:src="@drawable/monkey"
                 android:background="@drawable/hinh_tron"
                 android:scaleType="centerCrop"
