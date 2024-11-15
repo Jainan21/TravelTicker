@@ -15,7 +15,7 @@ import com.example.travelticker.Adapter.PersonAdapter;
 
 public class CaiDat extends AppCompatActivity {
 
-    private RecyclerView rcv_2, rcv_3;
+    RecyclerView rcv_2, rcv_3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
