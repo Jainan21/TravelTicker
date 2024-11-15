@@ -13,10 +13,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.Adapter.SecondaryImageAdapter;
 import com.example.travelticker.Adapter.ServiceAdapter;
+import com.example.travelticker.Model.Image;
 import com.example.travelticker.Model.Service;
 import com.example.travelticker.R;
 
@@ -46,6 +49,7 @@ public class FragmentTongQuan extends Fragment {
         recyclerDichVu.setLayoutManager(layout);
 
         ArrayList<Service> listService = new ArrayList<>();
+        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "FC5757"));
         ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
 
         WebSettings webSettings = map.getSettings();
@@ -54,6 +58,15 @@ public class FragmentTongQuan extends Fragment {
 
         String googleMapsUrl = "https://www.google.com/maps";
         map.loadUrl(googleMapsUrl);
+
+        GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
+        recyclerHinhAnh.setLayoutManager(gridlayout);
+
+        ArrayList<Integer> listImg = new ArrayList<>();
+        listImg.add(R.drawable.halongbay);
+        SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
+
+        recyclerHinhAnh.setAdapter(adpImage);
 
         return view;
     }

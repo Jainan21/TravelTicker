@@ -10,7 +10,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:backgroundTint="#CECECE"
         android:scaleType="centerCrop"
         android:src="@drawable/onboarding"
@@ -47,13 +48,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="40dp">
 
-        <ImageView
+        <View
+            android:id="@+id/indicator1"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_margin="4dp"
-            android:background="@drawable/indicator_selected" />
-
-        <ImageView
+            android:background="@drawable/indicator_selected"/>
+        <View
+            android:id="@+id/indicator2"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_margin="4dp"
@@ -67,7 +69,7 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNext"
+        android:id="@+id/btnNext1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tiếp theo"

@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.travelticker.Fragment.FavoritesFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseReference db;
         db = FirebaseDatabase.getInstance().getReference();
-        db.child("tests").child(name).setValue("ma");
+
+        db.child("tests").child(name).setValue("bl");
+
+//        FavoritesFragment favoritesFragment = new FavoritesFragment();
+//        FragmentManager manager = getSupportFragmentManager();
+//        manager.beginTransaction()
+//                .add(R.id.frame, favoritesFragment)
+//                .commit();
+
     }
 }
