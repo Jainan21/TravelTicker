@@ -8,13 +8,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class TrangChu extends AppCompatActivity {
+public class ChinhSuaHoSo extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_trang_chu);
+        setContentView(R.layout.activity_chinh_sua_ho_so);
 
     }
 }
