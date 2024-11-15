@@ -1,11 +1,11 @@
 package com.example.travelticker.Model;
 
 public class Service {
-    String iconService;
+    Integer iconService;
     String nameService;
     String colorCode;
 
-    public Service(String iconService, String nameService, String colorCode) {
+    public Service(Integer iconService, String nameService, String colorCode) {
         this.iconService = iconService;
         this.nameService = nameService;
         this.colorCode = colorCode;
@@ -27,11 +27,11 @@ public class Service {
         this.nameService = nameService;
     }
 
-    public String getIconService() {
+    public Integer getIconService() {
         return iconService;
     }
 
-    public void setIconService(String iconService) {
+    public void setIconService(Integer iconService) {
         this.iconService = iconService;
     }
 }
