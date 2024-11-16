@@ -8,6 +8,26 @@
   "client": [
     {
       "client_info": {
+
+        "mobilesdk_app_id": "1:816114977042:android:dcb26604924c1f0657cbcb",
+        "android_client_info": {
+          "package_name": "com.example.PRO1122"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDtlWEi65IuNFZahJR-IFQ0_KjN_acWIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:816114977042:android:b38eca89a2f0a60e57cbcb",
         "android_client_info": {
           "package_name": "com.example.TravelTicker"
