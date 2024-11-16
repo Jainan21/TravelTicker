@@ -32,6 +32,7 @@ public class SecondaryImageAdapter extends RecyclerView.Adapter<SecondaryImageAd
     @Override
     public void onBindViewHolder(@NonNull SecondaryImageHolder holder, int i) {
         Integer pic = list.get(i);
+        holder.img.setImageResource(pic);
     }
 
     @Override
