@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.R;
@@ -33,11 +35,23 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
     @Override
     public void onBindViewHolder(@NonNull holder holder, int position) {
         holder.tv.setText(data[position]);
+        holder.img.setImageDrawable(icon[position]);
 
-        if (position < icon.length){
-            holder.img.setImageDrawable(icon[position]);
+        if (data[position].equals("Đăng xuất")) {
+            holder.itemView.setOnClickListener(v -> {
+                new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle("Xác nhận")
+                        .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+                        .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                            // Xử lý logic đăng xuất ở đây
+                            Toast.makeText(holder.itemView.getContext(), "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            });
+        } else {
+            holder.itemView.setOnClickListener(null);
         }
-
     }
 
     @Override
@@ -45,7 +59,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
         return data.length;
     }
 
-    class holder extends RecyclerView.ViewHolder{
+    public class holder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView tv;
         ImageButton imgbt;

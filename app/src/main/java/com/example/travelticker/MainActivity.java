@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseReference db;
         db = FirebaseDatabase.getInstance().getReference();
+
         db.child("tests").child(name).setValue("bl");
 
 //        FavoritesFragment favoritesFragment = new FavoritesFragment();
@@ -32,5 +33,6 @@ public class MainActivity extends AppCompatActivity {
 //        manager.beginTransaction()
 //                .add(R.id.frame, favoritesFragment)
 //                .commit();
+
     }
 }
