@@ -11,6 +11,7 @@
         android:gravity="center"
         android:orientation="horizontal">
         <TextView
+            android:id="@+id/txtIconMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_btnfavo"
@@ -19,6 +20,7 @@
             android:layout_marginRight="20dp"
             android:drawableStart="@drawable/baseline_add_location_alt_24"/>
         <TextView
+            android:id="@+id/txtTitleMenuPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
@@ -27,13 +29,15 @@
             android:textSize="18sp"
             android:textColor="@color/black"/>
         <TextView
+            android:id="@+id/txtBtnAddMenuPost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity=""
+            android:layout_gravity="center"
             android:drawableStart="@drawable/baseline_arrow_forward_ios_24"
             />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcvAnotherImgPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
