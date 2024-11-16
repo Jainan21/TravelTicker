@@ -10,7 +10,8 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:backgroundTint="#CECECE"
         android:scaleType="centerCrop"
         android:src="@drawable/onboarding2"
@@ -35,10 +36,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Đăng tải kinh nghiệm, hình ảnh và lời khuyên về những chuyến đi ."
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textColor="#6A6565"
         android:gravity="center"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="35dp"/>
 
     <LinearLayout
@@ -73,7 +74,7 @@
         android:id="@+id/btnNext3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tiếp theo"
+        android:text="Bắt đầu"
         android:textColor="@color/white"
         android:layout_margin="16dp"
         android:background="@drawable/button_background_square" />
