@@ -14,8 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelTicker"
         tools:targetApi="31">
+
         <activity
-            android:name=".TrangChu"
+            android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
             android:name=".ThongBao"
@@ -25,6 +26,15 @@
             android:exported="true" />
         <activity
             android:name=".CaiDat"
+            android:exported="true"/>
+        <activity
+            android:name=".dangky"
+            android:exported="true" />
+        <activity
+            android:name=".PostActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TrangChu"
             android:exported="true" />
         <activity
             android:name=".Onboarding2"
@@ -36,17 +46,15 @@
             android:name=".WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".dangky"
-            android:exported="false" />
-        <activity
             android:name=".BaiDang"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".dangnhap"
             android:exported="true" />
+
         <activity
             android:name=".Onboarding1"
             android:exported="true">

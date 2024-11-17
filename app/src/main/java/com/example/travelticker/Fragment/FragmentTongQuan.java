@@ -60,10 +60,20 @@ public class FragmentTongQuan extends Fragment {
         map.loadUrl(googleMapsUrl);
 
         GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
+
+
         recyclerHinhAnh.setLayoutManager(gridlayout);
 
         ArrayList<Integer> listImg = new ArrayList<>();
         listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+
+
         SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
 
         recyclerHinhAnh.setAdapter(adpImage);

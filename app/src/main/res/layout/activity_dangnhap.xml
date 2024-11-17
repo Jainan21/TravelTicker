@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/dangnhap"
+    android:id="@+id/main"
     android:padding="16dp"
     android:gravity="center_horizontal"
     android:background="#FFFFFF">
@@ -152,12 +152,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bạn chưa có tài khoản? Đăng ký"
         android:textSize="14sp"
         android:textColor="#000000"
         android:gravity="center"/>
+
 
 
 

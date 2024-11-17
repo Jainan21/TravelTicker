@@ -9,9 +9,9 @@ import com.example.travelticker.Fragment.FragmentDanhGia;
 import com.example.travelticker.Fragment.FragmentDiaChi;
 import com.example.travelticker.Fragment.FragmentTongQuan;
 
-public class ViewPagerAdapter extends FragmentStateAdapter {
+public class DetailAdapter extends FragmentStateAdapter {
 
-    public ViewPagerAdapter(FragmentActivity fa) {
+    public DetailAdapter(FragmentActivity fa) {
         super(fa);
     }
 
