@@ -45,14 +45,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <androidx.cardview.widget.CardView
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:src="@drawable/monkey"
-                android:background="@drawable/hinh_tron"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                app:cardCornerRadius="80dp">
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/monkey"
+                    android:clipToOutline="true"/>
+            </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit_button"

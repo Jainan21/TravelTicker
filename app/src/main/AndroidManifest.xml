@@ -18,7 +18,13 @@
             android:name=".TrangChu"
             android:exported="false" />
         <activity
+            android:name=".ThongBao"
+            android:exported="true" />
+        <activity
             android:name=".ThongTinTK"
+            android:exported="true" />
+        <activity
+            android:name=".CaiDat"
             android:exported="true" />
         <activity
             android:name=".Onboarding2"

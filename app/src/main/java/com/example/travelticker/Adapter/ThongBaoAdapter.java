@@ -43,7 +43,7 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.holder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
 
     public class holder extends RecyclerView.ViewHolder{
