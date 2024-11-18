@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,13 +35,13 @@
                 android:text="Suy nghĩ của tác giả về điểm đến"
                 android:textSize="18sp" />
 
-            <WebView
-                android:id="@+id/webView_map"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                tools:ignore="WebViewLayout">
+<!--            <WebView-->
+<!--                android:id="@+id/webView_map"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="300dp"-->
+<!--                tools:ignore="WebViewLayout">-->
 
-            </WebView>
+<!--            </WebView>-->
 
             <TextView
                 android:layout_width="match_parent"
@@ -52,6 +53,7 @@
                 android:id="@+id/recyclerDichVu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"/>
 
             <TextView
@@ -65,6 +67,7 @@
                 android:id="@+id/recyclerHinhAnh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:scrollbars="vertical"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
