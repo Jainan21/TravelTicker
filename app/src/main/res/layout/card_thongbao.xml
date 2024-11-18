@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -22,7 +23,7 @@
 
         <TextView
             android:id="@+id/tv_1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Monkey"
             android:textStyle="bold"
@@ -46,11 +47,12 @@
             android:id="@+id/tv_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_1"
+            android:paddingStart="70dp"
             android:text="22:00 21/07/2024"
-            android:textColor="@color/unselected_color"
+            android:textColor="#959393"
             android:textSize="14dp"
-            android:paddingStart="80dp"
-            android:layout_toRightOf="@id/tv_1"/>
+            tools:ignore="TextSizeCheck" />
 
 
     </RelativeLayout>
