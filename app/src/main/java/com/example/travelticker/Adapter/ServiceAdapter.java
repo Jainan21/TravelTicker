@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -54,7 +55,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceA
     public class ServiceAdapterHolder extends RecyclerView.ViewHolder {
         public ImageView imgDichVu;
         public TextView txtTenDichVu;
-        public CardView cardDichVu;
+        public LinearLayout cardDichVu;
 
         public ServiceAdapterHolder(@NonNull View itemView) {
             super(itemView);
