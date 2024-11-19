@@ -1,12 +1,16 @@
 package com.example.travelticker;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
@@ -43,6 +47,15 @@ public class PostActivity extends AppCompatActivity {
 
         rcvMenuPost.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new MenuPostAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int poisition) {
+                if(poisition == 0){
+                    addLocation();
+                }
+            }
+        });
+
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,5 +76,25 @@ public class PostActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void addLocation(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.add_location_post, null);
+        builder.setView(dialogView);
+
+        EditText edtLinkLocation = dialogView.findViewById(R.id.edtLinkLocation);
+        Button btnAddLocation = dialogView.findViewById(R.id.btnAddLocation);
+
+        btnAddLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
