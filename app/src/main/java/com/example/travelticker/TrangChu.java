@@ -7,8 +7,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+
+import com.example.travelticker.Fragment.FavoritesFragment;
+import com.example.travelticker.Fragment.FragmentTrangChu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TrangChu extends AppCompatActivity {
+    private FragmentTrangChu fragmentTrangChu = new FragmentTrangChu();
+    private FavoritesFragment fragmentYeuThich = new FavoritesFragment();
+//    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
+//    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,5 +25,26 @@ public class TrangChu extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_trang_chu);
 
+        BottomNavigationView bottom_nav = findViewById(R.id.bottomNavigation);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, fragmentTrangChu)
+                    .commit();
+        };
+        bottom_nav.setOnItemSelectedListener(item -> {
+            Fragment selectedFragment = null;
+            if (item.getItemId() == R.id.icon_home_menu) {
+                selectedFragment = fragmentTrangChu;
+            } else if (item.getItemId() == R.id.icon_fav_menu) {
+                selectedFragment = fragmentYeuThich;
+            }
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, selectedFragment)
+                        .commit();
+            }
+            return true;
+        });
     }
 }

@@ -32,19 +32,17 @@ public class dangnhap extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dangnhap); // Đảm bảo layout tên là dangnhap.xml
+        setContentView(R.layout.activity_dangnhap);
 
-        // Khởi tạo Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Liên kết các view từ XML
+
         emailEditText = findViewById(R.id.Email);
         passwordEditText = findViewById(R.id.Password);
         loginButton = findViewById(R.id.Login);
         rememberCheckBox = findViewById(R.id.Remember);
         forgotPasswordTextView = findViewById(R.id.ForgotPassword);
 
-        // Xử lý sự kiện nhấn nút đăng nhập
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +58,7 @@ public class dangnhap extends AppCompatActivity {
                     return;
                 }
 
-                // Đăng nhập với Firebase
+
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(dangnhap.this, new OnCompleteListener<AuthResult>() {
                             @Override
@@ -81,7 +79,7 @@ public class dangnhap extends AppCompatActivity {
             }
         });
 
-        // Xử lý sự kiện "Quên mật khẩu"
+
         forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +88,7 @@ public class dangnhap extends AppCompatActivity {
             }
         });
 
-        // Xử lý sự kiện "Đăng ký" (thêm TextView hoặc Button cho Đăng ký nếu chưa có trong layout)
+
         signUpTextView = findViewById(R.id.signUpTextView);
         signUpTextView.setOnClickListener(new View.OnClickListener() {
             @Override

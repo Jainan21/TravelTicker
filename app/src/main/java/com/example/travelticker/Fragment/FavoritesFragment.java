@@ -31,7 +31,7 @@ public class FavoritesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.favorites_fragment, container, false);
-        //khởi taoj recycleView
+        //khởi tao recycleView
         rcvFavo = view.findViewById(R.id.rcvFavo);
         rcvFavo.setLayoutManager(new LinearLayoutManager(getContext()));
 
