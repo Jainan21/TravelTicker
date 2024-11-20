@@ -21,13 +21,7 @@
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ThongBao"
-            android:exported="true" />
-        <activity
             android:name=".ChinhSuaHoSo"
-            android:exported="true" />
-        <activity
-            android:name=".ThongTinTK"
             android:exported="true" />
         <activity
             android:name=".CaiDat"

@@ -11,11 +11,15 @@ import androidx.fragment.app.Fragment;
 
 import com.example.travelticker.Fragment.FavoritesFragment;
 import com.example.travelticker.Fragment.FragmentTrangChu;
+import com.example.travelticker.Fragment.HoSoFragment;
+import com.example.travelticker.Fragment.ThongBaoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class TrangChu extends AppCompatActivity {
     private FragmentTrangChu fragmentTrangChu = new FragmentTrangChu();
     private FavoritesFragment fragmentYeuThich = new FavoritesFragment();
+    private ThongBaoFragment fragmentThongBao = new ThongBaoFragment();
+    private HoSoFragment fragmentHoSo = new HoSoFragment();
 //    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
 //    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
 
@@ -38,6 +42,10 @@ public class TrangChu extends AppCompatActivity {
                 selectedFragment = fragmentTrangChu;
             } else if (item.getItemId() == R.id.icon_fav_menu) {
                 selectedFragment = fragmentYeuThich;
+            } else if (item.getItemId() == R.id.icon_noti_menu) {
+                selectedFragment = fragmentThongBao;
+            } else if (item.getItemId() == R.id.icon_user_menu) {
+                selectedFragment = fragmentHoSo;
             }
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
