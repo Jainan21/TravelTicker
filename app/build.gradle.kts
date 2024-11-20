@@ -45,6 +45,8 @@ dependencies {
     implementation (libs.viewpager2)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-database")
+    implementation ("com.google.firebase:firebase-storage:20.2.0")
+    implementation ("com.google.firebase:firebase-firestore:24.2.0")
 
     implementation ("com.github.bumptech.glide:glide:4.15.1") // Replace with the latest version
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1") // For Glide's annotation processor

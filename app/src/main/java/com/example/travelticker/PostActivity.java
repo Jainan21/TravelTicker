@@ -1,15 +1,20 @@
 package com.example.travelticker;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -30,10 +35,14 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView rcvMenuPost;
+    ImageView imgMainPost;
     MenuPostAdapter adapter;
     ArrayList<MenuPost> menupost;
     DistrictionAdapter districtionAdapter;
     ArrayList<dichVu> listDis;
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +51,7 @@ public class PostActivity extends AppCompatActivity {
 
         rcvMenuPost = findViewById(R.id.rcvMenuPost);
         toolbar = findViewById(R.id.toolBarPost);
+        imgMainPost = findViewById(R.id.imgMainPost);
 
         rcvMenuPost.setLayoutManager(new LinearLayoutManager(this));
         menupost = new ArrayList<>();
@@ -67,6 +77,15 @@ public class PostActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Tạo bài viết");
+
+        //nhấn vào chọn ảnh
+        imgMainPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        });
     }
 
     @Override
@@ -82,6 +101,20 @@ public class PostActivity extends AppCompatActivity {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST){
+            //lấy đường ảnh đã chọn
+            imageUri = data.getData();
+
+            //hiển thị ảnh
+            ImageView imageView = findViewById(R.id.imgMainPost);
+            imageView.setImageURI(imageUri);
         }
     }
 
