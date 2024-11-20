@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.travelticker.Model.Service;
 import com.example.travelticker.R;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceAdapterHolder> {
@@ -40,6 +41,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceA
     @Override
     public void onBindViewHolder(@NonNull ServiceAdapter.ServiceAdapterHolder holder, int i) {
         Service service = list.get(i);
+
 
         Glide.with(holder.imgDichVu.getContext()).load(service.getIconService()).into(holder.imgDichVu);
         holder.txtTenDichVu.setText(service.getNameService());
