@@ -16,11 +16,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.Adapter.DistrictionAdapter;
 import com.example.travelticker.Adapter.MenuPostAdapter;
 import com.example.travelticker.Model.MenuPost;
+import com.example.travelticker.Model.dichVu;
 
 import java.util.ArrayList;
 
@@ -29,6 +32,8 @@ public class PostActivity extends AppCompatActivity {
     RecyclerView rcvMenuPost;
     MenuPostAdapter adapter;
     ArrayList<MenuPost> menupost;
+    DistrictionAdapter districtionAdapter;
+    ArrayList<dichVu> listDis;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +57,8 @@ public class PostActivity extends AppCompatActivity {
             public void onItemClick(int poisition) {
                 if(poisition == 0){
                     addLocation();
+                }else if(poisition == 1){
+                    addDistriction();
                 }
             }
         });
@@ -88,6 +95,38 @@ public class PostActivity extends AppCompatActivity {
         Button btnAddLocation = dialogView.findViewById(R.id.btnAddLocation);
 
         btnAddLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void  addDistriction(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.add_distriction_post, null);
+
+        RecyclerView rcvDis = dialogView.findViewById(R.id.rcvDistriction);
+        rcvDis.setLayoutManager(new GridLayoutManager(this, 2));
+        listDis = new ArrayList<>();
+        listDis.add(new dichVu("img1", "thả dù"));
+        listDis.add(new dichVu("img1", "lướt sóng"));
+        listDis.add(new dichVu("img1", "lặn"));
+        listDis.add(new dichVu("img1", "trượt băng"));
+        listDis.add(new dichVu("img1", "xông khói"));
+
+        districtionAdapter = new DistrictionAdapter(this, listDis);
+        rcvDis.setAdapter(districtionAdapter);
+
+        builder.setView(dialogView);
+
+        Button btnAddDis = dialogView.findViewById(R.id.btnAddDistriction);
+
+        btnAddDis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

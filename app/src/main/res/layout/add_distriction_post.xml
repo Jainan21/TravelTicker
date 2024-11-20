@@ -11,6 +11,14 @@
         android:layout_margin="10dp"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Dịch vụ giải trí"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="24sp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvDistriction"
             android:layout_width="match_parent"
