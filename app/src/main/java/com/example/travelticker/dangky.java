@@ -39,13 +39,13 @@ public class dangky extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = edtName.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String againPassword = edtAgainPassword.getText().toString().trim();
 
 
-                if ( email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
+
+                if (email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
                     Toast.makeText(dangky.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
