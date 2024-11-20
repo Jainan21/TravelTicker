@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Model.MenuPost;
@@ -22,6 +23,12 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
 
     public interface OnItemClickListener {
         void onItemClick(int poisition);
+    }
+
+    public void updateQuantity(int position, int newQuantity){
+        MenuPost item = list.get(position);
+        item.setQuantity(newQuantity);
+        notifyDataSetChanged();
     }
 
     public MenuPostAdapter(Context context, ArrayList<MenuPost> list) {
@@ -51,6 +58,15 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
         }else if (item.getIconUrl() == 2){
             holder.txtIconMenu.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.outline_collections_24, 0, 0, 0);
         }
+
+        //hiê thị ảnh đã
+        if (item.getSelectedImages() != null){
+            LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.rcvAnotherImgPost.setLayoutManager(manager);
+            ImgDisAdapter disAdapter = new ImgDisAdapter(context, item.getSelectedImages());
+            holder.rcvAnotherImgPost.setAdapter(disAdapter);
+            holder.txtQuantityPost.setText(item.getSelectedImages().size() + "");
+        }
     }
 
     @Override
@@ -59,7 +75,7 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
     }
 
     public class MenuPostViewHolder extends RecyclerView.ViewHolder {
-        TextView txtIconMenu, txtTitleMenuPost, txtBtnAddMenuPost;
+        TextView txtIconMenu, txtTitleMenuPost, txtBtnAddMenuPost, txtQuantityPost;
         RecyclerView rcvAnotherImgPost;
 
         public MenuPostViewHolder(@NonNull View itemView) {
@@ -68,6 +84,7 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
             txtTitleMenuPost = itemView.findViewById(R.id.txtTitleMenuPost);
             txtBtnAddMenuPost = itemView.findViewById(R.id.txtBtnAddMenuPost);
             rcvAnotherImgPost = itemView.findViewById(R.id.rcvAnotherImgPost);
+            txtQuantityPost = itemView.findViewById(R.id.txtQuantityPost);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

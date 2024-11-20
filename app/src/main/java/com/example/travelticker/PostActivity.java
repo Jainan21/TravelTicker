@@ -57,9 +57,9 @@ public class PostActivity extends AppCompatActivity {
 
         rcvMenuPost.setLayoutManager(new LinearLayoutManager(this));
         menupost = new ArrayList<>();
-        menupost.add(new MenuPost("Thêm địa chỉ", 0));
-        menupost.add(new MenuPost("Dịch vụ giải trí", 1));
-        menupost.add(new MenuPost("Thêm ảnh phụ", 2));
+        menupost.add(new MenuPost("Thêm địa chỉ", 0, 0));
+        menupost.add(new MenuPost("Dịch vụ giải trí", 1, 0));
+        menupost.add(new MenuPost("Thêm ảnh phụ", 2, 0));
         adapter = new MenuPostAdapter(this, menupost);
 
         rcvMenuPost.setAdapter(adapter);
@@ -70,7 +70,7 @@ public class PostActivity extends AppCompatActivity {
                 if(poisition == 0){
                     addLocation();
                 }else if(poisition == 1){
-                    addDistriction();
+                    addDistriction(menupost.get(1));
                 }
             }
         });
@@ -138,10 +138,13 @@ public class PostActivity extends AppCompatActivity {
         btnAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (edtLinkLocation.getText().toString().trim() == ""){
+                if (edtLinkLocation.getText().toString().trim().isEmpty()){
+                    location = "";
+                    adapter.updateQuantity(0, 0);
                     Toast.makeText(PostActivity.this, "Bạn chưa nhập thông tin !!!", Toast.LENGTH_SHORT).show();
                 }else {
                     location = edtLinkLocation.getText().toString().trim();
+                    adapter.updateQuantity(0, 1);
                     Toast.makeText(PostActivity.this, "Thêm thành công !!!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
@@ -151,7 +154,7 @@ public class PostActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void  addDistriction(){
+    public void  addDistriction(MenuPost menuPost){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.add_distriction_post, null);
@@ -159,27 +162,62 @@ public class PostActivity extends AppCompatActivity {
         RecyclerView rcvDis = dialogView.findViewById(R.id.rcvDistriction);
         rcvDis.setLayoutManager(new GridLayoutManager(this, 2));
         listDis = new ArrayList<>();
-        listDis.add(new dichVu("img1", "thả dù"));
-        listDis.add(new dichVu("img1", "lướt sóng"));
-        listDis.add(new dichVu("img1", "lặn"));
-        listDis.add(new dichVu("img1", "trượt băng"));
-        listDis.add(new dichVu("img1", "xông khói"));
+        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "thả dù"));
+        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "lướt sóng"));
+        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "lặn"));
+        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "trượt băng"));
+        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "xông khói"));
 
-        districtionAdapter = new DistrictionAdapter(this, listDis);
+        // Tạo danh sách dịch vụ đã chọn từ MenuPost
+        ArrayList<dichVu> selectedItems = menuPost.getSelectedImages();
+        if (selectedItems == null) {
+            selectedItems = new ArrayList<>();  // Khởi tạo nếu null
+        }
+
+        for (dichVu dis : listDis) {
+            for (dichVu selected : selectedItems) {
+                if (dis.getName().equals(selected.getName())) {
+                    dis.setSelected(true);
+                }
+            }
+        }
+
+        districtionAdapter = new DistrictionAdapter(this, listDis, menuPost);
         rcvDis.setAdapter(districtionAdapter);
 
         builder.setView(dialogView);
 
         Button btnAddDis = dialogView.findViewById(R.id.btnAddDistriction);
 
+        if (selectedItems.isEmpty()){
+            btnAddDis.setText("Thêm");
+        }else {
+            btnAddDis.setText("Chỉnh sửa");
+        }
+
+        AlertDialog dialog = builder.create();
+
         btnAddDis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Lấy các dịch vụ đã chọn
+                ArrayList<dichVu> selectedItems = new ArrayList<>();
+                for (dichVu imageItem : listDis) {
+                    if (imageItem.isSelected()) {
+                        selectedItems.add(imageItem);
+                    }
+                }
 
+                //cập nật danh sách
+                menuPost.setSelectedImages(selectedItems);
+
+                adapter.notifyDataSetChanged();
+
+                dialog.dismiss();
             }
         });
 
-        AlertDialog dialog = builder.create();
         dialog.show();
     }
+
 }

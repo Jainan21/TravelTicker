@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp"
+    android:paddingTop="15dp"
+    android:paddingHorizontal="15dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -47,6 +48,9 @@
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvAnotherImgPost"
+        android:padding="1dp"
+        android:layout_marginTop="19dp"
+        android:background="#F2F2F2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
