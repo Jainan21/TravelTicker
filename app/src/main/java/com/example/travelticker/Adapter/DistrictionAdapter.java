@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.Model.MenuPost;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.R;
 
@@ -20,14 +21,16 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
     Context context;
     ArrayList<dichVu> list;
     OnItemClickListener listener;
+    MenuPost menuPost;
 
     public interface OnItemClickListener {
         void onItemClick( int position);
     }
 
-    public DistrictionAdapter(Context context, ArrayList<dichVu> list) {
+    public DistrictionAdapter(Context context, ArrayList<dichVu> list, MenuPost menuPost) {
         this.context = context;
         this.list = list;
+        this.menuPost = menuPost;
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -45,7 +48,17 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
     public void onBindViewHolder(@NonNull DistrictionViewHolder holder, int position) {
         dichVu dv = list.get(position);
 
+        holder.chkDis.setChecked(dv.isSelected());
         holder.txtDesName.setText(dv.getName());
+
+        if (menuPost != null) {
+            holder.chkDis.setOnCheckedChangeListener((compoundButton, b) -> {
+                dv.setSelected(b);
+                menuPost.addSeletedImage(dv);
+            });
+        }else {
+            holder.chkDis.setEnabled(false);
+        }
     }
 
     @Override
