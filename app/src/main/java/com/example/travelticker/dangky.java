@@ -29,7 +29,6 @@ public class dangky extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-        edtName = findViewById(R.id.Name);
         edtEmail = findViewById(R.id.Email1);
         edtPassword = findViewById(R.id.Password1);
         edtAgainPassword = findViewById(R.id.AgainPassword);
@@ -46,7 +45,7 @@ public class dangky extends AppCompatActivity {
                 String againPassword = edtAgainPassword.getText().toString().trim();
 
 
-                if (name.isEmpty() || email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
+                if ( email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
                     Toast.makeText(dangky.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }

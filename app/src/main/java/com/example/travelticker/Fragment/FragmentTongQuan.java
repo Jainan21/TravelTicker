@@ -43,15 +43,7 @@ public class FragmentTongQuan extends Fragment {
         recyclerHinhAnh = view.findViewById(R.id.recyclerHinhAnh);
 
         txtContent.setText("Đây là phần nội dung chính của bài đăng");
-        txtDescription.setText("Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng"+
-                "Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng");
+        txtDescription.setText("Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng");
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         layout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerDichVu.setLayoutManager(layout);

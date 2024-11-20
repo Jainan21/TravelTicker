@@ -44,7 +44,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceA
         Glide.with(holder.imgDichVu.getContext()).load(service.getIconService()).into(holder.imgDichVu);
         holder.txtTenDichVu.setText(service.getNameService());
         holder.cardDichVu.setBackgroundColor(Color.parseColor("#" + service.getColorCode()));
-//        holder.cardDichVu.setBackground(Drawable.createFromPath(String.valueOf(R.drawable.background_service)));
     }
 
     @Override
