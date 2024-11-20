@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -40,6 +41,7 @@ public class PostActivity extends AppCompatActivity {
     ArrayList<MenuPost> menupost;
     DistrictionAdapter districtionAdapter;
     ArrayList<dichVu> listDis;
+    String location = "";
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
@@ -127,14 +129,25 @@ public class PostActivity extends AppCompatActivity {
         EditText edtLinkLocation = dialogView.findViewById(R.id.edtLinkLocation);
         Button btnAddLocation = dialogView.findViewById(R.id.btnAddLocation);
 
+        AlertDialog dialog = builder.create();
+
+        if (!location.isEmpty()){
+            edtLinkLocation.setText(location);
+        }
+
         btnAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (edtLinkLocation.getText().toString().trim() == ""){
+                    Toast.makeText(PostActivity.this, "Bạn chưa nhập thông tin !!!", Toast.LENGTH_SHORT).show();
+                }else {
+                    location = edtLinkLocation.getText().toString().trim();
+                    Toast.makeText(PostActivity.this, "Thêm thành công !!!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
             }
         });
 
-        AlertDialog dialog = builder.create();
         dialog.show();
     }
 
