@@ -44,6 +44,7 @@ public class dangky extends AppCompatActivity {
                 String againPassword = edtAgainPassword.getText().toString().trim();
 
 
+
                 if (email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
                     Toast.makeText(dangky.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;

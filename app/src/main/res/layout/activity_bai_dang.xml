@@ -9,9 +9,7 @@
     android:fitsSystemWindows="true"
     tools:context=".BaiDang">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/linearcontainer"
                 android:layout_width="match_parent"
@@ -50,7 +48,7 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="-50dp"
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
@@ -92,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 
