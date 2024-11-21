@@ -39,6 +39,27 @@
         android:layout_marginBottom="24dp"/>
 
 
+    <!-- Tên -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:gravity="start"
+        android:layout_marginBottom="4dp"/>
+
+    <EditText
+        android:id="@+id/Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhập tên đầy đủ của bạn"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        android:background="@drawable/bg_edit_text"
+        android:layout_marginBottom="12dp"/>
+
     <!-- Email -->
     <TextView
         android:layout_width="match_parent"
