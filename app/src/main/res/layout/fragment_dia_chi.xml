@@ -6,14 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/web_frag_diachi"
+    <fragment
+        android:id="@+id/fragmentMap"
         android:layout_width="match_parent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_height="0dp"
-        android:layout_weight="1">
-
-    </WebView>
-
+        android:layout_weight="1"/>
     <Button
         android:id="@+id/btnGetMap"
         android:layout_width="match_parent"
