@@ -45,14 +45,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:src="@drawable/monkey"
-                android:background="@drawable/hinh_tron"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
-                android:layout_gravity="center"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="80dp">
+
+                <ImageView
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:src="@drawable/monkey"
+                    android:clipToOutline="true"/>
+            </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/camera_button"
@@ -82,10 +86,102 @@
             android:textSize="18dp"
             android:layout_marginLeft="10dp"
             android:textColor="#898282"/>
-        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <ImageView
+                android:id="@+id/icon_1"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/person" />
+
+            <TextView
+                android:id="@+id/title_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:text="Monkey"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#898282"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <ImageView
+                android:id="@+id/icon_2"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/person" />
+
+            <TextView
+                android:id="@+id/title_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:text="mk511@gmail.com"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Số điện thoại"
+            android:textSize="18dp"
+            android:layout_marginLeft="10dp"
+            android:textColor="#898282"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="10dp">
+
+            <ImageView
+                android:id="@+id/icon_3"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:src="@drawable/person" />
+
+            <TextView
+                android:id="@+id/title_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="16dp"
+                android:text="0522717830"
+                android:textColor="@color/black"
+                android:textSize="25dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:text="Cập nhật"/>
 
 </LinearLayout>
