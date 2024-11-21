@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.travelticker.Model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +34,6 @@ public class dangky extends AppCompatActivity {
 
         // Ánh xạ view
         edtName = findViewById(R.id.Name);
-
         edtEmail = findViewById(R.id.Email1);
         edtPassword = findViewById(R.id.Password1);
         edtAgainPassword = findViewById(R.id.AgainPassword);
@@ -43,16 +43,13 @@ public class dangky extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String name = edtName.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
                 String password = edtPassword.getText().toString().trim();
                 String againPassword = edtAgainPassword.getText().toString().trim();
 
-
                 // Kiểm tra thông tin nhập
                 if (name.isEmpty() || email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
-
-
-                if (email.isEmpty() || password.isEmpty() || againPassword.isEmpty()) {
                     Toast.makeText(dangky.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                     return;
                 }
