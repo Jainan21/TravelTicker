@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
     android:elevation="4dp"
+    android:layout_marginTop="15dp"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/img_1"
@@ -22,13 +23,13 @@
 
         <TextView
             android:id="@+id/tv_1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:text="Monkey"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18dp"
-            android:paddingStart="20dp"
+            android:paddingStart="15dp"
             android:layout_toRightOf="@id/img_1"/>
 
         <TextView
@@ -38,7 +39,7 @@
             android:text="Anh ấy vừa bình luận bạn"
             android:textColor="@color/black"
             android:textSize="18dp"
-            android:paddingStart="20dp"
+            android:paddingStart="15dp"
             android:layout_below="@id/tv_1"
             android:layout_toRightOf="@id/img_1"/>
 
@@ -46,11 +47,12 @@
             android:id="@+id/tv_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_1"
+            android:paddingStart="60dp"
             android:text="22:00 21/07/2024"
-            android:textColor="@color/unselected_color"
+            android:textColor="#959393"
             android:textSize="14dp"
-            android:paddingStart="80dp"
-            android:layout_toRightOf="@id/tv_1"/>
+            tools:ignore="TextSizeCheck" />
 
 
     </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.example.travelticker.Adapter;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.CaiDat;
 import com.example.travelticker.R;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
@@ -37,21 +39,20 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
         holder.tv.setText(data[position]);
         holder.img.setImageDrawable(icon[position]);
 
-        if (data[position].equals("Đăng xuất")) {
-            holder.itemView.setOnClickListener(v -> {
+        holder.itemView.setOnClickListener(v -> {
+            if (data[position].equals("Cài đặt")) {
+                Intent intent = new Intent(holder.itemView.getContext(), CaiDat.class);
+                holder.itemView.getContext().startActivity(intent);
+            } else if (data[position].equals("Đăng xuất")) {
                 new AlertDialog.Builder(holder.itemView.getContext())
                         .setTitle("Xác nhận")
                         .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
-                        .setPositiveButton("Đăng xuất", (dialog, which) -> {
-                            // Xử lý logic đăng xuất ở đây
-                            Toast.makeText(holder.itemView.getContext(), "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
-                        })
+                        .setPositiveButton("Đăng xuất", (dialog, which) ->
+                                Toast.makeText(holder.itemView.getContext(), "Đã đăng xuất!", Toast.LENGTH_SHORT).show())
                         .setNegativeButton("Hủy", null)
                         .show();
-            });
-        } else {
-            holder.itemView.setOnClickListener(null);
-        }
+            }
+        });
     }
 
     @Override

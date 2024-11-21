@@ -3,7 +3,6 @@ package com.example.travelticker.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Model.ThongBaoModel;
 import com.example.travelticker.R;
-import com.example.travelticker.ThongBao;
 
 import java.util.ArrayList;
 
@@ -43,7 +41,7 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.holder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return data.size();
     }
 
     public class holder extends RecyclerView.ViewHolder{
@@ -58,5 +56,4 @@ public class ThongBaoAdapter extends RecyclerView.Adapter<ThongBaoAdapter.holder
             tv_3 = itemView.findViewById(R.id.tv_3);
         }
     }
-
 }

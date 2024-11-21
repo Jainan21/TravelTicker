@@ -34,12 +34,12 @@ public class FragmentTongQuan extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_tong_quan,container, false);
+        View view = inflater.inflate(R.layout.fragment_tong_quan,null, false);
 
         txtContent = view.findViewById(R.id.txtContent);
         txtDescription = view.findViewById(R.id.txtDescription);
         recyclerDichVu = view.findViewById(R.id.recyclerDichVu);
-        map = view.findViewById(R.id.webView_map);
+//        map = view.findViewById(R.id.webView_map);
         recyclerHinhAnh = view.findViewById(R.id.recyclerHinhAnh);
 
         txtContent.setText("Đây là phần nội dung chính của bài đăng");
@@ -50,20 +50,34 @@ public class FragmentTongQuan extends Fragment {
 
         ArrayList<Service> listService = new ArrayList<>();
         listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "FC5757"));
+        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "03A9F4"));
+        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "FC5757"));
         ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
 
-        WebSettings webSettings = map.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        map.setWebViewClient(new WebViewClient());
+        recyclerDichVu.setAdapter(adpService);
 
-        String googleMapsUrl = "https://www.google.com/maps";
-        map.loadUrl(googleMapsUrl);
+//        WebSettings webSettings = map.getSettings();
+//        webSettings.setJavaScriptEnabled(true);
+//        map.setWebViewClient(new WebViewClient());
+//
+//        String googleMapsUrl = "https://www.google.com/maps";
+//        map.loadUrl(googleMapsUrl);
 
         GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
+
+
         recyclerHinhAnh.setLayoutManager(gridlayout);
 
         ArrayList<Integer> listImg = new ArrayList<>();
         listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+        listImg.add(R.drawable.halongbay);
+
+
         SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
 
         recyclerHinhAnh.setAdapter(adpImage);
