@@ -1,5 +1,7 @@
 package com.example.travelticker.Model;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public class MenuPost {
@@ -8,11 +10,13 @@ public class MenuPost {
     Integer quantity;
     ArrayList<dichVu> imageList;
     ArrayList<dichVu> selectedImages;
+    ArrayList<Uri> listAnotherImage;
 
     public MenuPost(String title, Integer iconUrl) {
         this.title = title;
         this.iconUrl = iconUrl;
         this.selectedImages = new ArrayList<>();
+        this.listAnotherImage = new ArrayList<>();
     }
 
     public MenuPost(String title, Integer iconUrl, Integer quantity) {
@@ -35,6 +39,21 @@ public class MenuPost {
 
     public void setSelectedImages(ArrayList<dichVu> selectedImages) {
         this.selectedImages = selectedImages;
+    }
+
+    public ArrayList<Uri> getListAnotherImage() {
+        return listAnotherImage;
+    }
+
+    public void setListAnotherImage(ArrayList<Uri> listAnotherImage) {
+        this.listAnotherImage = listAnotherImage;
+    }
+
+    public void addAnotherImage(Uri image){
+        if (listAnotherImage == null){
+            listAnotherImage = new ArrayList<>();
+        }
+        listAnotherImage.add(image);
     }
 
     public void addSeletedImage(dichVu dv) {
