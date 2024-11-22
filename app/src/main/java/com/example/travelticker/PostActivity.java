@@ -71,6 +71,8 @@ public class PostActivity extends AppCompatActivity {
                     addLocation();
                 }else if(poisition == 1){
                     addDistriction(menupost.get(1));
+                }else {
+                    addAnotherImage();
                 }
             }
         });
@@ -218,6 +220,10 @@ public class PostActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void addAnotherImage(){
+
     }
 
 }
