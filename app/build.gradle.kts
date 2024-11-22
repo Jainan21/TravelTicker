@@ -49,7 +49,7 @@ dependencies {
     implementation ("com.google.firebase:firebase-firestore:24.2.0")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
-
+    implementation ("com.google.android.gms:play-services-maps:17.0.0")
     implementation ("com.github.bumptech.glide:glide:4.15.1") // Replace with the latest version
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1") // For Glide's annotation processor
 
