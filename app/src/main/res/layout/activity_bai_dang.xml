@@ -9,22 +9,24 @@
     android:fitsSystemWindows="true"
     tools:context=".BaiDang">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <LinearLayout
                 android:id="@+id/linearcontainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent">
+                android:orientation="vertical">
                 <RelativeLayout
                     android:id="@+id/rela1_trangchu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/halongbay"
                     app:layout_constraintTop_toTopOf="parent">
-
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -35,7 +37,6 @@
                         android:padding="10dp"
                         android:layout_alignParentStart="true"
                         android:background="@drawable/icon_trangchu"/>
-
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -50,14 +51,13 @@
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="-50dp"
                 android:orientation="vertical"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:background="@drawable/bg_trangchu_information"
                 app:layout_constraintTop_toBottomOf="@+id/linearcontainer">
-
                 <TextView
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
@@ -82,17 +82,20 @@
                 </LinearLayout>
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="match_parent"   
                     android:layout_height="wrap_content"
                     app:tabMode="fixed"
                     app:tabGravity="fill" />
-
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/viewPager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
 
 
 
