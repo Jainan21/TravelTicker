@@ -66,6 +66,8 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
             ImgDisAdapter disAdapter = new ImgDisAdapter(context, item.getSelectedImages());
             holder.rcvAnotherImgPost.setAdapter(disAdapter);
             holder.txtQuantityPost.setText(item.getSelectedImages().size() + "");
+        }else {
+            holder.txtQuantityPost.setText(item.getQuantity() + "");
         }
     }
 
