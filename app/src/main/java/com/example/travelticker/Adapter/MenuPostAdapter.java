@@ -51,6 +51,8 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
     public void onBindViewHolder(@NonNull MenuPostViewHolder holder, int position) {
         MenuPost item = list.get(position);
         holder.txtTitleMenuPost.setText(item.getTitle());
+
+        //chinhr icon
         if (item.getIconUrl() == 0){
             holder.txtIconMenu.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.baseline_add_location_alt_24, 0, 0, 0);
         }else if (item.getIconUrl() == 1){
@@ -59,13 +61,24 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
             holder.txtIconMenu.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.outline_collections_24, 0, 0, 0);
         }
 
-        //hiê thị ảnh đã
+        //hiển thị lựa chọn dịch vụ
         if (item.getSelectedImages() != null){
             LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             holder.rcvAnotherImgPost.setLayoutManager(manager);
             ImgDisAdapter disAdapter = new ImgDisAdapter(context, item.getSelectedImages());
             holder.rcvAnotherImgPost.setAdapter(disAdapter);
             holder.txtQuantityPost.setText(item.getSelectedImages().size() + "");
+        }else {
+            holder.txtQuantityPost.setText(item.getQuantity() + "");
+        }
+
+        //hiển thị lựa chọn ảnh phụ
+        if (item.getListAnotherImage() != null){
+            LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.rcvAnotherImgPost.setLayoutManager(manager);
+            AnotherImageAdapter anotherImageAdapter = new AnotherImageAdapter(context, item.getListAnotherImage(), item);
+            holder.rcvAnotherImgPost.setAdapter(anotherImageAdapter);
+            holder.txtQuantityPost.setText(item.getListAnotherImage().size() + "");
         }else {
             holder.txtQuantityPost.setText(item.getQuantity() + "");
         }
