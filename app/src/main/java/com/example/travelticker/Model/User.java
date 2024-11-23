@@ -1,4 +1,4 @@
-package com.example.travelticker;
+package com.example.travelticker.Model;
 
 public class User {
     public String name;
