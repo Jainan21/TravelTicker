@@ -131,17 +131,9 @@
         android:layout_marginBottom="16dp">
 
         <ImageView
-            android:id="@+id/facebook"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/facebook"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="Facebook login"/>
-
-        <ImageView
             android:id="@+id/google"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:src="@drawable/google"
             android:layout_marginEnd="8dp"
             android:contentDescription="Google login"/>
