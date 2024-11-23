@@ -22,13 +22,19 @@ import com.example.travelticker.Adapter.ServiceAdapter;
 import com.example.travelticker.Model.Image;
 import com.example.travelticker.Model.Service;
 import com.example.travelticker.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class FragmentTongQuan extends Fragment {
+public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     TextView txtContent, txtDescription;
     RecyclerView recyclerDichVu, recyclerHinhAnh;
-    WebView map;
+    GoogleMap map;
 
 
     @Nullable
@@ -39,11 +45,16 @@ public class FragmentTongQuan extends Fragment {
         txtContent = view.findViewById(R.id.txtContent);
         txtDescription = view.findViewById(R.id.txtDescription);
         recyclerDichVu = view.findViewById(R.id.recyclerDichVu);
-//        map = view.findViewById(R.id.webView_map);
         recyclerHinhAnh = view.findViewById(R.id.recyclerHinhAnh);
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentMapTongQuan);
+        if (mapFragment!=null){
+            mapFragment.getMapAsync( this);
+        }
         txtContent.setText("Đây là phần nội dung chính của bài đăng");
         txtDescription.setText("Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng");
+
+
+
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         layout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerDichVu.setLayoutManager(layout);
@@ -55,13 +66,6 @@ public class FragmentTongQuan extends Fragment {
         ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
 
         recyclerDichVu.setAdapter(adpService);
-
-//        WebSettings webSettings = map.getSettings();
-//        webSettings.setJavaScriptEnabled(true);
-//        map.setWebViewClient(new WebViewClient());
-//
-//        String googleMapsUrl = "https://www.google.com/maps";
-//        map.loadUrl(googleMapsUrl);
 
         GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
 
@@ -83,5 +87,16 @@ public class FragmentTongQuan extends Fragment {
         recyclerHinhAnh.setAdapter(adpImage);
 
         return view;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        // Add a marker and move the camera
+
+        LatLng location = new LatLng(-34, 151);
+        map.addMarker(new MarkerOptions().position(location).title("Marker in Sydney"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
     }
 }

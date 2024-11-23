@@ -19,9 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +68,8 @@ public class PostActivity extends AppCompatActivity {
                     addLocation();
                 }else if(poisition == 1){
                     addDistriction(menupost.get(1));
+                }else {
+                    addAnotherImage(menupost.get(2));
                 }
             }
         });
@@ -110,13 +109,29 @@ public class PostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_REQUEST){
-            //lấy đường ảnh đã chọn
-            imageUri = data.getData();
-
-            //hiển thị ảnh
-            ImageView imageView = findViewById(R.id.imgMainPost);
-            imageView.setImageURI(imageUri);
+        if (resultCode == RESULT_OK){
+            if (requestCode == PICK_IMAGE_REQUEST){//thêm ảnh chính
+                //lấy đường ảnh đã chọn
+                imageUri = data.getData();
+                //hiển thị ảnh
+                ImageView imageView = findViewById(R.id.imgMainPost);
+                imageView.setImageURI(imageUri);
+            } else if (requestCode == 2){//thêm ảnh phụ
+                if (data.getClipData() != null){
+                    //chọn nhiều ảnh
+                    int count = data.getClipData().getItemCount();
+                    for (int i =0; i < count; i++){
+                        Uri uri = data.getClipData().getItemAt(i).getUri();
+                        //thêm vào list
+                        menupost.get(2).addAnotherImage(uri);
+                    }
+                }else if (data.getData() != null){
+                    //chọn 1 ảnh
+                    Uri uri = data.getData();
+                    menupost.get(2).addAnotherImage(uri);
+                }
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -218,6 +233,14 @@ public class PostActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    public void addAnotherImage(MenuPost menuPost){
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        //chọn nhiểu ảnh
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        //trả về vị trí cập nhật
+        startActivityForResult(intent, 2);
     }
 
 }

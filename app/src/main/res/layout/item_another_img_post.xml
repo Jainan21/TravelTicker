@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="8dp">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imgAnotherImage"
+                android:layout_width="60dp"
+                android:layout_height="70dp"
+                android:src="@drawable/halongbay"
+                android:scaleType="centerCrop"/>
+
+            <Button
+                android:id="@+id/btnDeleteAnotherImage"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/rounded_btnfavo"
+                android:layout_gravity="end"
+                android:layout_margin="5dp"
+                android:paddingLeft="3dp"
+                android:drawableStart="@drawable/baseline_delete_24"/>
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
