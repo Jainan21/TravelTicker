@@ -63,9 +63,6 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
 
                     // Cập nhật lại danh sách của adapter trong MenuPost
                     menuPost.setListAnotherImage(list);
-
-                    // Đảm bảo cập nhật lại thông tin số lượng ảnh trong RecyclerView cha (MenuPostAdapter)
-                    // Bạn có thể gọi notifyDataSetChanged() trong RecyclerView cha nếu cần.
                 }
             }
         });
