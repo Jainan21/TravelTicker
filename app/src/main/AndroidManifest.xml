@@ -56,6 +56,9 @@
         <activity
             android:name=".dangnhap"
             android:exported="true" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="true" />
 
         <activity
             android:name=".Onboarding1"
