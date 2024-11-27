@@ -50,34 +50,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="16dp"
                         android:text="Xin chào Monkey!"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/txtGreeting"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:text="Chào buổi sáng"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView2"
-                        app:layout_constraintTop_toBottomOf="@+id/txtWelcome"
-                        app:layout_constraintVertical_bias="0.652" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <Button
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/hinh_tron"
                         android:clipToOutline="true"
-                        android:padding="10dp"
-                        android:src="@drawable/lock"
+                        android:padding="8dp"
+                        android:drawableTint="@color/black"
+                        android:drawableTop="@drawable/icon_noti_menu"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.527" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
