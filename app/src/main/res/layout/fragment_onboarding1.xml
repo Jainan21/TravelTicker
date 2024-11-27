@@ -10,51 +10,56 @@
 
     <ImageView
         android:layout_width="600dp"
-        android:layout_height="710dp"
+        android:layout_height="700dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/onboarding1" />
+        android:src="@drawable/onboarding"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
-        android:layout_marginStart="5dp"
+        android:id="@+id/txt_title"
+        android:layout_marginStart="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=" Kết Nối Những Người Yêu Du Lịch"
+        android:text=" Khám Phá Việt Nam"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_gravity="center"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="5dp"/>
+        android:fontFamily="sans-serif-medium"
+        android:layout_gravity="center" />
 
     <TextView
+        android:id="@+id/txt_description"
         android:layout_marginTop="10dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cộng đồng dành cho những người đam mê khám phá."
+        android:text="Chia sẻ, khám phá các điểm đến tuyệt đẹp khắp Việt Nam qua góc nhìn của cộng đồng"
         android:textSize="20sp"
         android:textColor="#6A6565"
         android:gravity="center"
         android:layout_marginBottom="4dp"
-        android:layout_marginEnd="35dp"/>
+        android:layout_marginEnd="30dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp">
 
-        <ImageView
+        <View
+            android:id="@+id/indicator1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/indicator_selected"/>
+        <View
+            android:id="@+id/indicator2"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_margin="4dp"
             android:background="@drawable/indicator_unselected" />
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_margin="4dp"
-            android:background="@drawable/indicator_selected" />
 
         <ImageView
             android:layout_width="12dp"
@@ -64,14 +69,21 @@
     </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNext2"
+        android:id="@+id/btnNext1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tiếp theo"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="50dp"
         android:textColor="@color/white"
+        android:layout_margin="16dp"
         android:background="@drawable/button_background_square" />
+    <!--    <Button-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:id="@+id/btnNext1"-->
+    <!--        android:text="Tiếp theo"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        android:background="@drawable/button_background_square"/>-->
 
 
 </LinearLayout>
