@@ -39,6 +39,11 @@ public class HoSoFragment extends Fragment {
         String arr[] = {"Cài đặt", "Hỗ trợ", "Đánh giá", "Đăng xuất"};
         rcv_1.setAdapter(new PersonAdapter(arr, icon));
 
+        edit_button.setOnClickListener(v -> {
+            Intent intent = new Intent(requireContext(), ChinhSuaHoSo.class);
+            startActivity(intent);
+        });
+
         return view;
     }
 }
