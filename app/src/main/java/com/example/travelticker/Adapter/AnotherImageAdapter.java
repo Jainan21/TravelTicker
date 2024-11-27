@@ -17,15 +17,23 @@ import com.example.travelticker.R;
 
 import java.util.ArrayList;
 
-public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapter.AnotherImageViewHolder>{
+public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapter.AnotherImageViewHolder> {
     Context context;
     ArrayList<Uri> list;
     MenuPost menuPost;
+    OnDataChangedListener listener; // Thêm listener để thông báo thay đổi dữ liệu
 
-    public AnotherImageAdapter(Context context, ArrayList<Uri> list, MenuPost menuPost) {
+    // Tạo giao diện để thông báo thay đổi dữ liệu
+    public interface OnDataChangedListener {
+        void onDataChanged();  // Phương thức sẽ được gọi khi dữ liệu thay đổi
+    }
+
+    // Cập nhật constructor để nhận listener
+    public AnotherImageAdapter(Context context, ArrayList<Uri> list, MenuPost menuPost, OnDataChangedListener listener) {
         this.context = context;
         this.list = list;
         this.menuPost = menuPost;
+        this.listener = listener; // Lưu listener
     }
 
     @NonNull
@@ -39,10 +47,10 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
     public void onBindViewHolder(@NonNull AnotherImageViewHolder holder, int position) {
         Uri img = list.get(position);
 
-        //hiển thị ảnh
+        // Hiển thị ảnh
         Glide.with(context).load(img).into(holder.imgAnotherImage);
 
-        //nhấn nút xóa
+        // Nhấn nút xóa
         holder.btnDeleteAnotherImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +71,11 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
 
                     // Cập nhật lại danh sách của adapter trong MenuPost
                     menuPost.setListAnotherImage(list);
+
+                    // Gọi listener để thông báo dữ liệu đã thay đổi
+                    if (listener != null) {
+                        listener.onDataChanged();  // Thông báo cho adapter cha
+                    }
                 }
             }
         });
@@ -73,7 +86,7 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
         return list.size();
     }
 
-    public class AnotherImageViewHolder extends RecyclerView.ViewHolder{
+    public class AnotherImageViewHolder extends RecyclerView.ViewHolder {
         ImageView imgAnotherImage;
         Button btnDeleteAnotherImage;
 

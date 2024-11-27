@@ -77,7 +77,14 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
             if (item.getListAnotherImage() != null){
                 LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                 holder.rcvAnotherImgPost.setLayoutManager(manager);
-                AnotherImageAdapter anotherImageAdapter = new AnotherImageAdapter(context, item.getListAnotherImage(), item);
+
+                // Truyền listener vào để nhận thông báo thay đổi
+                AnotherImageAdapter anotherImageAdapter = new AnotherImageAdapter(context, item.getListAnotherImage(), item, new AnotherImageAdapter.OnDataChangedListener() {
+                    @Override
+                    public void onDataChanged() {
+                        notifyDataSetChanged();
+                    }
+                });
                 holder.rcvAnotherImgPost.setAdapter(anotherImageAdapter);
                 holder.txtQuantityPost.setText(item.getListAnotherImage().size() + "");
             }else {
