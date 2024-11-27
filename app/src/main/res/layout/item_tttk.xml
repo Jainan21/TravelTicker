@@ -3,30 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginHorizontal="10dp"
+    android:layout_marginHorizontal="5dp"
     android:layout_marginTop="10dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:backgroundTint="#E7E6E6"
             android:layout_marginTop="5dp"
-            android:layout_marginStart="15dp"
+            android:layout_marginStart="2dp"
             android:layout_marginBottom="5dp"
             app:cardCornerRadius="50dp">
 
             <ImageView
                 android:id="@+id/icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:src="@drawable/settings" />
 
         </androidx.cardview.widget.CardView>
@@ -41,7 +40,7 @@
             android:text="Cài đặt"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="20dp" />
+            android:textSize="16dp" />
 
         <ImageButton
             android:id="@+id/next1"
@@ -49,14 +48,14 @@
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:src="@drawable/arrow_right"
-            android:background="@color/white"/>
+            android:background="#F9F9F9"
+            />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginHorizontal="20dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/unselected_color"
         android:elevation="4dp" />
 
 </LinearLayout>
