@@ -16,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.travelticker.Adapter.LocationAdapter;
 import com.example.travelticker.Adapter.UserFamousAdapter;
 import com.example.travelticker.Model.FamousUser;
-import com.example.travelticker.Model.Location;
+import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Model.Tinh;
 import com.example.travelticker.R;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class FragmentTrangChu extends Fragment {
     TextView txtWelcome, txtGreeting;
     RecyclerView recyclerFamousUser, recyclerLocation;
     String userName = new String();
+    dbDAO dbDAO;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trang_chu,null, false);
@@ -47,12 +49,24 @@ public class FragmentTrangChu extends Fragment {
         LinearLayoutManager layout2 = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
 
         recyclerLocation.setLayoutManager(layout);
-        ArrayList<Location> listLocation = new ArrayList<>();
-        listLocation.add(new Location(R.drawable.quangninh, "Quang Ninh"));
-        listLocation.add(new Location(R.drawable.quangtri, "Quang Tri"));
-        listLocation.add(new Location(R.drawable.tienggian, "Tien Giang"));
-        LocationAdapter locationAdapter = new LocationAdapter(getContext(), listLocation);
-        recyclerLocation.setAdapter(locationAdapter);
+        ArrayList<Tinh> listTinh = new ArrayList<>();
+        dbDAO = new dbDAO();
+        dbDAO.getDataList("Tinh", Tinh.class, new dbDAO.FirestoreCallback<Tinh>() {
+            @Override
+            public void onCallback(ArrayList<Tinh> dataList) {
+                for (Tinh a: dataList){
+                    listTinh.add(a);
+                    LocationAdapter locationAdapter = new LocationAdapter(getContext(), listTinh);
+                    recyclerLocation.setAdapter(locationAdapter);
+                }
+            }
+            @Override
+            public void onFailure(Exception e) {
+                System.err.println("Lỗi khi lấy dữ liệu Tinh: " + e.getMessage());
+            }
+        });
+
+
 
         recyclerFamousUser.setLayoutManager(layout2);
         ArrayList<FamousUser> listUser = new ArrayList<>();
