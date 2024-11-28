@@ -82,6 +82,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Người dùng nổi bật"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="25sp"
                     android:textStyle="bold"/>
                 <androidx.recyclerview.widget.RecyclerView
@@ -92,6 +94,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Khu vực nổi tiếng"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:textSize="25sp"
                     android:textStyle="bold"/>
                 <androidx.recyclerview.widget.RecyclerView
