@@ -15,12 +15,10 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/Imgbt2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="9dp"
-            android:background="@color/white"
+            android:id="@+id/ImgbtBackCS"
+            android:layout_width="31dp"
+            android:layout_height="match_parent"
+            android:background="#F9F9F9"
             android:src="@drawable/arrow_back_"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -42,35 +40,35 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
-                app:cardCornerRadius="80dp">
+                app:cardCornerRadius="70dp">
 
                 <ImageView
                     android:id="@+id/avatar_edit"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:src="@drawable/monkey"
-                    android:clipToOutline="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/monkey"/>
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/camera_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="120dp"
+                android:layout_gravity="end|bottom"
                 android:src="@drawable/camera"
-                app:backgroundTint="@color/white"
-                tools:ignore="SpeakableTextPresentCheck" />
+                app:backgroundTint="@color/white"/>
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tvTenCS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Monkey"
@@ -106,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingStart="16dp"
-                android:text="Monkey"
+                android:hint="Nhập họ tên"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 
@@ -170,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingStart="16dp"
-                android:text="0522717830"
+                android:hint="Nhập số điện thoại"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
 

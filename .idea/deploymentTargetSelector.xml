@@ -19,9 +19,6 @@
       <SelectionState runConfigName="dangnhap">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
-      <SelectionState runConfigName="PostActivity">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
       <SelectionState runConfigName="ChinhSuaHoSo">
         <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2024-11-27T06:45:33.636645300Z">
@@ -32,6 +29,9 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="dangky">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
