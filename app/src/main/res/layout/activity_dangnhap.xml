@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/dangnhap"
+    android:id="@+id/main"
     android:padding="16dp"
     android:gravity="center_horizontal"
     android:background="#FFFFFF">
@@ -131,6 +131,7 @@
         android:layout_marginBottom="16dp">
 
         <ImageView
+            android:id="@+id/facebook"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/facebook"
@@ -138,26 +139,25 @@
             android:contentDescription="Facebook login"/>
 
         <ImageView
+            android:id="@+id/google"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/google"
             android:layout_marginEnd="8dp"
             android:contentDescription="Google login"/>
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/twitter"
-            android:contentDescription="Apple login"/>
     </LinearLayout>
 
     <TextView
+        android:id="@+id/signUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bạn chưa có tài khoản? Đăng ký"
         android:textSize="14sp"
-        android:textColor="#000000"
-        android:gravity="center"/>
+        android:textColor="#0000FF"
+        android:gravity="center"
+        android:clickable="true"
+        android:focusable="true"/>
+
 
 
 

@@ -3,26 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="false" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/icon_logo"
+        android:label="Travel Ticker"
+        android:roundIcon="@drawable/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelTicker"
         tools:targetApi="31">
+
+        <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChinhSuaHoSo"
+            android:exported="true" />
+        <activity
+            android:name=".CaiDat"
+            android:exported="true"/>
+        <activity
+            android:name=".dangky"
+            android:exported="true" />
         <activity
             android:name=".PostActivity"
             android:exported="true" />
-        
         <activity
             android:name=".TrangChu"
-            android:exported="false" />
-        <activity
-            android:name=".ThongTinTK"
             android:exported="true" />
         <activity
             android:name=".Onboarding2"
@@ -34,17 +48,16 @@
             android:name=".WelcomeActivity"
             android:exported="true" />
         <activity
-            android:name=".dangky"
-            android:exported="false" />
-        <activity
             android:name=".BaiDang"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".dangnhap"
             android:exported="true" />
+
+
         <activity
             android:name=".Onboarding1"
             android:exported="true">
@@ -54,6 +67,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBmFlmRgTAbI1xbk1QU5SGvZQnGDO1sM2k" />
+
     </application>
 
 </manifest>

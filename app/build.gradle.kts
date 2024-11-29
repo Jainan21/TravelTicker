@@ -37,13 +37,21 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation (libs.material.v120)
-    implementation (libs.material.v180)
     implementation (libs.viewpager2)
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-database")
+    implementation ("com.google.firebase:firebase-storage:20.2.0")
+    implementation ("com.google.firebase:firebase-firestore:24.2.0")
+    implementation("com.google.firebase:firebase-auth")
+    implementation ("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation ("com.google.android.gms:play-services-maps:17.0.0")
+    implementation ("com.github.bumptech.glide:glide:4.15.1") // Replace with the latest version
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1") // For Glide's annotation processor
+
 }

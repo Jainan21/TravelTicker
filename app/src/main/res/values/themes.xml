@@ -3,6 +3,9 @@
     <style name="Base.Theme.TravelTicker" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Theme.TravelTicker" parent="Base.Theme.TravelTicker" />

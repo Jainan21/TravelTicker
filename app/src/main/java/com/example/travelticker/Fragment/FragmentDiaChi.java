@@ -1,43 +1,60 @@
 package com.example.travelticker.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.travelticker.R;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class FragmentDiaChi extends Fragment {
-    WebView map;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.net.HttpURLConnection;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+public class FragmentDiaChi extends Fragment implements OnMapReadyCallback {
+    GoogleMap map;
+    private static final String TAG = "MapFragment";
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dia_chi, container, false);
-        map = view.findViewById(R.id.web_frag_diachi);
 
-        WebSettings webSettings = map.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webSettings.setDomStorageEnabled(true); // Enable DOM storage for better web performance
-        map.setWebViewClient(new WebViewClient());
-
-        String googleMapsUrl = "https://www.google.com/maps";
-        map.loadUrl(googleMapsUrl);
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentMap);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
         return view;
     }
 
-    // Handle back button to navigate within WebView
     @Override
-    public void onResume() {
-        super.onResume();
-        map.requestFocus();
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        LatLng location = new LatLng(0, 0);
+        map.addMarker(new MarkerOptions()
+                .position(location)
+                .title("Resolved Location"));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 1));
     }
 }
