@@ -1,0 +1,30 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/image_onboarding1"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/onboarding2" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Khám Phá Việt Nam"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chia sẻ, khám phá các điểm đến tuyệt đẹp qua cộng đồng."
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>

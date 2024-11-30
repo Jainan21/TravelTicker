@@ -11,16 +11,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.travelticker.Model.Location;
+import com.example.travelticker.Model.Tinh;
 import com.example.travelticker.R;
 
 import java.util.ArrayList;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.LocationAdapterHolder>{
     private Context c;
-    private ArrayList<Location> list;
+    private ArrayList<Tinh> list;
 
-    public LocationAdapter(Context c, ArrayList<Location> list) {
+    public LocationAdapter(Context c, ArrayList<Tinh> list) {
         this.c = c;
         this.list = list;
     }
@@ -34,9 +34,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.Locati
 
     @Override
     public void onBindViewHolder(@NonNull LocationAdapter.LocationAdapterHolder holder, int i) {
-        Location location = list.get(i);
-        Glide.with(holder.imgLocation.getContext()).load(location.getLinkImage()).into(holder.imgLocation);
-        holder.txtLocation.setText(location.getNameLocation());
+        Tinh tinh = list.get(i);
+        Glide.with(holder.imgLocation.getContext()).load(tinh.getAnh()).into(holder.imgLocation);
+        holder.txtLocation.setText(tinh.getTen());
     }
 
     @Override

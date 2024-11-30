@@ -61,26 +61,35 @@ public class MenuPostAdapter extends RecyclerView.Adapter<MenuPostAdapter.MenuPo
             holder.txtIconMenu.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.outline_collections_24, 0, 0, 0);
         }
 
-        //hiển thị lựa chọn dịch vụ
-        if (item.getSelectedImages() != null){
-            LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-            holder.rcvAnotherImgPost.setLayoutManager(manager);
-            ImgDisAdapter disAdapter = new ImgDisAdapter(context, item.getSelectedImages());
-            holder.rcvAnotherImgPost.setAdapter(disAdapter);
-            holder.txtQuantityPost.setText(item.getSelectedImages().size() + "");
+        if (position == 1){
+            //hiển thị lựa chọn dịch vụ
+            if (item.getSelectedImages() != null){
+                LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                holder.rcvAnotherImgPost.setLayoutManager(manager);
+                ImgDisAdapter disAdapter = new ImgDisAdapter(context, item.getSelectedImages());
+                holder.rcvAnotherImgPost.setAdapter(disAdapter);
+                holder.txtQuantityPost.setText(item.getSelectedImages().size() + "");
+            }else {
+                holder.txtQuantityPost.setText(item.getQuantity() + "");
+            }
         }else {
-            holder.txtQuantityPost.setText(item.getQuantity() + "");
-        }
+            //        //hiển thị lựa chọn ảnh phụ
+            if (item.getListAnotherImage() != null){
+                LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+                holder.rcvAnotherImgPost.setLayoutManager(manager);
 
-        //hiển thị lựa chọn ảnh phụ
-        if (item.getListAnotherImage() != null){
-            LinearLayoutManager manager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-            holder.rcvAnotherImgPost.setLayoutManager(manager);
-            AnotherImageAdapter anotherImageAdapter = new AnotherImageAdapter(context, item.getListAnotherImage(), item);
-            holder.rcvAnotherImgPost.setAdapter(anotherImageAdapter);
-            holder.txtQuantityPost.setText(item.getListAnotherImage().size() + "");
-        }else {
-            holder.txtQuantityPost.setText(item.getQuantity() + "");
+                // Truyền listener vào để nhận thông báo thay đổi
+                AnotherImageAdapter anotherImageAdapter = new AnotherImageAdapter(context, item.getListAnotherImage(), item, new AnotherImageAdapter.OnDataChangedListener() {
+                    @Override
+                    public void onDataChanged() {
+                        notifyDataSetChanged();
+                    }
+                });
+                holder.rcvAnotherImgPost.setAdapter(anotherImageAdapter);
+                holder.txtQuantityPost.setText(item.getListAnotherImage().size() + "");
+            }else {
+                holder.txtQuantityPost.setText(item.getQuantity() + "");
+            }
         }
     }
 

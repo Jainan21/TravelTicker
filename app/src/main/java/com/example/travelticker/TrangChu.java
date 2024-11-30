@@ -20,8 +20,7 @@ public class TrangChu extends AppCompatActivity {
     private FavoritesFragment fragmentYeuThich = new FavoritesFragment();
     private ThongBaoFragment fragmentThongBao = new ThongBaoFragment();
     private HoSoFragment fragmentHoSo = new HoSoFragment();
-//    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
-//    private FragmentTrangChu framentTrangChu = new FragmentTrangChu();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

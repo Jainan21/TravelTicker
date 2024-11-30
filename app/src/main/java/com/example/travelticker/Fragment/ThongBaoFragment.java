@@ -31,7 +31,7 @@ public class ThongBaoFragment extends Fragment {
         rcv_4.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Khởi tạo Adapter và gán dữ liệu
-        tbAdapter = new ThongBaoAdapter(data());
+        tbAdapter = new ThongBaoAdapter(getContext(), data());
         rcv_4.setAdapter(tbAdapter);
         return view;
     }
