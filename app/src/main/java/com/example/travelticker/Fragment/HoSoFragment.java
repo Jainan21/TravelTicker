@@ -75,7 +75,13 @@ public class HoSoFragment extends Fragment {
                 }
             }
         });
-
         return view;
+    }
+    public  void onResum(){
+        super.onResume();
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString("userName", "Guest");
+        tvTenHS.setText(userName);
+
     }
 }

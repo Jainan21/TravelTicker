@@ -69,6 +69,7 @@ public class ChinhSuaHoSo extends AppCompatActivity {
         userName = sharedPreferences.getString("userName", "Guest");
         String avatarUrl = sharedPreferences.getString("avatarUrl", null);
 
+
         tvTenCS.setText(userName);
         editHoTen.setText(userName);
 
@@ -147,6 +148,7 @@ public class ChinhSuaHoSo extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("avatarUrl", avatarUrl);
+                        editor.putString("userName", hoTen);
                         editor.apply();
 
                         // Cập nhật dữ liệu lên Firebase
@@ -164,6 +166,12 @@ public class ChinhSuaHoSo extends AppCompatActivity {
                 }
             });
         } else {
+            // Lưu thông tin vào SharedPreferences
+            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("userName", hoTen); // Cập nhật tên mới
+            editor.apply();
+
             User user = new User(hoTen, email, null);
             userRef.setValue(user).addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
