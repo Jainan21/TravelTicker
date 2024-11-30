@@ -42,7 +42,7 @@ public class FragmentTrangChu extends Fragment {
         String userEmail = sharedPreferences.getString("userEmail", "");
         String userPhoto = sharedPreferences.getString("userPhoto", "");
 
-        imgAvt.setImageResource(R.drawable.monkey);
+        imgAvt.setImageResource(R.drawable.avatar);
         txtWelcome.setText("Xin chao " + userName);
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
