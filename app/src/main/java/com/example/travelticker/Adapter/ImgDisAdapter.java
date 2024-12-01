@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.R;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 public class ImgDisAdapter extends RecyclerView.Adapter<ImgDisAdapter.ImgDisViewHolder>{
     Context context;
     ArrayList<dichVu> listImg;
+    dbDAO dao;
 
     public ImgDisAdapter(Context context, ArrayList<dichVu> listImg) {
         this.context = context;
@@ -37,9 +39,10 @@ public class ImgDisAdapter extends RecyclerView.Adapter<ImgDisAdapter.ImgDisView
     public void onBindViewHolder(@NonNull ImgDisViewHolder holder, int position) {
         dichVu dv = listImg.get(position);
         holder.cvItemDisPost.setCardBackgroundColor(Color.parseColor("#" + dv.getNen()));
-        Glide.with(context)
-                .load(dv.getAnh())
-                .into(holder.imgDisChild);
+
+        dao = new dbDAO();
+        dao.loadSvgFromUrl(dv.getAnh(), holder.imgDisChild);
+
     }
 
     @Override
