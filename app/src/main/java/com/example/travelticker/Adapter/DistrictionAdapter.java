@@ -1,6 +1,9 @@
 package com.example.travelticker.Adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +12,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Model.MenuPost;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.R;
+
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
+import android.graphics.drawable.PictureDrawable;
+
+import java.io.IOException;
+import java.io.InputStream;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import java.util.ArrayList;
 
@@ -51,6 +67,10 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
         holder.chkDis.setChecked(dv.isSelected());
         holder.txtDesName.setText(dv.getName());
 
+        holder.cvItem.setCardBackgroundColor(Color.parseColor("#" + dv.getNen()));
+
+        loadSvgFromUrl(dv.getAnh(), holder.imgDistriction);
+
         if (menuPost != null) {
             holder.chkDis.setOnCheckedChangeListener((compoundButton, b) -> {
                 dv.setSelected(b);
@@ -66,16 +86,59 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
         return list.size();
     }
 
+    public void loadSvgFromUrl(final String svgUrl, final ImageView imageView) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(svgUrl).build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                // Handle error, for example log it
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    InputStream inputStream = response.body().byteStream();
+                    try {
+                        // Parse SVG from input stream
+                        SVG svg = SVG.getFromInputStream(inputStream);
+                        final PictureDrawable drawable = new PictureDrawable(svg.renderToPicture());
+
+                        // Chuyển PictureDrawable thành Bitmap
+                        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+                        drawable.getPicture().draw(canvas);
+
+                        // Post back to main thread to update UI
+                        imageView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        });
+                    } catch (SVGParseException e) {
+                        // Handle SVG parsing errors
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
     public class DistrictionViewHolder extends RecyclerView.ViewHolder {
         TextView txtDesName;
         ImageView imgDistriction;
         CheckBox chkDis;
+        CardView cvItem;
 
         public DistrictionViewHolder(@NonNull View itemView) {
             super(itemView);
             txtDesName = itemView.findViewById(R.id.txtDesName);
             chkDis = itemView.findViewById(R.id.chkDis);
             imgDistriction = itemView.findViewById(R.id.imgDistriction);
+            cvItem = itemView.findViewById(R.id.cvItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -1,18 +1,28 @@
 package com.example.travelticker.Model;
 
 public class dichVu {
-    private String img;
-    private String name;
+    private String anh;
+    private String ten;
+    private String nen;
     private boolean isSelected;
 
+    public dichVu(){}
+
     public dichVu(String img, String name) {
-        this.img = img;
-        this.name = name;
+        this.anh = img;
+        this.ten = name;
+        this.isSelected = false;
+    }
+
+    public dichVu(String anh, String ten, String nen) {
+        this.anh = anh;
+        this.ten = ten;
+        this.nen = nen;
         this.isSelected = false;
     }
 
     public String getImg() {
-        return img;
+        return anh;
     }
 
     public boolean isSelected() {
@@ -24,14 +34,38 @@ public class dichVu {
     }
 
     public void setImg(String img) {
-        this.img = img;
+        this.anh = img;
     }
 
     public String getName() {
-        return name;
+        return ten;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.ten = name;
+    }
+
+    public String getAnh() {
+        return anh;
+    }
+
+    public void setAnh(String anh) {
+        this.anh = anh;
+    }
+
+    public String getTen() {
+        return ten;
+    }
+
+    public void setTen(String ten) {
+        this.ten = ten;
+    }
+
+    public String getNen() {
+        return nen;
+    }
+
+    public void setNen(String nen) {
+        this.nen = nen;
     }
 }

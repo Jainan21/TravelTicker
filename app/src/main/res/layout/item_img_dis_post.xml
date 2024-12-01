@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="100dp"
     android:layout_margin="12dp"
+    android:id="@+id/cvItemDisPost"
     android:layout_height="60dp">
     <ImageView
         android:id="@+id/imgDisChild"
