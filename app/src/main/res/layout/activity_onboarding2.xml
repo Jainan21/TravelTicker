@@ -5,26 +5,26 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context=".Onboarding1">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="600dp"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:backgroundTint="#CECECE"
         android:scaleType="centerCrop"
-        android:src="@drawable/onboarding1"
-        android:layout_marginBottom="30dp"/>
+        android:src="@drawable/onboarding1" />
 
     <TextView
         android:layout_marginStart="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" Kết Nối Những Người Yêu Du Lịch"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#000000"
+        android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="5dp"/>
@@ -35,7 +35,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cộng đồng dành cho những người đam mê khám phá."
-        android:textSize="20sp"
         android:textColor="#6A6565"
         android:gravity="center"
         android:layout_marginBottom="4dp"
@@ -46,8 +45,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="40dp">
+        android:layout_marginTop="16dp">
 
         <ImageView
             android:layout_width="12dp"
@@ -72,6 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Tiếp theo"
+        android:layout_margin="16dp"
         android:layout_marginBottom="50dp"
         android:textColor="@color/white"
         android:background="@drawable/button_background_square" />

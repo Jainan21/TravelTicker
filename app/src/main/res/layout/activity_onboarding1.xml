@@ -6,12 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".Onboarding1">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:backgroundTint="#CECECE"
+        android:layout_width="600dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:scaleType="centerCrop"
         android:src="@drawable/onboarding"
         android:layout_marginBottom="10dp"/>
@@ -21,10 +22,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" Khám Phá Việt Nam"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-medium"
         android:layout_gravity="center" />
 
     <TextView
@@ -33,7 +33,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chia sẻ, khám phá các điểm đến tuyệt đẹp khắp Việt Nam qua góc nhìn của cộng đồng"
-        android:textSize="20sp"
         android:textColor="#6A6565"
         android:gravity="center"
         android:layout_marginBottom="4dp"
@@ -44,7 +43,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp">
 
         <View
             android:id="@+id/indicator1"
@@ -74,6 +74,14 @@
         android:textColor="@color/white"
         android:layout_margin="16dp"
         android:background="@drawable/button_background_square" />
+<!--    <Button-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/btnNext1"-->
+<!--        android:text="Tiếp theo"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:layout_margin="16dp"-->
+<!--        android:background="@drawable/button_background_square"/>-->
 
 
 </LinearLayout>

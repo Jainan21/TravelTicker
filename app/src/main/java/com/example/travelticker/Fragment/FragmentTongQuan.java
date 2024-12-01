@@ -4,10 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Adapter.SecondaryImageAdapter;
 import com.example.travelticker.Adapter.ServiceAdapter;
-import com.example.travelticker.Model.Image;
 import com.example.travelticker.Model.Service;
+import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +31,7 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     TextView txtContent, txtDescription;
     RecyclerView recyclerDichVu, recyclerHinhAnh;
     GoogleMap map;
+    dbDAO dbDAO;
 
 
     @Nullable

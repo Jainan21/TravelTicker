@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.travelticker.Model.FamousUser;
-import com.example.travelticker.Model.Location;
 import com.example.travelticker.Model.Post;
 import com.example.travelticker.R;
 

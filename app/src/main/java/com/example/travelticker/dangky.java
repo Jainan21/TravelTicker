@@ -45,6 +45,7 @@ public class dangky extends AppCompatActivity {
             public void onClick(View v) {
                 String name = edtName.getText().toString().trim();
                 String email = edtEmail.getText().toString().trim();
+                String avatarUrl = null;
                 String password = edtPassword.getText().toString().trim();
                 String againPassword = edtAgainPassword.getText().toString().trim();
 
@@ -74,7 +75,7 @@ public class dangky extends AppCompatActivity {
 
                                     // Lưu thông tin người dùng vào Realtime Database
                                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-                                    User newUser = new User(name, email);
+                                    User newUser = new User(name, email, avatarUrl);
                                     databaseReference.child(userId).setValue(newUser)
                                             .addOnCompleteListener(task1 -> {
                                                 if (task1.isSuccessful()) {

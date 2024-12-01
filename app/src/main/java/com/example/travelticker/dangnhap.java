@@ -2,8 +2,10 @@ package com.example.travelticker;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.travelticker.Model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,6 +29,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.common.api.ApiException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class dangnhap extends AppCompatActivity {
 
@@ -34,6 +42,7 @@ public class dangnhap extends AppCompatActivity {
     private CheckBox rememberCheckBox;
     private TextView forgotPasswordTextView, signUpTextView;
     private FirebaseAuth mAuth;
+    private DatabaseReference databaseReference;
 
     // Google Sign-In
     private GoogleSignInClient mGoogleSignInClient;
@@ -82,6 +91,22 @@ public class dangnhap extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(dangnhap.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                            String userId = user.getUid();
+                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User a = snapshot.getValue(User.class);
+                                    storeUserInfo(a.getName(), a.getEmail(), "");
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Toast.makeText(dangnhap.this, "Have an error to connect" + error, Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                             Intent intent = new Intent(dangnhap.this, TrangChu.class); // Chuyển đến TrangChu Activity
                             startActivity(intent);
                             finish();
@@ -136,6 +161,14 @@ public class dangnhap extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(dangnhap.this, "Đăng nhập bằng Google thành công!", Toast.LENGTH_SHORT).show();
+                        if(user!=null){
+                            String displayName = user.getDisplayName();
+                            String email = user.getEmail();
+                            String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+
+                            // Store user info
+                            storeUserInfo(displayName, email, photoUrl);
+                        }
                         Intent intent = new Intent(dangnhap.this, TrangChu.class); // Chuyển đến TrangChu Activity
                         startActivity(intent);
                         finish();
@@ -143,5 +176,15 @@ public class dangnhap extends AppCompatActivity {
                         Toast.makeText(dangnhap.this, "Đăng nhập bằng Google thất bại", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void storeUserInfo(String displayName, String email, String photoUrl) {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userName", displayName);
+        editor.putString("userEmail", email);
+        editor.putString("userPhoto", photoUrl);
+        editor.apply();
+
     }
 }

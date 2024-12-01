@@ -14,9 +14,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/icon_logo"
+        android:label="Travel Ticker"
+        android:roundIcon="@drawable/icon_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelTicker"
         tools:targetApi="31">
@@ -58,6 +58,7 @@
             android:name=".dangnhap"
             android:exported="true" />
 
+
         <activity
             android:name=".Onboarding1"
             android:exported="true">
@@ -70,7 +71,8 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCo_-Z3nG6FDv9kysnzf4_EkYk-W-7hTA8" />
+            android:value="AIzaSyBmFlmRgTAbI1xbk1QU5SGvZQnGDO1sM2k" />
+
     </application>
 
 </manifest>

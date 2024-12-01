@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.travelticker.Adapter.PersonAdapter;
 
 public class CaiDat extends AppCompatActivity {
-
+    PersonAdapter perAdt2, perAdt3;
     RecyclerView rcv_2, rcv_3;
     ImageButton Imgbt2;
 
@@ -46,8 +46,10 @@ public class CaiDat extends AppCompatActivity {
 
         String arr2[] = {"Cài đặt ngôn ngữ", "Cài đặt hồ sơ", "Mời bạn bè", "Chính sách đã lưu"};
         String arr3[] = {"Chính sách bảo mật", "Điều khoản dịch vụ", "Phân bổ dữ liệu"};
-        rcv_2.setAdapter(new PersonAdapter(arr2, icon2));
-        rcv_3.setAdapter(new PersonAdapter(arr3, icon3));
+        perAdt2 = new PersonAdapter(this, arr2, icon2);
+        rcv_2.setAdapter(perAdt2);
+        perAdt3 = new PersonAdapter(this, arr3, icon3);
+        rcv_3.setAdapter(perAdt3);
 
         Imgbt2.setOnClickListener(v -> finish());
     }

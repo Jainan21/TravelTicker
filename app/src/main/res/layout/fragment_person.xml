@@ -14,34 +14,36 @@
         android:orientation="vertical">
 
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
                 android:layout_gravity="center"
-                app:cardCornerRadius="80dp">
+                app:cardCornerRadius="70dp">
 
                 <ImageView
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
-                    android:src="@drawable/monkey"
-                    android:clipToOutline="true"/>
+                    android:id="@+id/avatar_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/avatar" />
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="120dp"
-                android:src="@drawable/edit"
-                app:backgroundTint="@color/white"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:layout_gravity="end|bottom"
+                android:src="@drawable/icon_edit"
+                app:backgroundTint="@color/white"/>
+
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tvTenHS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Monkey"

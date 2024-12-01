@@ -1,5 +1,6 @@
 package com.example.travelticker.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
@@ -16,12 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.CaiDat;
 import com.example.travelticker.R;
+import com.example.travelticker.dangnhap;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
+    Context c;
     String data[];
     Drawable icon[];
 
-    public PersonAdapter(String[] data, Drawable[] icon){
+    public PersonAdapter(Context c,String[] data, Drawable[] icon){
+        this.c = c;
         this.data = data;
         this.icon = icon;
     }
@@ -29,8 +34,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
     @NonNull
     @Override
     public holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_tttk, parent, false);
+        View view = LayoutInflater.from(c).inflate(R.layout.item_tttk, parent, false);
         return new holder(view);
     }
 
@@ -47,8 +51,14 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.holder> {
                 new AlertDialog.Builder(holder.itemView.getContext())
                         .setTitle("Xác nhận")
                         .setMessage("Bạn có chắc chắn muốn đăng xuất không?")
-                        .setPositiveButton("Đăng xuất", (dialog, which) ->
-                                Toast.makeText(holder.itemView.getContext(), "Đã đăng xuất!", Toast.LENGTH_SHORT).show())
+                        .setPositiveButton("Đăng xuất", (dialog, which) -> {
+                            // đăng xuất
+                            FirebaseAuth.getInstance().signOut();
+
+                            Intent intent = new Intent(holder.itemView.getContext(), dangnhap.class);
+                            holder.itemView.getContext().startActivity(intent);
+                            Toast.makeText(holder.itemView.getContext(), "Đã đăng xuất!", Toast.LENGTH_SHORT).show();
+                        })
                         .setNegativeButton("Hủy", null)
                         .show();
             }
