@@ -24,7 +24,6 @@
         android:text="Hãy Bắt Đầu Nào"
         android:textSize="22sp"
         android:textColor="#000000"
-        android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:layout_marginBottom="8dp"/>
 
