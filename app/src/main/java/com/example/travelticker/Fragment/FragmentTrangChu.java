@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.LocationAdapter;
 import com.example.travelticker.Adapter.UserFamousAdapter;
 import com.example.travelticker.Model.FamousUser;
@@ -39,10 +40,11 @@ public class FragmentTrangChu extends Fragment {
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("userName", "Guest");
+        String avatarUrl = sharedPreferences.getString("avatarUrl", null);
         String userEmail = sharedPreferences.getString("userEmail", "");
         String userPhoto = sharedPreferences.getString("userPhoto", "");
 
-        imgAvt.setImageResource(R.drawable.avatar);
+        Glide.with(this.getContext()).load(avatarUrl).into(imgAvt);
         txtWelcome.setText("Xin chao " + userName);
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
