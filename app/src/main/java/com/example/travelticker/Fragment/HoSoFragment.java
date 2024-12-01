@@ -35,6 +35,7 @@ public class HoSoFragment extends Fragment {
     TextView tvTenHS;
     DatabaseReference userRef;
     dbDAO db;
+    PersonAdapter perAdt;
     String userName = new String();
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,8 +46,6 @@ public class HoSoFragment extends Fragment {
         edit_button = view.findViewById(R.id.edit_button);
         avatar_up = view.findViewById(R.id.avatar_up);
         tvTenHS = view.findViewById(R.id.tvTenHS);
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "Guest");
 
         Drawable[] icon = new Drawable[]{
                 requireContext().getDrawable(R.drawable.settings),
@@ -55,12 +54,24 @@ public class HoSoFragment extends Fragment {
                 requireContext().getDrawable(R.drawable.logout)
         };
         String arr[] = {"Cài đặt", "Hỗ trợ", "Đánh giá", "Đăng xuất"};
-        rcv_1.setAdapter(new PersonAdapter(arr, icon));
+//        rcv_1.setAdapter(new PersonAdapter(arr, icon));
+        perAdt = new PersonAdapter(requireContext(), arr, icon);
+        rcv_1.setAdapter(perAdt);
 
         edit_button.setOnClickListener(v -> {
             Intent intent = new Intent(requireContext(), ChinhSuaHoSo.class);
             startActivity(intent);
         });
+
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userName = sharedPreferences.getString("userName", "Guest");
+        tvTenHS.setText(userName);
+        String cachedAvatarUrl = sharedPreferences.getString("avatarUrl", null);
+
+        // Hiển thị ảnh từ SharedPreferences
+        if (cachedAvatarUrl != null) {
+            Glide.with(this).load(cachedAvatarUrl).into(avatar_up);
+        }
 
         userRef = FirebaseDatabase.getInstance().getReference("Users")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -68,20 +79,32 @@ public class HoSoFragment extends Fragment {
         userRef.get().addOnSuccessListener(dataSnapshot -> {
             if (dataSnapshot.exists()) {
                 String avatarUrl = dataSnapshot.child("avatarUrl").getValue(String.class);
+                String firebaseUserName = dataSnapshot.child("userName").getValue(String.class);
 
-                tvTenHS.setText(userName);
+                // cập nhật ảnh nếu khác
                 if (avatarUrl != null) {
                     Glide.with(this).load(avatarUrl).into(avatar_up); // Hiển thị avatar
+                    // Lưu URL mới vào SharedPreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("avatarUrl", avatarUrl);
+                    editor.apply();
+                }
+
+                // cập nhật tên nếu khác
+                if (firebaseUserName != null && !firebaseUserName.equals(userName)) {
+                    tvTenHS.setText(firebaseUserName);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("userName", firebaseUserName);
+                    editor.apply();
                 }
             }
         });
         return view;
     }
-    public  void onResum(){
+    public void onResume(){
         super.onResume();
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("userName", "Guest");
         tvTenHS.setText(userName);
-
     }
 }
