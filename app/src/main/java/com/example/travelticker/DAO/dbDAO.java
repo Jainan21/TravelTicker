@@ -10,9 +10,15 @@ import androidx.annotation.NonNull;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
+import com.example.travelticker.Model.Post;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.api.Context;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -96,6 +102,31 @@ public class dbDAO {
                 }
             }
         });
+    }
+
+    public void getBaiDangByID(String idBaiDang, PostCallBack callBack){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BaiDang");
+
+        dbRef.child(idBaiDang).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+
+                }else{
+                    callBack.onFailure("Không tìm thấy bài đăng ID: "+idBaiDang);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callBack.onFailure("Lỗi khi lấy bài đăng: "+error);
+            }
+        });
+    }
+
+    public interface PostCallBack {
+        void onSuccess(Post post);
+        void onFailure(String errorMessage);
     }
 
 }

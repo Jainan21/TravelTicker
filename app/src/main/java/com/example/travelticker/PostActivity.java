@@ -343,7 +343,7 @@ public class PostActivity extends AppCompatActivity {
         if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
             uploadMainImg(imageUri, imageUrls -> {
                 uploadAnotherImages(() -> {
-                    Post post = new Post(1, noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
+                    Post post = new Post("1", noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
 
                     //lưu bài viết
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
