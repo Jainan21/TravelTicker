@@ -25,6 +25,7 @@ import com.example.travelticker.R;
 import java.util.ArrayList;
 
 public class FragmentTrangChu extends Fragment {
+
     ImageView imgAvt;
     TextView txtWelcome, txtGreeting;
     RecyclerView recyclerFamousUser, recyclerLocation;
@@ -33,7 +34,6 @@ public class FragmentTrangChu extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trang_chu,null, false);
-
         imgAvt = view.findViewById(R.id.imgAvtTrangChu);
         txtWelcome = view.findViewById(R.id.txtWelcome);
         recyclerLocation = view.findViewById(R.id.recyclerLocation);

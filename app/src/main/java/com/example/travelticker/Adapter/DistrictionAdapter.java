@@ -55,7 +55,7 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
         dichVu dv = list.get(position);
 
         holder.chkDis.setChecked(dv.isSelected());
-        holder.txtDesName.setText(dv.getName());
+        holder.txtDesName.setText(dv.getTen());
 
         holder.cvItem.setCardBackgroundColor(Color.parseColor("#" + dv.getNen()));
 

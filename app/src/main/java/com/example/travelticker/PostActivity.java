@@ -247,7 +247,7 @@ public class PostActivity extends AppCompatActivity {
 
         for (dichVu dis : listDis) {
             for (dichVu selected : selectedItems) {
-                if (dis.getName().equals(selected.getName())) {
+                if (dis.getTen().equals(selected.getTen())) {
                     dis.setSelected(true);
                 }
             }

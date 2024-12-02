@@ -22,11 +22,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <RelativeLayout
-                    android:id="@+id/rela1_trangchu"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/halongbay"
                     app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/mainimg_baidang"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/halongbay" />
                     <ImageView
                         android:layout_width="40dp"
                         android:layout_height="40dp"
@@ -59,7 +70,7 @@
                 android:background="@drawable/bg_trangchu_information"
                 app:layout_constraintTop_toBottomOf="@+id/linearcontainer">
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/txtLocationName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -75,6 +86,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/item_location" />
                     <TextView
+                        android:id="@+id/txtLocation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Hạ Long, Quảng Ninh"

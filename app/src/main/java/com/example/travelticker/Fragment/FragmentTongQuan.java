@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Adapter.SecondaryImageAdapter;
 import com.example.travelticker.Adapter.ServiceAdapter;
+import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.R;
@@ -32,7 +34,12 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     RecyclerView recyclerDichVu, recyclerHinhAnh;
     GoogleMap map;
     dbDAO dbDAO;
-
+    ArrayList<dichVu> listService = new ArrayList<>();
+    ArrayList<String> listImg = new ArrayList<>();
+    String ltglng;
+    Double longitude, latitude;
+    private String idBaiDang = "-OD5D1ftbnsnyTaBk6o7";
+    private boolean dataLoaded = false;  // Flag to indicate when data is loaded
 
     @Nullable
     @Override
@@ -40,45 +47,56 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_tong_quan,null, false);
 
         txtContent = view.findViewById(R.id.txtContent);
-        txtDescription = view.findViewById(R.id.txtDescription);
         recyclerDichVu = view.findViewById(R.id.recyclerDichVu);
         recyclerHinhAnh = view.findViewById(R.id.recyclerHinhAnh);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.fragmentMapTongQuan);
-        if (mapFragment!=null){
-            mapFragment.getMapAsync( this);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
         }
-        txtContent.setText("Đây là phần nội dung chính của bài đăng");
-        txtDescription.setText("Đây là phần mô tả của người viết bài về khu vực du lịch trong bài đăng");
-
-
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         layout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerDichVu.setLayoutManager(layout);
 
-        ArrayList<dichVu> listService = new ArrayList<>();
-
-        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
-
-        recyclerDichVu.setAdapter(adpService);
-
         GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
-
-
         recyclerHinhAnh.setLayoutManager(gridlayout);
 
-        ArrayList<Integer> listImg = new ArrayList<>();
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
-        listImg.add(R.drawable.halongbay);
+        listService = new ArrayList<>();
+        listImg = new ArrayList<>();
 
+        dbDAO = new dbDAO();
 
+        dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
+            @Override
+            public void onSuccess(Post post) {
+                txtContent.setText(post.getNoiDung());
+                listService = post.getDichvu();
+                listImg = post.getImgPhu();
+                ltglng = post.getDiaChi();
+                String[] location = ltglng.split(",");
+                latitude = Double.parseDouble(location[0]);
+                longitude = Double.parseDouble(location[1]);
+
+                // Set the flag to true once the data is loaded
+                dataLoaded = true;
+
+                // Now that the data is loaded, update the map if it's ready
+                if (map != null) {
+                    updateMap();
+                }
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                // Handle failure (e.g., show a toast or log an error)
+                Toast.makeText(getContext(), "Failed to load post data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
         SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
 
+        recyclerDichVu.setAdapter(adpService);
         recyclerHinhAnh.setAdapter(adpImage);
 
         return view;
@@ -88,10 +106,21 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        // Add a marker and move the camera
+        // If the data is already loaded, update the map directly
+        if (dataLoaded) {
+            updateMap();
+        }
+    }
 
-        LatLng location = new LatLng(-34, 151);
-        map.addMarker(new MarkerOptions().position(location).title("Marker in Sydney"));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+    // Method to update the map
+    private void updateMap() {
+        if (latitude != null && longitude != null) {
+            LatLng location = new LatLng(latitude, longitude);
+            map.addMarker(new MarkerOptions().position(location).title("Location Marker"));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+        } else {
+            // Handle case where latitude and longitude are still not available (if necessary)
+            Toast.makeText(getContext(), "Location data is unavailable", Toast.LENGTH_SHORT).show();
+        }
     }
 }
