@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class BaiDang extends AppCompatActivity {
+    private String idBaiDang = "-OD5D1ftbnsnyTaBk6o7";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
