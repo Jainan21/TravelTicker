@@ -2,7 +2,6 @@ package com.example.travelticker.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,22 +10,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.lifecycle.GenericLifecycleObserver;
-import androidx.recyclerview.widget.RecyclerView;
 
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.travelticker.Model.dichVu;
 import com.bumptech.glide.Glide;
-import com.example.travelticker.Model.Service;
 import com.example.travelticker.R;
 
-import java.time.Instant;
 import java.util.ArrayList;
+
 
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceAdapterHolder> {
     private final Context c;
-    private final ArrayList<Service> list;
+    private final ArrayList<dichVu> list;
 
-    public ServiceAdapter(Context c, ArrayList<Service> list) {
+    public ServiceAdapter(Context c, ArrayList<dichVu> list) {
         this.c = c;
         this.list = list;
     }
@@ -40,12 +37,12 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceA
 
     @Override
     public void onBindViewHolder(@NonNull ServiceAdapter.ServiceAdapterHolder holder, int i) {
-        Service service = list.get(i);
+        dichVu service = list.get(i);
 
 
-        Glide.with(holder.imgDichVu.getContext()).load(service.getIconService()).into(holder.imgDichVu);
-        holder.txtTenDichVu.setText(service.getNameService());
-        holder.cardDichVu.setBackgroundColor(Color.parseColor("#" + service.getColorCode()));
+        Glide.with(holder.imgDichVu.getContext()).load(service.getAnh()).into(holder.imgDichVu);
+        holder.txtTenDichVu.setText(service.getTen());
+        holder.cardDichVu.setBackgroundColor(Color.parseColor("#" + service.getNen()));
     }
 
     @Override
