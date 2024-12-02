@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -40,12 +41,20 @@ public class FragmentTrangChu extends Fragment {
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userName = sharedPreferences.getString("userName", "Guest");
+
         String avatarUrl = sharedPreferences.getString("avatarUrl", null);
         String userEmail = sharedPreferences.getString("userEmail", "");
         String userPhoto = sharedPreferences.getString("userPhoto", "");
+        String userId = sharedPreferences.getString("userId", "");
 
-        Glide.with(this.getContext()).load(avatarUrl).into(imgAvt);
-        txtWelcome.setText("Xin chao " + userName);
+        Toast.makeText(getContext(), "id: "+userId, Toast.LENGTH_SHORT).show();
+
+        if (avatarUrl == null){
+            Glide.with(this.getContext()).load(R.drawable.avatar).into(imgAvt);
+        }else{
+            Glide.with(this.getContext()).load(avatarUrl).into(imgAvt);
+        }
+        txtWelcome.setText("Xin chào " + userName);
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager layout2 = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
