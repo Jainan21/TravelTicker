@@ -51,7 +51,8 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation ("com.google.android.gms:play-services-maps:17.0.0")
-    implementation ("com.github.bumptech.glide:glide:4.15.1") // Replace with the latest version
+    implementation ("com.github.bumptech.glide:glide:4.15.1")
+    implementation ("com.caverock:androidsvg:1.4")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.15.1") // For Glide's annotation processor
 
 }

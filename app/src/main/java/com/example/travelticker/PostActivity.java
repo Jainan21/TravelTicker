@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -26,19 +28,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.travelticker.Adapter.DistrictionAdapter;
 import com.example.travelticker.Adapter.MenuPostAdapter;
 import com.example.travelticker.Model.MenuPost;
+import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.dichVu;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 
 public class PostActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView rcvMenuPost;
     ImageView imgMainPost;
+    TextView txtTitlePost, txtContentPost;
     MenuPostAdapter adapter;
     ArrayList<MenuPost> menupost;
     DistrictionAdapter districtionAdapter;
     ArrayList<dichVu> listDis;
     String location = "";
+    ArrayList<Uri> imageUries;
+    Uri mainImg;
+    ArrayList<String> anotherImages = new ArrayList<>();
+    Boolean isDisLoad = false;
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
@@ -51,6 +73,8 @@ public class PostActivity extends AppCompatActivity {
         rcvMenuPost = findViewById(R.id.rcvMenuPost);
         toolbar = findViewById(R.id.toolBarPost);
         imgMainPost = findViewById(R.id.imgMainPost);
+        txtTitlePost = findViewById(R.id.txtTitlePost);
+        txtContentPost = findViewById(R.id.txtContentPost);
 
         rcvMenuPost.setLayoutManager(new LinearLayoutManager(this));
         menupost = new ArrayList<>();
@@ -100,9 +124,11 @@ public class PostActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        } else {
-            return super.onOptionsItemSelected(item);
+        } else if (item.getItemId() == R.id.btnPost){
+            DangBai();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -176,12 +202,42 @@ public class PostActivity extends AppCompatActivity {
 
         RecyclerView rcvDis = dialogView.findViewById(R.id.rcvDistriction);
         rcvDis.setLayoutManager(new GridLayoutManager(this, 2));
-        listDis = new ArrayList<>();
-        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "thả dù"));
-        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "lướt sóng"));
-        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "lặn"));
-        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "trượt băng"));
-        listDis.add(new dichVu("android.resource://com.example.travelticker/drawable/halongbay", "xông khói"));
+
+        if (!isDisLoad){
+            listDis = new ArrayList<>();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("DichVu")
+                    .get() // Lấy dữ liệu một lần
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            listDis.clear();
+
+                            // Duyệt qua các document trong collection "DichVu"
+                            for (DocumentSnapshot document : querySnapshot) {
+                                dichVu dv = document.toObject(dichVu.class);
+                                if (dv != null) {
+                                    listDis.add(dv);
+                                }
+                            }
+
+                            // Cập nhật Adapter
+                            districtionAdapter = new DistrictionAdapter(PostActivity.this, listDis, menuPost);
+                            rcvDis.setAdapter(districtionAdapter);
+                            isDisLoad = true;
+
+                        } else {
+                            Log.w("FirebaseData", "Error getting documents.", task.getException());
+                            Toast.makeText(PostActivity.this, "Lỗi khi tải dịch vụ", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(PostActivity.this, "Lỗi khi tải dịch vụ", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            districtionAdapter = new DistrictionAdapter(PostActivity.this, listDis, menuPost);
+            rcvDis.setAdapter(districtionAdapter);
+        }
 
         // Tạo danh sách dịch vụ đã chọn từ MenuPost
         ArrayList<dichVu> selectedItems = menuPost.getSelectedImages();
@@ -196,9 +252,6 @@ public class PostActivity extends AppCompatActivity {
                 }
             }
         }
-
-        districtionAdapter = new DistrictionAdapter(this, listDis, menuPost);
-        rcvDis.setAdapter(districtionAdapter);
 
         builder.setView(dialogView);
 
@@ -241,6 +294,74 @@ public class PostActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         //trả về vị trí cập nhật
         startActivityForResult(intent, 2);
+    }
+
+    private void uploadMainImg(Uri imageUri, UploadCallback callback){
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + UUID.randomUUID().toString());
+        storageReference.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+                    //lấy url ảnh khi upload thành công
+                    storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                        mainImg = uri;
+                        callback.onUploadSuccess(mainImg);
+                    });
+                })
+                .addOnFailureListener(e -> Toast.makeText(this, "Tải ảnh lên thất bại !!!", Toast.LENGTH_SHORT).show());
+    }
+
+    interface UploadCallback{
+        void onUploadSuccess(Uri imageUrls);
+    }
+
+    private void uploadAnotherImages(Runnable onComplete){
+        for (Uri uri : menupost.get(2).getListAnotherImage()){
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + UUID.randomUUID().toString());
+            storageReference.putFile(uri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        storageReference.getDownloadUrl().addOnSuccessListener(uri1 -> {
+                            anotherImages.add(uri1.toString());
+                            //nếu upload hêt ảnh phụ
+                            if (anotherImages.size() == menupost.get(2).getListAnotherImage().size()){
+                                onComplete.run();
+                            }
+                        });
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Tải ảnh phụ lên thất bại !!!", Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void DangBai(){
+        String tieude = txtTitlePost.getText().toString();
+        String noidung = txtContentPost.getText().toString();
+        String ngaydang = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || mainImg.toString().isEmpty()){
+            Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //kiểm tra upload ảnh
+        if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
+            uploadMainImg(imageUri, imageUrls -> {
+                uploadAnotherImages(() -> {
+                    Post post = new Post(1, noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
+
+                    //lưu bài viết
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    String idBaiDang = databaseReference.push().getKey();
+                    if (idBaiDang != null){
+                        databaseReference.child("BaiDang").child(idBaiDang).setValue(post).addOnCompleteListener(task -> {
+                            if (task.isSuccessful()){
+                                Toast.makeText(this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(this, "Đăng bài thất bại", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+            });
+        }else {
+            Toast.makeText(this, "Vui lòng chọn ảnh chính và phụ !!!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

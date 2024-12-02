@@ -17,6 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:id="@+id/cvItem"
             android:layout_marginBottom="10dp"
             app:cardCornerRadius="100dp">
             <ImageView
@@ -24,7 +25,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:src="@drawable/halongbay"
-                android:scaleType="centerCrop"
+                android:scaleType="center"
                 />
         </androidx.cardview.widget.CardView>
 

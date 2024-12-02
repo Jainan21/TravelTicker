@@ -1,16 +1,18 @@
 package com.example.travelticker.Adapter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.R;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 public class ImgDisAdapter extends RecyclerView.Adapter<ImgDisAdapter.ImgDisViewHolder>{
     Context context;
     ArrayList<dichVu> listImg;
+    dbDAO dao;
 
     public ImgDisAdapter(Context context, ArrayList<dichVu> listImg) {
         this.context = context;
@@ -34,8 +37,12 @@ public class ImgDisAdapter extends RecyclerView.Adapter<ImgDisAdapter.ImgDisView
 
     @Override
     public void onBindViewHolder(@NonNull ImgDisViewHolder holder, int position) {
-        dichVu item = listImg.get(position);
-        Glide.with(holder.itemView.getContext()).load(item.getImg()).into(holder.imgDisChild);
+        dichVu dv = listImg.get(position);
+        holder.cvItemDisPost.setCardBackgroundColor(Color.parseColor("#" + dv.getNen()));
+
+        dao = new dbDAO();
+        dao.loadSvgFromUrl(dv.getAnh(), holder.imgDisChild);
+
     }
 
     @Override
@@ -45,11 +52,13 @@ public class ImgDisAdapter extends RecyclerView.Adapter<ImgDisAdapter.ImgDisView
 
     public class ImgDisViewHolder extends RecyclerView.ViewHolder{
         ImageView imgDisChild;
+        CardView cvItemDisPost;
 
         public ImgDisViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgDisChild = itemView.findViewById(R.id.imgDisChild);
+            cvItemDisPost = itemView.findViewById(R.id.cvItemDisPost);
         }
     }
 }

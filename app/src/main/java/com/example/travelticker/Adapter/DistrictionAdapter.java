@@ -1,6 +1,7 @@
 package com.example.travelticker.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.MenuPost;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.R;
+
+
 
 import java.util.ArrayList;
 
@@ -22,6 +27,7 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
     ArrayList<dichVu> list;
     OnItemClickListener listener;
     MenuPost menuPost;
+    dbDAO dao;
 
     public interface OnItemClickListener {
         void onItemClick( int position);
@@ -51,6 +57,11 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
         holder.chkDis.setChecked(dv.isSelected());
         holder.txtDesName.setText(dv.getName());
 
+        holder.cvItem.setCardBackgroundColor(Color.parseColor("#" + dv.getNen()));
+
+        dao = new dbDAO();
+        dao.loadSvgFromUrl(dv.getAnh(), holder.imgDistriction);
+
         if (menuPost != null) {
             holder.chkDis.setOnCheckedChangeListener((compoundButton, b) -> {
                 dv.setSelected(b);
@@ -66,16 +77,20 @@ public class DistrictionAdapter extends RecyclerView.Adapter<DistrictionAdapter.
         return list.size();
     }
 
+
+
     public class DistrictionViewHolder extends RecyclerView.ViewHolder {
         TextView txtDesName;
         ImageView imgDistriction;
         CheckBox chkDis;
+        CardView cvItem;
 
         public DistrictionViewHolder(@NonNull View itemView) {
             super(itemView);
             txtDesName = itemView.findViewById(R.id.txtDesName);
             chkDis = itemView.findViewById(R.id.chkDis);
             imgDistriction = itemView.findViewById(R.id.imgDistriction);
+            cvItem = itemView.findViewById(R.id.cvItem);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
