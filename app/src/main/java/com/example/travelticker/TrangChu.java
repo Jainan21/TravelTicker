@@ -1,5 +1,6 @@
 package com.example.travelticker;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -43,6 +44,8 @@ public class TrangChu extends AppCompatActivity {
                 selectedFragment = fragmentYeuThich;
             } else if (item.getItemId() == R.id.icon_noti_menu) {
                 selectedFragment = fragmentThongBao;
+            } else if (item.getItemId() == R.id.icon_add_menu) {
+                startActivity(new Intent(TrangChu.this, PostActivity.class));
             } else if (item.getItemId() == R.id.icon_user_menu) {
                 selectedFragment = fragmentHoSo;
             }
