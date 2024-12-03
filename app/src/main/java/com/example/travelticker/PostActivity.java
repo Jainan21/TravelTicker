@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -125,7 +126,6 @@ public class PostActivity extends AppCompatActivity {
             onBackPressed();
             return true;
         } else if (item.getItemId() == R.id.btnPost){
-            DangBai();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -241,8 +241,10 @@ public class PostActivity extends AppCompatActivity {
 
         // Tạo danh sách dịch vụ đã chọn từ MenuPost
         ArrayList<dichVu> selectedItems = menuPost.getSelectedImages();
+        ArrayList<String> idDV = menuPost.getIdDV();
         if (selectedItems == null) {
-            selectedItems = new ArrayList<>();  // Khởi tạo nếu null
+            selectedItems = new ArrayList<>();
+            idDV = new ArrayList<>();// Khởi tạo nếu null
         }
 
         for (dichVu dis : listDis) {
@@ -270,14 +272,17 @@ public class PostActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Lấy các dịch vụ đã chọn
                 ArrayList<dichVu> selectedItems = new ArrayList<>();
+                ArrayList<String> idDV = new ArrayList<>();
                 for (dichVu imageItem : listDis) {
                     if (imageItem.isSelected()) {
                         selectedItems.add(imageItem);
+                        idDV.add(imageItem.getIdDichVu());
                     }
                 }
 
                 //cập nật danh sách
                 menuPost.setSelectedImages(selectedItems);
+                menuPost.setIdDV(idDV);
 
                 adapter.notifyDataSetChanged();
 
@@ -329,12 +334,12 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    private void DangBai(){
+    public void DangBai(View view){
         String tieude = txtTitlePost.getText().toString();
         String noidung = txtContentPost.getText().toString();
         String ngaydang = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || mainImg.toString().isEmpty()){
+        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || mainImg != null){
             Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -343,7 +348,8 @@ public class PostActivity extends AppCompatActivity {
         if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
             uploadMainImg(imageUri, imageUrls -> {
                 uploadAnotherImages(() -> {
-                    Post post = new Post("1", noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
+//                    String imageUrlsString = TextUtils.join(",", anotherImages);
+                    Post post = new Post("1", noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getIdDV());
 
                     //lưu bài viết
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

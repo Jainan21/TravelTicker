@@ -103,7 +103,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingStart="16dp"
                 android:hint="Nhập họ tên"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -128,14 +127,13 @@
                 android:id="@+id/icon_2"
                 android:layout_width="34dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/person" />
+                android:src="@drawable/email" />
 
             <EditText
                 android:id="@+id/editEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingStart="16dp"
                 android:text="mk511@gmail.com"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
@@ -160,14 +158,13 @@
                 android:id="@+id/icon_3"
                 android:layout_width="34dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/person" />
+                android:src="@drawable/phone" />
 
             <EditText
                 android:id="@+id/editSdth"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingStart="16dp"
                 android:hint="Nhập số điện thoại"
                 android:textColor="@color/black"
                 android:textSize="20dp" />
