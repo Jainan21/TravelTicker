@@ -9,15 +9,16 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.travelticker.R;
 
 import java.util.ArrayList;
 
 public class SecondaryImageAdapter extends RecyclerView.Adapter<SecondaryImageAdapter.SecondaryImageHolder> {
     private final Context c;
-    private final ArrayList<Integer> list;
+    private final ArrayList<String> list;
 
-    public SecondaryImageAdapter(Context c, ArrayList<Integer> list) {
+    public SecondaryImageAdapter(Context c, ArrayList<String> list) {
         this.c = c;
         this.list = list;
     }
@@ -31,8 +32,8 @@ public class SecondaryImageAdapter extends RecyclerView.Adapter<SecondaryImageAd
 
     @Override
     public void onBindViewHolder(@NonNull SecondaryImageHolder holder, int i) {
-        Integer pic = list.get(i);
-        holder.img.setImageResource(pic);
+        String pic = list.get(i);
+        Glide.with(c).load(pic).into(holder.img);
     }
 
     @Override

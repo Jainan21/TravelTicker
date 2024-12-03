@@ -1,5 +1,7 @@
 package com.example.travelticker.DAO;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.PictureDrawable;
@@ -11,9 +13,9 @@ import androidx.annotation.NonNull;
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
 import com.example.travelticker.Model.Post;
+import com.example.travelticker.Model.dichVu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.api.Context;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +37,9 @@ import okhttp3.Response;
 
 public class dbDAO {
     private final FirebaseFirestore db;
+    private Context c;
+
+
 
     public dbDAO() {
         db = FirebaseFirestore.getInstance();
@@ -104,29 +109,33 @@ public class dbDAO {
         });
     }
 
-    public void getBaiDangByID(String idBaiDang, PostCallBack callBack){
+    public void getBaiDangByID(String idBaiDang, PostCallBack callBack) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BaiDang");
+        String userId = "t828Jl8YtcYXKPBag0JNiSmOG8p1";  // Replace with dynamic userId if necessary
 
         dbRef.child(idBaiDang).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-
-                }else{
-                    callBack.onFailure("Không tìm thấy bài đăng ID: "+idBaiDang);
+                if (snapshot.exists()) {
+                    // Extract basic post information
+                    String title = snapshot.child("tieuDe").getValue(String.class);
+                    String location = snapshot.child("diaChi").getValue(String.class);
+                    String content = snapshot.child("noiDung").getValue(String.class);
+                    String mainImage = snapshot.child("img").getValue(String.class);
+                    String date = snapshot.child("ngayDang").getValue(String.class);
+                    ArrayList<String> imgPhu = (ArrayList<String>) snapshot.child("imgPhu").getValue();
+                    ArrayList<String> dichVu = (ArrayList<String>) snapshot.child("dichvu").getValue();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                callBack.onFailure("Lỗi khi lấy bài đăng: "+error);
+
             }
         });
     }
-
     public interface PostCallBack {
         void onSuccess(Post post);
         void onFailure(String errorMessage);
     }
-
 }

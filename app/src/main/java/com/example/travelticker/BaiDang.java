@@ -1,24 +1,65 @@
 package com.example.travelticker;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.travelticker.Adapter.DetailAdapter;
+import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Model.Post;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class BaiDang extends AppCompatActivity {
     private String idBaiDang = "-OD5D1ftbnsnyTaBk6o7";
+    dbDAO dbDAO = new dbDAO();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EdgeToEdge.enable(this);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_bai_dang);
+
+        ImageView mainimg = findViewById(R.id.mainimg_baidang);
+        TextView txtLocationName = findViewById(R.id.txtLocationName);
+        TextView txtLocation = findViewById(R.id.txtLocation);
+
+        dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
+            @Override
+            public void onSuccess(Post post) {
+                Toast.makeText(BaiDang.this, "test:  "+post.getIdBaiDang(), Toast.LENGTH_SHORT).show();
+                if (post.getImg() != null){
+                    Glide.with(getBaseContext()).load(post.getImg()).into(mainimg);
+                }else {
+                    mainimg.setImageResource(R.drawable.tienggian);
+                }
+                txtLocation.setText("1 nơi nào đó");
+                txtLocationName.setText("Noi nào đó ");
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Toast.makeText(BaiDang.this, "FAil to get baidang", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager2 viewPager = findViewById(R.id.viewPager);
