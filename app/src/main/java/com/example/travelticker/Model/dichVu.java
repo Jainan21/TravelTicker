@@ -18,6 +18,14 @@ public class dichVu {
     }
 
 
+    public String getIdDichVu() {
+        return idDichVu;
+    }
+
+    public void setIdDichVu(String idDichVu) {
+        this.idDichVu = idDichVu;
+    }
+
     public boolean isSelected() {
         return isSelected;
     }

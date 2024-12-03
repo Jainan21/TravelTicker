@@ -34,7 +34,7 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     RecyclerView recyclerDichVu, recyclerHinhAnh;
     GoogleMap map;
     dbDAO dbDAO;
-    ArrayList<dichVu> listService = new ArrayList<>();
+    ArrayList<String> listService = new ArrayList<>();
     ArrayList<String> listImg = new ArrayList<>();
     String ltglng;
     Double longitude, latitude;
@@ -70,7 +70,7 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
             @Override
             public void onSuccess(Post post) {
                 txtContent.setText(post.getNoiDung());
-                listService = post.getDichvu();
+//                listService = post.getDichvu();
                 listImg = post.getImgPhu();
                 ltglng = post.getDiaChi();
                 String[] location = ltglng.split(",");
@@ -93,10 +93,10 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
+//        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
         SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
 
-        recyclerDichVu.setAdapter(adpService);
+//        recyclerDichVu.setAdapter(adpService);
         recyclerHinhAnh.setAdapter(adpImage);
 
         return view;

@@ -123,76 +123,19 @@ public class dbDAO {
                     String content = snapshot.child("noiDung").getValue(String.class);
                     String mainImage = snapshot.child("img").getValue(String.class);
                     String date = snapshot.child("ngayDang").getValue(String.class);
-
-                    // Initialize data lists
-                    ArrayList<String> imgPhu = new ArrayList<>();
-                    ArrayList<dichVu> dichVuList = new ArrayList<>();
-
-                    // Helper array to track task completion
-                    final int[] completedTasks = {0};
-
-                    // Callback method to check when both imgPhu and dichVu are loaded
-                    Runnable checkAndCreatePost = () -> {
-                        completedTasks[0]++;
-                        if (completedTasks[0] == 2) {
-                            Post post = new Post(idBaiDang, userId, "0", content, location, mainImage, date, title, imgPhu, dichVuList);
-                            callBack.onSuccess(post);
-                        }
-                    };
-
-                    // Load imgPhu (image array)
-                    dbRef.child(idBaiDang).child("imgPhu").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot data : snapshot.getChildren()) {
-                                String linkSubImg = data.getValue(String.class);
-                                if (linkSubImg != null) {
-                                    imgPhu.add(linkSubImg);
-                                }
-                            }
-                            checkAndCreatePost.run();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            callBack.onFailure("Failed to load images: " + error.getMessage());
-                        }
-                    });
-
-                    // Load dichVu (services array)
-                    dbRef.child(idBaiDang).child("dichVu").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot data : snapshot.getChildren()) {
-                                dichVu service = data.getValue(dichVu.class);
-                                if (service != null) {
-                                    dichVuList.add(service);
-                                }
-                            }
-                            checkAndCreatePost.run();
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            callBack.onFailure("Failed to load services: " + error.getMessage());
-                        }
-                    });
-                } else {
-                    callBack.onFailure("Post not found for ID: " + idBaiDang);
+                    ArrayList<String> imgPhu = (ArrayList<String>) snapshot.child("imgPhu").getValue();
+                    ArrayList<String> dichVu = (ArrayList<String>) snapshot.child("dichvu").getValue();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                callBack.onFailure("Error fetching post: " + error.getMessage());
+
             }
         });
     }
-
     public interface PostCallBack {
         void onSuccess(Post post);
         void onFailure(String errorMessage);
     }
-
-
 }
