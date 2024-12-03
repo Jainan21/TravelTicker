@@ -347,11 +347,14 @@ public class PostActivity extends AppCompatActivity {
         if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()) {
             uploadMainImg(imageUri, imageUrls -> {
                 uploadAnotherImages(() -> {
+
                     // Convert the list of image URLs to a comma-separated string
                     String imageUrlsString = TextUtils.join(",", anotherImages);
 
                     // Creating the Post object
                     Post post = new Post(1, noidung, location, imageUrlsString, ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
+                    
+
 
                     // Save post to Firebase Database
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

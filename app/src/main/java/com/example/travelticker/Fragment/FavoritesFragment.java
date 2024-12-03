@@ -37,8 +37,8 @@ public class FavoritesFragment extends Fragment {
 
         //khởi tạo danh sách và adapter
         list = new ArrayList<>();
-        list.add(new Post(1, 1, 1, "Helo phi day", "Thua Thien Hue", "img", "27/10", "Cua Mon"));
-        list.add(new Post(1, 1, 1, "Helo minhanh day", "Ho Chi Minh", "img", "27/10", "Landmark 81"));
+        list.add(new Post("1", "1", "1", "Helo phi day", "Thua Thien Hue", "img", "27/10", "Cua Mon"));
+        list.add(new Post("1", "1", "1", "Helo minhanh day", "Ho Chi Minh", "img", "27/10", "Landmark 81"));
         postAdapter = new PostAdapter(list, getContext());
 
         //Gán Adapter cho rcv

@@ -1,6 +1,7 @@
 package com.example.travelticker.Model;
 
 public class User {
+    public String uid;
     public String name;
     public String email;
     public String avatarUrl;
@@ -13,6 +14,21 @@ public class User {
         this.name = name;
         this.email = email;
         this.avatarUrl = avatarUrl;
+    }
+
+    public User(String uid, String name, String email, String avatarUrl) {
+        this.uid = uid;
+        this.name = name;
+        this.email = email;
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getName() {
