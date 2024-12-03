@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -125,8 +124,8 @@ public class PostActivity extends AppCompatActivity {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        } else if (item.getItemId() == R.id.btnPost) {
-
+        } else if (item.getItemId() == R.id.btnPost){
+            DangBai();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -306,7 +305,7 @@ public class PostActivity extends AppCompatActivity {
                         callback.onUploadSuccess(mainImg);
                     });
                 })
-                .addOnFailureListener(e -> Toast.makeText(this, "Tải ảnh lên thất bại !!!" + e, Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(this, "Tải ảnh lên thất bại !!!", Toast.LENGTH_SHORT).show());
     }
 
     interface UploadCallback{
@@ -330,45 +329,37 @@ public class PostActivity extends AppCompatActivity {
         }
     }
 
-    public void DangBai(View view) {
+    private void DangBai(){
         String tieude = txtTitlePost.getText().toString();
         String noidung = txtContentPost.getText().toString();
         String ngaydang = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        // Check if all fields are filled out
-        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() ||
-                menupost.get(2).getListAnotherImage().isEmpty() || imageUri == null || imageUri.toString().isEmpty()) {
-
+        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || mainImg.toString().isEmpty()){
             Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // If the main image and other images are selected
-        if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()) {
+        //kiểm tra upload ảnh
+        if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
             uploadMainImg(imageUri, imageUrls -> {
                 uploadAnotherImages(() -> {
-                    // Convert the list of image URLs to a comma-separated string
-                    String imageUrlsString = TextUtils.join(",", anotherImages);
+                    Post post = new Post("1", noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
 
-                    // Creating the Post object
-                    Post post = new Post(1, noidung, location, imageUrlsString, ngaydang, tieude, anotherImages, menupost.get(1).getSelectedImages());
-
-                    // Save post to Firebase Database
+                    //lưu bài viết
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
                     String idBaiDang = databaseReference.push().getKey();
-                    if (idBaiDang != null) {
+                    if (idBaiDang != null){
                         databaseReference.child("BaiDang").child(idBaiDang).setValue(post).addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
+                            if (task.isSuccessful()){
                                 Toast.makeText(this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
-                            } else {
+                            }else {
                                 Toast.makeText(this, "Đăng bài thất bại", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
             });
-        } else {
-            // If main or additional images are missing
+        }else {
             Toast.makeText(this, "Vui lòng chọn ảnh chính và phụ !!!", Toast.LENGTH_SHORT).show();
         }
     }

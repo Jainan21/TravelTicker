@@ -3,12 +3,11 @@ package com.example.travelticker.Model;
 import java.util.ArrayList;
 
 public class Post {
-    private Integer idBaiDang, idNguoiDang, idTinh;
-    private String noiDung, diaChi, img, ngayDang, tieuDe;
+    private String noiDung, diaChi, img, ngayDang, tieuDe, idBaiDang, idNguoiDang, idTinh;
     private ArrayList<String> imgPhu;
     private ArrayList<dichVu> dichvu;
 
-    public Post(Integer idBaiDang, Integer idNguoiDang, Integer idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
+    public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
         this.idBaiDang = idBaiDang;
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
@@ -19,7 +18,7 @@ public class Post {
         this.tieuDe = tieuDe;
     }
 
-    public Post(Integer idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
@@ -30,7 +29,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(Integer idNguoiDang, String noiDung, String diaChi, String img, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
@@ -40,7 +39,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(Integer idBaiDang, Integer idNguoiDang, Integer idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
         this.idBaiDang = idBaiDang;
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
@@ -53,7 +52,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(Integer idNguoiDang, Integer idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
         this.noiDung = noiDung;
@@ -65,7 +64,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(Integer idNguoiDang, Integer idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
+    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
         this.noiDung = noiDung;
@@ -75,27 +74,27 @@ public class Post {
         this.tieuDe = tieuDe;
     }
 
-    public Integer getIdBaiDang() {
+    public String getIdBaiDang() {
         return idBaiDang;
     }
 
-    public void setIdBaiDang(Integer idBaiDang) {
+    public void setIdBaiDang(String idBaiDang) {
         this.idBaiDang = idBaiDang;
     }
 
-    public Integer getIdNguoiDang() {
+    public String getIdNguoiDang() {
         return idNguoiDang;
     }
 
-    public void setIdNguoiDang(Integer idNguoiDang) {
+    public void setIdNguoiDang(String idNguoiDang) {
         this.idNguoiDang = idNguoiDang;
     }
 
-    public Integer getIdTinh() {
+    public String getIdTinh() {
         return idTinh;
     }
 
-    public void setIdTinh(Integer idTinh) {
+    public void setIdTinh(String idTinh) {
         this.idTinh = idTinh;
     }
 

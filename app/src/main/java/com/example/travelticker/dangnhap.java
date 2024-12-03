@@ -91,21 +91,15 @@ public class dangnhap extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(dangnhap.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                            String userId = user.getUid();
-                            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                            if(user!=null){
+                                String displayName = user.getDisplayName();
+                                String email2 = user.getEmail();
+                                String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+                                String userId = user.getUid();
 
-                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    User a = snapshot.getValue(User.class);
-                                    storeUserInfo(a.getName(), a.getEmail(), "");
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(dangnhap.this, "Have an error to connect" + error, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                // Store user info
+                                storeUserInfo(displayName, email2, photoUrl, userId);
+                            }
 
                             Intent intent = new Intent(dangnhap.this, TrangChu.class); // Chuyển đến TrangChu Activity
                             startActivity(intent);
@@ -165,9 +159,10 @@ public class dangnhap extends AppCompatActivity {
                             String displayName = user.getDisplayName();
                             String email = user.getEmail();
                             String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+                            String userId = user.getUid();
 
                             // Store user info
-                            storeUserInfo(displayName, email, photoUrl);
+                            storeUserInfo(displayName, email, photoUrl, userId);
                         }
                         Intent intent = new Intent(dangnhap.this, TrangChu.class); // Chuyển đến TrangChu Activity
                         startActivity(intent);
@@ -178,12 +173,13 @@ public class dangnhap extends AppCompatActivity {
                 });
     }
 
-    private void storeUserInfo(String displayName, String email, String photoUrl) {
+    private void storeUserInfo(String displayName, String email, String photoUrl, String userId) {
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userName", displayName);
         editor.putString("userEmail", email);
         editor.putString("userPhoto", photoUrl);
+        editor.putString("userId", userId);
         editor.apply();
 
     }

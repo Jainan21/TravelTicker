@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Adapter.SecondaryImageAdapter;
 import com.example.travelticker.Adapter.ServiceAdapter;
-import com.example.travelticker.Model.Service;
+import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,10 +56,8 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
         layout.setOrientation(RecyclerView.HORIZONTAL);
         recyclerDichVu.setLayoutManager(layout);
 
-        ArrayList<Service> listService = new ArrayList<>();
-        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "FC5757"));
-        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "03A9F4"));
-        listService.add(new Service(R.drawable.icon_sailing, "Cheo Thuyen", "FC5757"));
+        ArrayList<dichVu> listService = new ArrayList<>();
+
         ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
 
         recyclerDichVu.setAdapter(adpService);
