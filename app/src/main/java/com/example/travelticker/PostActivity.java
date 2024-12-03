@@ -1,11 +1,15 @@
 package com.example.travelticker;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -185,6 +189,15 @@ public class PostActivity extends AppCompatActivity {
         if (!location.isEmpty()){
             edtLinkLocation.setText(location);
         }
+
+        edtLinkLocation.setOnKeyListener(((view, i, keyEvent) -> {
+            if (i == KeyEvent.KEYCODE_V){
+                pasteLinkMap(PostActivity.this, edtLinkLocation);
+                return true;
+            }else {
+                return false;
+            }
+        }));
 
         btnAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -399,6 +412,19 @@ public class PostActivity extends AppCompatActivity {
                     System.err.println(error);
                 }
             });
+        }
+    }
+
+    public void pasteLinkMap(Context context, EditText edt){
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (clipboardManager.hasPrimaryClip()){
+            ClipData clipData = clipboardManager.getPrimaryClip();
+            ClipData.Item item = clipData.getItemAt(0);
+            String paste = item.getText().toString();
+            edt.setText(paste);
+        }else {
+            Toast.makeText(context, "Clipboard trống", Toast.LENGTH_SHORT).show();
         }
     }
 
