@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Post {
     private String noiDung, diaChi, img, ngayDang, tieuDe, idBaiDang, idNguoiDang, idTinh;
     private ArrayList<String> imgPhu;
-    private ArrayList<dichVu> dichvu;
+    private ArrayList<String> dichvu;
 
     public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
         this.idBaiDang = idBaiDang;
@@ -18,7 +18,7 @@ public class Post {
         this.tieuDe = tieuDe;
     }
 
-    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
@@ -29,7 +29,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
@@ -39,7 +39,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idBaiDang = idBaiDang;
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
@@ -52,7 +52,7 @@ public class Post {
         this.dichvu = dichvu;
     }
 
-    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<dichVu> dichvu) {
+    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idNguoiDang = idNguoiDang;
         this.idTinh = idTinh;
         this.noiDung = noiDung;
@@ -146,11 +146,11 @@ public class Post {
         this.imgPhu = imgPhu;
     }
 
-    public ArrayList<dichVu> getDichvu() {
+    public ArrayList<String> getDichvu() {
         return dichvu;
     }
 
-    public void setDichvu(ArrayList<dichVu> dichvu) {
+    public void setDichvu(ArrayList<String> dichvu) {
         this.dichvu = dichvu;
     }
 }

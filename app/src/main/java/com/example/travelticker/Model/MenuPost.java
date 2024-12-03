@@ -11,6 +11,7 @@ public class MenuPost {
     ArrayList<dichVu> imageList;
     ArrayList<dichVu> selectedImages;
     ArrayList<Uri> listAnotherImage;
+    ArrayList<String> idDV;
 
     public MenuPost(String title, Integer iconUrl) {
         this.title = title;
@@ -85,5 +86,13 @@ public class MenuPost {
 
     public void setIconUrl(Integer iconUrl) {
         this.iconUrl = iconUrl;
+    }
+
+    public ArrayList<String> getIdDV() {
+        return idDV;
+    }
+
+    public void setIdDV(ArrayList<String> idDV) {
+        this.idDV = idDV;
     }
 }
