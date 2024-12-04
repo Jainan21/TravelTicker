@@ -1,9 +1,11 @@
 package com.example.travelticker;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,16 +21,24 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.travelticker.Adapter.DetailAdapter;
+import com.example.travelticker.DAO.LikeDAO;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.Post;
+import com.example.travelticker.Model.User;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class BaiDang extends AppCompatActivity {
 
+    ImageView imgBtnLike;
 
     dbDAO dbDAO = new dbDAO();
+    LikeDAO likeDAO = new LikeDAO();
+    String userID;
+    String idBaiDang;
+    Boolean isLiked = false;
 
 
 
@@ -41,9 +51,13 @@ public class BaiDang extends AppCompatActivity {
         ImageView mainimg = findViewById(R.id.mainimg_baidang);
         TextView txtLocationName = findViewById(R.id.txtLocationName);
         TextView txtLocation = findViewById(R.id.txtLocation);
+        imgBtnLike = findViewById(R.id.imgBtnLike);
 
         Bundle bundle = getIntent().getExtras();
-        String idBaiDang = bundle.getString("idBaiDang");
+        idBaiDang = bundle.getString("idBaiDang");
+
+        getUserId();
+        checkLike();
 
         dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
             @Override
@@ -87,6 +101,77 @@ public class BaiDang extends AppCompatActivity {
             }
         }).attach();
 
+        imgBtnLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isLiked){
+                    dialofUnLike();
+                }else {
+                    likePost();
+                }
+            }
+        });
 
+    }
+
+    public void getUserId(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        userID = sharedPreferences.getString("userId", null);
+
+        if (userID == null){
+            Toast.makeText(this, "Lấy Id người dùng thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkLike(){
+        likeDAO.checkIsLiked(userID, idBaiDang, isLiked1 -> {
+            if (isLiked1){
+                isLiked = true;
+                imgBtnLike.setImageResource(R.drawable.favorite_24);
+            } else {
+                isLiked = false;
+                imgBtnLike.setImageResource(R.drawable.icon_fav_trangchu);
+            }
+        });
+    }
+
+    public void likePost(){
+        likeDAO.likePost(userID, idBaiDang, new LikeDAO.onLikeListener() {
+            @Override
+            public void onSuccess() {
+                isLiked = true;
+                imgBtnLike.setImageResource(R.drawable.favorite_24);
+                Toast.makeText(BaiDang.this, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure() {
+                Toast.makeText(BaiDang.this, "Thêm vào yêu thích thất bại !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void dialofUnLike(){
+        new AlertDialog.Builder(this)
+                .setMessage("Bạn có muốn bỏ yêu thích?")
+                .setPositiveButton("Có", ((dialogInterface, i) -> unLike()))
+                .setNegativeButton("không", null)
+                .show();
+    }
+
+    public void unLike(){
+        likeDAO.unLike(userID, idBaiDang, new LikeDAO.onUnLikeListener() {
+            @Override
+            public void onSuccess() {
+                isLiked = false;
+                imgBtnLike.setImageResource(R.drawable.icon_fav_trangchu);
+                Toast.makeText(BaiDang.this, "Đã bỏ thích thành công", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure() {
+                Toast.makeText(BaiDang.this, "Lỗi khi bỏ thích !!!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
