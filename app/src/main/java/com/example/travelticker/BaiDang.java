@@ -3,6 +3,8 @@ package com.example.travelticker;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -20,18 +22,20 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.travelticker.Adapter.DetailAdapter;
 import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Fragment.FragmentDiaChi;
+import com.example.travelticker.Fragment.FragmentTongQuan;
 import com.example.travelticker.Model.Post;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Locale;
+
 
 public class BaiDang extends AppCompatActivity {
-
-
     dbDAO dbDAO = new dbDAO();
-
-
-
+    String locationName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,23 +48,35 @@ public class BaiDang extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         String idBaiDang = bundle.getString("idBaiDang");
+        String idNguoiDang =bundle.getString("idNguoiDung");
 
-        dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
+        SharedPreferences sharedPreferences = getSharedPreferences("BaiDang", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("idUser", idNguoiDang);
+        editor.putString("idBaiDang", idBaiDang);
+        editor.apply();
+
+
+        dbDAO.getBaiDangByID(idBaiDang, idNguoiDang, new dbDAO.PostCallBack() {
             @Override
             public void onSuccess(Post post) {
-                Toast.makeText(BaiDang.this, "test:  "+post.getIdBaiDang(), Toast.LENGTH_SHORT).show();
+                String[] location = post.getDiaChi().split(",");
+                Double latitude = Double.valueOf(location[0]);
+                Double longitude = Double.valueOf(location[1]);
+
+                getLocationName(latitude, longitude);
                 if (post.getImg() != null){
                     Glide.with(getBaseContext()).load(post.getImg()).into(mainimg);
                 }else {
                     mainimg.setImageResource(R.drawable.tienggian);
                 }
-                txtLocation.setText("12345");
+                txtLocation.setText(locationName);
                 txtLocationName.setText(post.getTieuDe());
             }
 
             @Override
             public void onFailure(String errorMessage) {
-                Toast.makeText(BaiDang.this, "FAil to get baidang", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaiDang.this, "Fail to get baidang", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -68,11 +84,9 @@ public class BaiDang extends AppCompatActivity {
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         ViewPager2 viewPager = findViewById(R.id.viewPager);
 
-        // Set up the adapter
         DetailAdapter adapter = new DetailAdapter(this);
         viewPager.setAdapter(adapter);
 
-        // Link the TabLayout and ViewPager2
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
             switch (position) {
                 case 0:
@@ -89,4 +103,18 @@ public class BaiDang extends AppCompatActivity {
 
 
     }
+    private void getLocationName(double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            ArrayList<Address> addresses = (ArrayList<Address>) geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                locationName = address.getAdminArea();
+            } else {
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

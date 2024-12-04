@@ -80,6 +80,7 @@ public class FragmentTrangChu extends Fragment {
                     public void onItemClick(FamousUser post) {
                         Bundle bundle = new Bundle();
                         bundle.putString("idBaiDang", post.getIdBaiDang());
+                        bundle.putString("idNguoiDung", post.getIdNguoiDang());
                         Intent intent = new Intent(getContext(), BaiDang.class);
                         intent.putExtras(bundle);
                         startActivity(intent);
