@@ -1,6 +1,8 @@
 package com.example.travelticker;
 
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +27,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,7 +52,8 @@ public class ChinhSuaHoSo extends AppCompatActivity {
     TextView tvTenCS;
     ImageView avatar_edit;
     FloatingActionButton camera_button;
-    dbDAO db;
+    UserDbDAO userDbDAO;
+    String userID, userImg;
     String userName = new String();
 
     @Override
@@ -66,8 +70,24 @@ public class ChinhSuaHoSo extends AppCompatActivity {
         camera_button = findViewById(R.id.camera_button);
 
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "Guest");
         String avatarUrl = sharedPreferences.getString("avatarUrl", null);
+        userID = sharedPreferences.getString("userId", "");
+        userDbDAO = new UserDbDAO();
+        userDbDAO.getUserById(userID, new UserDbDAO.UserCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                userImg = user.getAvatarUrl();
+                if (userImg == null){
+                    Glide.with(ChinhSuaHoSo.this).load(R.drawable.avatar).into(avatar_edit);
+                }else{
+                    Glide.with(ChinhSuaHoSo.this).load(user.getAvatarUrl()).into(avatar_edit);
+                }
+                editHoTen.setText(""+ user.getName());
+            }
+            @Override
+            public void onError(String error) {
+            }
+        });
 
 
         tvTenCS.setText(userName);
@@ -182,4 +202,26 @@ public class ChinhSuaHoSo extends AppCompatActivity {
             });
         }
     }
+//    public void getUserId(){
+//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+//        userID = sharedPreferences.getString("userId", null);
+//
+//        if (userID == null){
+//            Toast.makeText(this, "Lấy Id người dùng thất bại", Toast.LENGTH_SHORT).show();
+//        }else {
+//            userDbDAO = new UserDbDAO();
+//            userDbDAO.getUserById(userID, new UserDbDAO.UserCallBack() {
+//                @Override
+//                public void onSuccess(User user) {
+//                    Glide.with(getBaseContext()).load(user.getAvatarUrl()).into(imgUserPost);
+//                    editHoTen.setText(user.getName());
+//                }
+//
+//                @Override
+//                public void onError(String error) {
+//                    System.err.println(error);
+//                }
+//            });
+//        }
+//    }
 }
