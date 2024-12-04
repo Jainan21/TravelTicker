@@ -1,5 +1,8 @@
 package com.example.travelticker.Fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -8,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -20,19 +24,40 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.CommentAdapter;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.Model.Comment;
+import com.example.travelticker.Model.User;
 import com.example.travelticker.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FragmentDanhGia extends Fragment {
-    TextView txtAvgRating, txtTotalRating, wordCount;
+    TextView txtAvgRating, txtTotalRating, wordCount, txtUsernameComment;
     RecyclerView recyclerComment;
     EditText txtComment;
     AppCompatButton btnUploadComment;
+    ImageView imgAvtUserComment;
     RatingBar ratingBar;
 
+    FirebaseDatabase database;
+    FirebaseStorage storage;
+    StorageReference storageRef;
+    FirebaseUser user;
+    DatabaseReference commentsRef;
+
+    @SuppressLint("MissingInflatedId")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +70,17 @@ public class FragmentDanhGia extends Fragment {
         txtComment = view.findViewById(R.id.txtDanhGia);
         btnUploadComment = view.findViewById(R.id.btnUploadComment);
         ratingBar = view.findViewById(R.id.ratingBar);
+        imgAvtUserComment = view.findViewById(R.id.imgAvtUserComment);
+        txtUsernameComment = view.findViewById(R.id.txtUsernameComment);
+
+        database = FirebaseDatabase.getInstance();
+        commentsRef = database.getReference("comments");
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference().child("avatars");
+
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+
 
         txtAvgRating.setText("4.7/5");
         txtTotalRating.setText("300 đánh giá");
@@ -80,12 +116,6 @@ public class FragmentDanhGia extends Fragment {
         layoutRecycler.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerComment.setLayoutManager(layoutRecycler);
         ArrayList<Comment> list = new ArrayList<>();
-        list.add(new Comment(R.drawable.monkey, "4.5/5", "Nguyen Van Khi", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm", "10/2/2024"));
-        list.add(new Comment(R.drawable.monkey, "5/5", "Nguyen Van Khi 2", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm lắm nha", "18/10/2024"));
-        list.add(new Comment(R.drawable.monkey, "4.8/5", "Nguyen Van Khi 3", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm, cũng cũng vui", "14/6/2024"));
-        list.add(new Comment(R.drawable.monkey, "4.5/5", "Nguyen Van Khi", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm", "10/2/2024"));
-        list.add(new Comment(R.drawable.monkey, "5/5", "Nguyen Van Khi 2", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm lắm nha", "18/10/2024"));
-        list.add(new Comment(R.drawable.monkey, "4.8/5", "Nguyen Van Khi 3", "Địa danh này có nhiều dịch vụ giải trí thú vị, rất đáng để trải nghiệm, cũng cũng vui", "14/6/2024"));
 
         CommentAdapter adapter = new CommentAdapter(getContext(), list);
         recyclerComment.setAdapter(adapter);
@@ -106,26 +136,37 @@ public class FragmentDanhGia extends Fragment {
                     return;
                 }
 
-                String userName = "";
-                String currentDate = "";
+
+                String avatarUrl = user != null && user.getPhotoUrl() != null
+                        ? user.getPhotoUrl().toString()
+                        : "https://i.pinimg.com/736x/cd/2b/d1/cd2bd1e52870c292ba5e0abfb96aa8c8.jpg";
+                String userName = (user != null && user.getDisplayName() != null) ? user.getDisplayName() : "Ẩn danh";
+                String currentDate = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new java.util.Date());
                 String ratingString = ratingValue + "/5";
-                list.add(0, new Comment(R.drawable.monkey, ratingString, userName, commentText, currentDate));
 
+                //tạo id cho bình luận
+                String key = commentsRef.push().getKey();
+                if (key != null) {
+                    // Tạo đối tượng bình luận mới với ID
+                    Comment newComment = new Comment(key, avatarUrl, ratingString, userName, commentText, currentDate);
 
+                    commentsRef.child(key).setValue(newComment)
+                            .addOnSuccessListener(unused -> {
+                                Toast.makeText(getContext(), "Bình luận đã được lưu!", Toast.LENGTH_SHORT).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Lỗi khi lưu bình luận: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                            });
 
-                adapter.notifyDataSetChanged();
-                recyclerComment.scrollToPosition(0);
-
+                    // Thêm bình luận vào danh sách và cập nhật adapter
+                    list.add(0, newComment);
+                    adapter.notifyItemInserted(0);
+                    recyclerComment.scrollToPosition(0);
+                }
                 txtComment.setText("");
                 ratingBar.setRating(0);
-                Toast.makeText(getContext(), "Bài đăng đã đc đăng", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
         return view;
     }
     private int countWords(String input) {
@@ -134,5 +175,32 @@ public class FragmentDanhGia extends Fragment {
         }
         String[] words = input.trim().split("\\s+");
         return words.length;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // Lấy bình luận từ Firebase khi người dùng đăng nhập lại
+        commentsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<Comment> list = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Comment comment = snapshot.getValue(Comment.class);
+                    if (comment != null) {
+                        list.add(comment);
+                    }
+                }
+                // Cập nhật adapter với danh sách bình luận mới
+                CommentAdapter adapter = new CommentAdapter(getContext(), list);
+                recyclerComment.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Lỗi khi tải bình luận", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
