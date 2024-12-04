@@ -1,9 +1,9 @@
 package com.example.travelticker.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.LocationAdapter;
 import com.example.travelticker.Adapter.UserFamousAdapter;
+import com.example.travelticker.BaiDang;
 import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.Model.FamousUser;
 import com.example.travelticker.DAO.dbDAO;
@@ -74,7 +75,17 @@ public class FragmentTrangChu extends Fragment {
         dbDAO.getRandomPost(new dbDAO.RandomPostCallBack() {
             @Override
             public void onSuccess(ArrayList<FamousUser> listPost) {
-                UserFamousAdapter adpFamousUser = new UserFamousAdapter(getContext(), listPost);
+                UserFamousAdapter adpFamousUser = new UserFamousAdapter(getContext(), listPost, new UserFamousAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(FamousUser post) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("idBaiDang", post.getIdBaiDang());
+                        Intent intent = new Intent(getContext(), BaiDang.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+                    }
+                });
                 recyclerFamousUser.setAdapter(adpFamousUser);
             }
 
