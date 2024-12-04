@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.PersonAdapter;
 import com.example.travelticker.ChinhSuaHoSo;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Model.User;
 import com.example.travelticker.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,7 +36,8 @@ public class HoSoFragment extends Fragment {
     ImageView avatar_up;
     TextView tvTenHS;
     DatabaseReference userRef;
-    dbDAO db;
+    String userID, userImg;
+    UserDbDAO userDbDAO;
     PersonAdapter perAdt;
     String userName = new String();
 
@@ -54,7 +57,6 @@ public class HoSoFragment extends Fragment {
                 requireContext().getDrawable(R.drawable.logout)
         };
         String arr[] = {"Cài đặt", "Hỗ trợ", "Đánh giá", "Đăng xuất"};
-//        rcv_1.setAdapter(new PersonAdapter(arr, icon));
         perAdt = new PersonAdapter(requireContext(), arr, icon);
         rcv_1.setAdapter(perAdt);
 
@@ -64,9 +66,24 @@ public class HoSoFragment extends Fragment {
         });
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "Guest");
-        tvTenHS.setText(userName);
         String cachedAvatarUrl = sharedPreferences.getString("avatarUrl", null);
+        userID = sharedPreferences.getString("userId", "");
+        userDbDAO = new UserDbDAO();
+        userDbDAO.getUserById(userID, new UserDbDAO.UserCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                userImg = user.getAvatarUrl();
+                if (userImg == null){
+                    Glide.with(requireContext()).load(R.drawable.avatar).into(avatar_up);
+                }else{
+                    Glide.with(requireContext()).load(user.getAvatarUrl()).into(avatar_up);
+                }
+                tvTenHS.setText(""+ user.getName());
+            }
+            @Override
+            public void onError(String error) {
+            }
+        });
 
         // Hiển thị ảnh từ SharedPreferences
         if (cachedAvatarUrl != null) {
