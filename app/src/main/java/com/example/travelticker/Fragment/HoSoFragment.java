@@ -77,13 +77,13 @@ public class HoSoFragment extends Fragment {
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         userRef.get().addOnSuccessListener(dataSnapshot -> {
-            if (dataSnapshot.exists()) {
+            if (dataSnapshot.exists() && isAdded()) {
                 String avatarUrl = dataSnapshot.child("avatarUrl").getValue(String.class);
                 String firebaseUserName = dataSnapshot.child("userName").getValue(String.class);
 
                 // cập nhật ảnh nếu khác
                 if (avatarUrl != null) {
-                    Glide.with(this).load(avatarUrl).into(avatar_up); // Hiển thị avatar
+                    Glide.with(requireContext()).load(avatarUrl).into(avatar_up); // Hiển thị avatar
                     // Lưu URL mới vào SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("avatarUrl", avatarUrl);
