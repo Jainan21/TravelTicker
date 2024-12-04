@@ -26,7 +26,8 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class BaiDang extends AppCompatActivity {
-    private String idBaiDang = "-ODF8lHF8_fbXLoUgK-z";
+
+
     dbDAO dbDAO = new dbDAO();
 
 
@@ -40,6 +41,9 @@ public class BaiDang extends AppCompatActivity {
         ImageView mainimg = findViewById(R.id.mainimg_baidang);
         TextView txtLocationName = findViewById(R.id.txtLocationName);
         TextView txtLocation = findViewById(R.id.txtLocation);
+
+        Bundle bundle = getIntent().getExtras();
+        String idBaiDang = bundle.getString("idBaiDang");
 
         dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
             @Override

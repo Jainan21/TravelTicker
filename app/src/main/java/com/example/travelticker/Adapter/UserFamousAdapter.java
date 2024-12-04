@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,12 +23,18 @@ import java.util.ArrayList;
 public class UserFamousAdapter extends RecyclerView.Adapter<UserFamousAdapter.UserFamousHolder>{
     private Context c;
     private ArrayList<FamousUser> list;
+    private OnItemClickListener listener;
 
     UserDbDAO userDbDAO;
 
-    public UserFamousAdapter(Context c, ArrayList<FamousUser> list) {
+    public UserFamousAdapter(Context c, ArrayList<FamousUser> list, OnItemClickListener listener) {
         this.c = c;
         this.list = list;
+        this.listener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(FamousUser post);
     }
 
     @NonNull
@@ -57,6 +64,8 @@ public class UserFamousAdapter extends RecyclerView.Adapter<UserFamousAdapter.Us
         Glide.with(holder.imgPost.getContext()).load(post.getLinkImage()).into(holder.imgPost);
         holder.txtDescription.setText(post.getDescription());
         holder.txtTitle.setText(post.getTitle());
+
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(post));
     }
 
     @Override
