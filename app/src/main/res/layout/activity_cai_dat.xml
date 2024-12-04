@@ -16,13 +16,10 @@
 
         <ImageButton
             android:id="@+id/Imgbt2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="9dp"
-            android:background="@color/white"
-            android:src="@drawable/arrow_back_"
-            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+            android:layout_width="31dp"
+            android:layout_height="match_parent"
+            android:background="#F9F9F9"
+            android:src="@drawable/arrow_back_"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,6 +45,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_2"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="15dp"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -63,6 +61,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_3"
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="15dp"
         android:layout_height="wrap_content"/>
 
 

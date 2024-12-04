@@ -51,7 +51,28 @@ public class ThongBaoFragment extends Fragment {
                 R.drawable.monkey,
                 "Aphi",
                 "Cô ấy vừa bình luận bài viết của bạn",
-                "10:08 20/11/2024"
+                "15:08 9/11/2024"
+        ));
+
+        tb.add(new ThongBaoModel(
+                R.drawable.monkey,
+                "blam",
+                "Anh ấy vừa bình luận bài viết của bạn",
+                "5:08 5/11/2024"
+        ));
+
+        tb.add(new ThongBaoModel(
+                R.drawable.monkey,
+                "Ahong",
+                "Cô ấy vừa bình luận bài viết của bạn",
+                "11:08 1/12/2024"
+        ));
+
+        tb.add(new ThongBaoModel(
+                R.drawable.monkey,
+                "Ahon",
+                "Anh ấy vừa bình luận bài viết của bạn",
+                "19:08 29/11/2024"
         ));
         return tb;
     }
