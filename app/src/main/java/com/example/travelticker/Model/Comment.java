@@ -1,10 +1,14 @@
 package com.example.travelticker.Model;
 
 public class Comment {
-    private Integer linkAvt;
-    private String rating, username, content, time;
+    private String id, linkAvt, rating, username, content, time;
 
-    public Comment(Integer linkAvt, String rating, String username, String content, String time) {
+    public Comment(){
+
+    }
+
+    public Comment(String id, String linkAvt, String rating, String username, String content, String time) {
+        this.id = id;
         this.linkAvt = linkAvt;
         this.rating = rating;
         this.username = username;
@@ -12,11 +16,19 @@ public class Comment {
         this.time = time;
     }
 
-    public Integer getLinkAvt() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getLinkAvt() {
         return linkAvt;
     }
 
-    public void setLinkAvt(Integer linkAvt) {
+    public void setLinkAvt(String linkAvt) {
         this.linkAvt = linkAvt;
     }
 

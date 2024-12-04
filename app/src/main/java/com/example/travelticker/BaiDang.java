@@ -1,11 +1,13 @@
 package com.example.travelticker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.travelticker.Adapter.DetailAdapter;
 import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Fragment.FragmentDanhGia;
 import com.example.travelticker.Fragment.FragmentDiaChi;
 import com.example.travelticker.Fragment.FragmentTongQuan;
 import com.example.travelticker.Model.Post;
@@ -36,6 +39,7 @@ import java.util.Locale;
 public class BaiDang extends AppCompatActivity {
     dbDAO dbDAO = new dbDAO();
     String locationName;
+    ImageView backBaiDang;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +49,7 @@ public class BaiDang extends AppCompatActivity {
         ImageView mainimg = findViewById(R.id.mainimg_baidang);
         TextView txtLocationName = findViewById(R.id.txtLocationName);
         TextView txtLocation = findViewById(R.id.txtLocation);
+        backBaiDang =findViewById(R.id.backBaiDang);
 
         Bundle bundle = getIntent().getExtras();
         String idBaiDang = bundle.getString("idBaiDang");
@@ -55,6 +60,7 @@ public class BaiDang extends AppCompatActivity {
         editor.putString("idUser", idNguoiDang);
         editor.putString("idBaiDang", idBaiDang);
         editor.apply();
+        
 
 
         dbDAO.getBaiDangByID(idBaiDang, idNguoiDang, new dbDAO.PostCallBack() {
