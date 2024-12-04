@@ -21,11 +21,11 @@ import java.util.ArrayList;
 
 public class UserFamousAdapter extends RecyclerView.Adapter<UserFamousAdapter.UserFamousHolder>{
     private Context c;
-    private ArrayList<Post> list;
+    private ArrayList<FamousUser> list;
 
     UserDbDAO userDbDAO;
 
-    public UserFamousAdapter(Context c, ArrayList<Post> list) {
+    public UserFamousAdapter(Context c, ArrayList<FamousUser> list) {
         this.c = c;
         this.list = list;
     }
@@ -39,22 +39,24 @@ public class UserFamousAdapter extends RecyclerView.Adapter<UserFamousAdapter.Us
 
     @Override
     public void onBindViewHolder(@NonNull UserFamousAdapter.UserFamousHolder holder, int i) {
-        Post post = list.get(i);
+        FamousUser post = list.get(i);
+        userDbDAO = new UserDbDAO();
         userDbDAO.getUserById(post.getIdNguoiDang(), new UserDbDAO.UserCallBack() {
             @Override
             public void onSuccess(User user) {
                 Glide.with(holder.avtUser.getContext()).load(user.getAvatarUrl()).into(holder.avtUser);
                 holder.txtUsername.setText(user.getName());
             }
+
             @Override
             public void onError(String error) {
 
             }
         });
 
-        Glide.with(holder.imgPost.getContext()).load(post.getImg()).into(holder.imgPost);
-        holder.txtDescription.setText(post.getNoiDung());
-        holder.txtTitle.setText(post.getTieuDe());
+        Glide.with(holder.imgPost.getContext()).load(post.getLinkImage()).into(holder.imgPost);
+        holder.txtDescription.setText(post.getDescription());
+        holder.txtTitle.setText(post.getTitle());
     }
 
     @Override
