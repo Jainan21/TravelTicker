@@ -1,11 +1,15 @@
 package com.example.travelticker;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,16 +30,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.DistrictionAdapter;
 import com.example.travelticker.Adapter.MenuPostAdapter;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.Model.MenuPost;
 import com.example.travelticker.Model.Post;
+import com.example.travelticker.Model.User;
 import com.example.travelticker.Model.dichVu;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,17 +55,23 @@ import java.util.UUID;
 public class PostActivity extends AppCompatActivity {
     Toolbar toolbar;
     RecyclerView rcvMenuPost;
-    ImageView imgMainPost;
-    TextView txtTitlePost, txtContentPost;
+    ImageView imgMainPost, imgUserPost;
+    TextView txtTitlePost, txtContentPost,txtUserPost;
+
     MenuPostAdapter adapter;
-    ArrayList<MenuPost> menupost;
     DistrictionAdapter districtionAdapter;
+
+    ArrayList<MenuPost> menupost;
     ArrayList<dichVu> listDis;
-    String location = "";
-    ArrayList<Uri> imageUries;
-    Uri mainImg;
     ArrayList<String> anotherImages = new ArrayList<>();
+
+    String location = "";
+    Uri mainImg;
     Boolean isDisLoad = false;
+    String userID;
+
+    UserDbDAO userDbDAO;
+
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
@@ -76,6 +86,10 @@ public class PostActivity extends AppCompatActivity {
         imgMainPost = findViewById(R.id.imgMainPost);
         txtTitlePost = findViewById(R.id.txtTitlePost);
         txtContentPost = findViewById(R.id.txtContentPost);
+        imgUserPost = findViewById(R.id.imgUserPost);
+        txtUserPost = findViewById(R.id.txtUserPost);
+
+        getUserId();
 
         rcvMenuPost.setLayoutManager(new LinearLayoutManager(this));
         menupost = new ArrayList<>();
@@ -175,6 +189,15 @@ public class PostActivity extends AppCompatActivity {
         if (!location.isEmpty()){
             edtLinkLocation.setText(location);
         }
+
+        edtLinkLocation.setOnKeyListener(((view, i, keyEvent) -> {
+            if (i == KeyEvent.KEYCODE_V){
+                pasteLinkMap(PostActivity.this, edtLinkLocation);
+                return true;
+            }else {
+                return false;
+            }
+        }));
 
         btnAddLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -348,8 +371,7 @@ public class PostActivity extends AppCompatActivity {
         if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
             uploadMainImg(imageUri, imageUrls -> {
                 uploadAnotherImages(() -> {
-//                    String imageUrlsString = TextUtils.join(",", anotherImages);
-                    Post post = new Post("1", noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getIdDV());
+                    Post post = new Post(userID, noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getIdDV());
 
                     //lưu bài viết
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -367,6 +389,42 @@ public class PostActivity extends AppCompatActivity {
             });
         }else {
             Toast.makeText(this, "Vui lòng chọn ảnh chính và phụ !!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getUserId(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+        userID = sharedPreferences.getString("userId", null);
+
+        if (userID == null){
+            Toast.makeText(this, "Lấy Id người dùng thất bại", Toast.LENGTH_SHORT).show();
+        }else {
+            userDbDAO = new UserDbDAO();
+            userDbDAO.getUserById(userID, new UserDbDAO.UserCallBack() {
+                @Override
+                public void onSuccess(User user) {
+                    Glide.with(PostActivity.this).load(user.getAvatarUrl()).into(imgUserPost);
+                    txtUserPost.setText(user.getName());
+                }
+
+                @Override
+                public void onError(String error) {
+                    System.err.println(error);
+                }
+            });
+        }
+    }
+
+    public void pasteLinkMap(Context context, EditText edt){
+        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        if (clipboardManager.hasPrimaryClip()){
+            ClipData clipData = clipboardManager.getPrimaryClip();
+            ClipData.Item item = clipData.getItemAt(0);
+            String paste = item.getText().toString();
+            edt.setText(paste);
+        }else {
+            Toast.makeText(context, "Clipboard trống", Toast.LENGTH_SHORT).show();
         }
     }
 
