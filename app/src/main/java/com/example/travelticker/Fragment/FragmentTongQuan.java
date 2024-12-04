@@ -1,5 +1,10 @@
 package com.example.travelticker.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,12 +16,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.travelticker.Adapter.SecondaryImageAdapter;
 import com.example.travelticker.Adapter.ServiceAdapter;
+import com.example.travelticker.Model.LocationViewModel;
 import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.dichVu;
 import com.example.travelticker.DAO.dbDAO;
@@ -27,11 +34,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.play.core.integrity.IntegrityTokenRequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
-    TextView txtContent, txtDescription;
+    TextView txtContent;
     RecyclerView recyclerDichVu, recyclerHinhAnh;
     GoogleMap map;
     dbDAO dbDAO;
@@ -40,13 +50,17 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     ArrayList<String> listImg = new ArrayList<>();
     String ltglng;
     Double longitude, latitude;
-    private String idBaiDang = "-ODF8lHF8_fbXLoUgK-z";
-    private boolean dataLoaded = false;  // Flag to indicate when data is loaded
+    boolean dataLoaded;
+    private LocationViewModel locationViewModel;
+    String locationName;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tong_quan,null, false);
+
+        locationViewModel = new ViewModelProvider(requireActivity()).get(LocationViewModel.class);
+
 
         txtContent = view.findViewById(R.id.txtContent);
         recyclerDichVu = view.findViewById(R.id.recyclerDichVu);
@@ -68,7 +82,11 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
 
         dbDAO = new dbDAO();
 
-        dbDAO.getBaiDangByID(idBaiDang, new dbDAO.PostCallBack() {
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("BaiDang", Context.MODE_PRIVATE);
+        String idBaiDang = sharedPreferences.getString("idBaiDang", "");
+        String idNguoiDang = sharedPreferences.getString("idUser", "");
+
+        dbDAO.getBaiDangByID(idBaiDang, idNguoiDang, new dbDAO.PostCallBack() {
             @Override
             public void onSuccess(Post post) {
                 txtContent.setText(post.getNoiDung());
@@ -78,6 +96,9 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
                 String[] location = ltglng.split(",");
                 latitude = Double.parseDouble(location[0]);
                 longitude = Double.parseDouble(location[1]);
+
+                locationViewModel.setLatitude(latitude);
+                locationViewModel.setLongitude(longitude);
 
                 SecondaryImageAdapter adpImg = new SecondaryImageAdapter(getContext(), listImg);
                 recyclerHinhAnh.setAdapter(adpImg);
@@ -89,7 +110,6 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
                             for (String serviceID : listServiceID){
                                 if (a.getIdDichVu().equals(serviceID)){
                                     listService.add(a);
-                                    Log.d("list/service", String.valueOf(listService));
                                 }
                             }
                         }
@@ -127,10 +147,11 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     private void updateMap() {
         if (latitude != null && longitude != null) {
             LatLng location = new LatLng(latitude, longitude);
-            map.addMarker(new MarkerOptions().position(location).title("Location Marker"));
+            map.addMarker(new MarkerOptions().position(location).title("Marker"));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         } else {
             Toast.makeText(getContext(), "Location data is unavailable", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

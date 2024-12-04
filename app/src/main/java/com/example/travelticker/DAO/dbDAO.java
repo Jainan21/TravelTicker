@@ -111,9 +111,8 @@ public class dbDAO {
         });
     }
 
-    public void getBaiDangByID(String idBaiDang, PostCallBack callBack) {
+    public void getBaiDangByID(String idBaiDang, String userId, PostCallBack callBack) {
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BaiDang");
-        String userId = "t828Jl8YtcYXKPBag0JNiSmOG8p1";  // Replace with dynamic userId if necessary
 
         dbRef.child(idBaiDang).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
