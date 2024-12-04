@@ -3,6 +3,7 @@ package com.example.travelticker.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.LocationAdapter;
 import com.example.travelticker.Adapter.UserFamousAdapter;
+import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.Model.FamousUser;
 import com.example.travelticker.DAO.dbDAO;
+import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.Tinh;
+import com.example.travelticker.Model.User;
 import com.example.travelticker.R;
 
 import java.util.ArrayList;
@@ -29,8 +33,11 @@ public class FragmentTrangChu extends Fragment {
     ImageView imgAvt;
     TextView txtWelcome, txtGreeting;
     RecyclerView recyclerFamousUser, recyclerLocation;
-    String userName = new String();
+    ArrayList<Post> listPost;
+    ArrayList<Tinh> listTinh = new ArrayList<>();
+    String userId, userImg;
     dbDAO dbDAO;
+    UserDbDAO userDbDAO;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trang_chu,null, false);
@@ -40,27 +47,47 @@ public class FragmentTrangChu extends Fragment {
         recyclerFamousUser = view.findViewById(R.id.recyclerFamousUser);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userName = sharedPreferences.getString("userName", "Guest");
-
-        String avatarUrl = sharedPreferences.getString("avatarUrl", null);
-        String userEmail = sharedPreferences.getString("userEmail", "");
-        String userPhoto = sharedPreferences.getString("userPhoto", "");
-        String userId = sharedPreferences.getString("userId", "");
-
-        Toast.makeText(getContext(), "id: "+userId, Toast.LENGTH_SHORT).show();
-
-        if (avatarUrl == null){
-            Glide.with(this.getContext()).load(R.drawable.avatar).into(imgAvt);
-        }else{
-            Glide.with(this.getContext()).load(avatarUrl).into(imgAvt);
-        }
-        txtWelcome.setText("Xin chào " + userName);
+        userId = sharedPreferences.getString("userId", "");
+        userDbDAO = new UserDbDAO();
+        userDbDAO.getUserById(userId, new UserDbDAO.UserCallBack() {
+            @Override
+            public void onSuccess(User user) {
+                userImg = user.getAvatarUrl();
+                if (userImg == null){
+                    Glide.with(getContext()).load(R.drawable.avatar).into(imgAvt);
+                }else{
+                    Glide.with(getContext()).load(user.getAvatarUrl()).into(imgAvt);
+                }
+                txtWelcome.setText("Xin chào "+ user.getName());
+            }
+            @Override
+            public void onError(String error) {
+            }
+        });
 
         LinearLayoutManager layout = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         LinearLayoutManager layout2 = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
 
         recyclerLocation.setLayoutManager(layout);
-        ArrayList<Tinh> listTinh = new ArrayList<>();
+        recyclerFamousUser.setLayoutManager(layout2);
+        dbDAO = new dbDAO();
+        ArrayList<String> listIDPost = new ArrayList<>();
+        dbDAO.getRandomPost(new dbDAO.RandomPostCallBack() {
+            @Override
+            public void onSuccess(ArrayList<String> listPostID) {
+                listIDPost.addAll(listPostID);
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+
+            }
+        });
+
+
+//        UserFamousAdapter adpFamousUser = new UserFamousAdapter(getContext(), listPost);
+//        recyclerFamousUser.setAdapter(adpFamousUser);
+
         dbDAO = new dbDAO();
         dbDAO.getDataList("Tinh", Tinh.class, new dbDAO.FirestoreCallback<Tinh>() {
             @Override
@@ -79,11 +106,6 @@ public class FragmentTrangChu extends Fragment {
 
 
 
-        recyclerFamousUser.setLayoutManager(layout2);
-        ArrayList<FamousUser> listUser = new ArrayList<>();
-        listUser.add(new FamousUser(R.drawable.tienggian, R.drawable.monkey, "Tien Giang, VietNam", "Chuyen tham Tien Giang that dep va vui ve", "Nguyen Van Khi"));
-        UserFamousAdapter userAdapter = new UserFamousAdapter(getContext(), listUser);
-        recyclerFamousUser.setAdapter(userAdapter);
 
         return view;
     }

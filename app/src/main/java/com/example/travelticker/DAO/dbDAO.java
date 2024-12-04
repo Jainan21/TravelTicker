@@ -28,6 +28,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -52,17 +54,16 @@ public class dbDAO {
                     if (task.isSuccessful()) {
                         ArrayList<T> dataList = new ArrayList<>();
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            T data = document.toObject(modelClass);  // Chuyển dữ liệu thành object của modelClass
-                            dataList.add(data);  // Thêm object vào ArrayList
+                            T data = document.toObject(modelClass);
+                            dataList.add(data);
                         }
-                        callback.onCallback(dataList);  // Trả dữ liệu về qua callback
+                        callback.onCallback(dataList);
                     } else {
-                        callback.onFailure(task.getException());  // Xử lý lỗi
+                        callback.onFailure(task.getException());
                     }
                 });
     }
 
-    // Interface callback tổng quát
     public interface FirestoreCallback<T> {
         void onCallback(ArrayList<T> dataList);
         void onFailure(Exception e);
@@ -75,7 +76,6 @@ public class dbDAO {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                // Handle error, for example log it
                 e.printStackTrace();
             }
 
@@ -84,11 +84,9 @@ public class dbDAO {
                 if (response.isSuccessful()) {
                     InputStream inputStream = response.body().byteStream();
                     try {
-                        // Parse SVG from input stream
                         SVG svg = SVG.getFromInputStream(inputStream);
                         final PictureDrawable drawable = new PictureDrawable(svg.renderToPicture());
 
-                        // Chuyển PictureDrawable thành Bitmap
                         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                         Canvas canvas = new Canvas(bitmap);
                         drawable.getPicture().draw(canvas);
@@ -125,6 +123,8 @@ public class dbDAO {
                     String date = snapshot.child("ngayDang").getValue(String.class);
                     ArrayList<String> imgPhu = (ArrayList<String>) snapshot.child("imgPhu").getValue();
                     ArrayList<String> dichVu = (ArrayList<String>) snapshot.child("dichvu").getValue();
+
+                    callBack.onSuccess(new Post(idBaiDang, userId, "1", content, location, mainImage, date, title, imgPhu, dichVu));
                 }
             }
 
@@ -136,6 +136,40 @@ public class dbDAO {
     }
     public interface PostCallBack {
         void onSuccess(Post post);
+        void onFailure(String errorMessage);
+    }
+    public void getRandomPost(RandomPostCallBack callback){
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BaiDang");
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<DataSnapshot> snapshots = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    snapshots.add(snapshot);
+                }
+
+                Collections.shuffle(snapshots);
+                List<DataSnapshot> randomSnapshots = snapshots.subList(0, Math.min(5, snapshots.size()));
+
+                ArrayList<String> postIds = new ArrayList<>();
+                for (DataSnapshot snapshot : randomSnapshots) {
+                    String postId = snapshot.getKey();  // Get post ID
+                    if (postId != null) {
+                        postIds.add(postId);
+                    }
+                }
+                callback.onSuccess(postIds);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public interface RandomPostCallBack {
+        void onSuccess(ArrayList<String> listPostID);
         void onFailure(String errorMessage);
     }
 }

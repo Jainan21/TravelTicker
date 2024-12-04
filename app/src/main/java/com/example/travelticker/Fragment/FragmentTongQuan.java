@@ -1,6 +1,7 @@
 package com.example.travelticker.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,12 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     RecyclerView recyclerDichVu, recyclerHinhAnh;
     GoogleMap map;
     dbDAO dbDAO;
-    ArrayList<String> listService = new ArrayList<>();
+    ArrayList<String> listServiceID = new ArrayList<>();
+    ArrayList<dichVu> listService = new ArrayList<>();
     ArrayList<String> listImg = new ArrayList<>();
     String ltglng;
     Double longitude, latitude;
-    private String idBaiDang = "-OD5D1ftbnsnyTaBk6o7";
+    private String idBaiDang = "-ODF8lHF8_fbXLoUgK-z";
     private boolean dataLoaded = false;  // Flag to indicate when data is loaded
 
     @Nullable
@@ -61,7 +63,7 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
         GridLayoutManager gridlayout = new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, false);
         recyclerHinhAnh.setLayoutManager(gridlayout);
 
-        listService = new ArrayList<>();
+        listServiceID = new ArrayList<>();
         listImg = new ArrayList<>();
 
         dbDAO = new dbDAO();
@@ -70,34 +72,46 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
             @Override
             public void onSuccess(Post post) {
                 txtContent.setText(post.getNoiDung());
-//                listService = post.getDichvu();
+                listServiceID = post.getDichvu();
                 listImg = post.getImgPhu();
                 ltglng = post.getDiaChi();
                 String[] location = ltglng.split(",");
                 latitude = Double.parseDouble(location[0]);
                 longitude = Double.parseDouble(location[1]);
 
-                // Set the flag to true once the data is loaded
+                SecondaryImageAdapter adpImg = new SecondaryImageAdapter(getContext(), listImg);
+                recyclerHinhAnh.setAdapter(adpImg);
+
+                dbDAO.getDataList("DichVu", dichVu.class, new dbDAO.FirestoreCallback<dichVu>() {
+                    @Override
+                    public void onCallback(ArrayList<dichVu> dataList) {
+                        for(dichVu a : dataList){
+                            for (String serviceID : listServiceID){
+                                if (a.getIdDichVu().equals(serviceID)){
+                                    listService.add(a);
+                                    Log.d("list/service", String.valueOf(listService));
+                                }
+                            }
+                        }
+                        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
+                        recyclerDichVu.setAdapter(adpService);
+                    }
+                    @Override
+                    public void onFailure(Exception e) {
+                    }
+                });
+
                 dataLoaded = true;
 
-                // Now that the data is loaded, update the map if it's ready
                 if (map != null) {
                     updateMap();
                 }
             }
-
             @Override
             public void onFailure(String errorMessage) {
-                // Handle failure (e.g., show a toast or log an error)
                 Toast.makeText(getContext(), "Failed to load post data", Toast.LENGTH_SHORT).show();
             }
         });
-
-//        ServiceAdapter adpService = new ServiceAdapter(getContext(), listService);
-        SecondaryImageAdapter adpImage = new SecondaryImageAdapter(getContext(), listImg);
-
-//        recyclerDichVu.setAdapter(adpService);
-        recyclerHinhAnh.setAdapter(adpImage);
 
         return view;
     }
@@ -106,20 +120,16 @@ public class FragmentTongQuan extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        // If the data is already loaded, update the map directly
         if (dataLoaded) {
             updateMap();
         }
     }
-
-    // Method to update the map
     private void updateMap() {
         if (latitude != null && longitude != null) {
             LatLng location = new LatLng(latitude, longitude);
             map.addMarker(new MarkerOptions().position(location).title("Location Marker"));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
         } else {
-            // Handle case where latitude and longitude are still not available (if necessary)
             Toast.makeText(getContext(), "Location data is unavailable", Toast.LENGTH_SHORT).show();
         }
     }

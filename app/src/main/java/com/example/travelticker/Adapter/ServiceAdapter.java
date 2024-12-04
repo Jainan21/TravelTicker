@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.travelticker.DAO.dbDAO;
 import com.example.travelticker.Model.dichVu;
 import com.bumptech.glide.Glide;
 import com.example.travelticker.R;
@@ -22,6 +24,8 @@ import java.util.ArrayList;
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceAdapterHolder> {
     private final Context c;
     private final ArrayList<dichVu> list;
+
+    dbDAO dbDAO = new dbDAO();
 
     public ServiceAdapter(Context c, ArrayList<dichVu> list) {
         this.c = c;
@@ -40,7 +44,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ServiceA
         dichVu service = list.get(i);
 
 
-        Glide.with(holder.imgDichVu.getContext()).load(service.getAnh()).into(holder.imgDichVu);
+        dbDAO.loadSvgFromUrl(service.getAnh(), holder.imgDichVu);
         holder.txtTenDichVu.setText(service.getTen());
         holder.cardDichVu.setBackgroundColor(Color.parseColor("#" + service.getNen()));
     }
