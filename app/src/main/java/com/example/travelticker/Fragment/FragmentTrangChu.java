@@ -33,7 +33,6 @@ public class FragmentTrangChu extends Fragment {
     ImageView imgAvt;
     TextView txtWelcome, txtGreeting;
     RecyclerView recyclerFamousUser, recyclerLocation;
-    ArrayList<Post> listPost;
     ArrayList<Tinh> listTinh = new ArrayList<>();
     String userId, userImg;
     dbDAO dbDAO;
@@ -70,12 +69,13 @@ public class FragmentTrangChu extends Fragment {
 
         recyclerLocation.setLayoutManager(layout);
         recyclerFamousUser.setLayoutManager(layout2);
+
         dbDAO = new dbDAO();
-        ArrayList<String> listIDPost = new ArrayList<>();
         dbDAO.getRandomPost(new dbDAO.RandomPostCallBack() {
             @Override
-            public void onSuccess(ArrayList<String> listPostID) {
-                listIDPost.addAll(listPostID);
+            public void onSuccess(ArrayList<FamousUser> listPost) {
+                UserFamousAdapter adpFamousUser = new UserFamousAdapter(getContext(), listPost);
+                recyclerFamousUser.setAdapter(adpFamousUser);
             }
 
             @Override
@@ -83,10 +83,6 @@ public class FragmentTrangChu extends Fragment {
 
             }
         });
-
-
-//        UserFamousAdapter adpFamousUser = new UserFamousAdapter(getContext(), listPost);
-//        recyclerFamousUser.setAdapter(adpFamousUser);
 
         dbDAO = new dbDAO();
         dbDAO.getDataList("Tinh", Tinh.class, new dbDAO.FirestoreCallback<Tinh>() {
@@ -103,9 +99,6 @@ public class FragmentTrangChu extends Fragment {
                 System.err.println("Lỗi khi lấy dữ liệu Tinh: " + e.getMessage());
             }
         });
-
-
-
 
         return view;
     }

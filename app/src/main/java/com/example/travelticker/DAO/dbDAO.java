@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGParseException;
+import com.example.travelticker.Model.FamousUser;
 import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.dichVu;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,11 +25,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.protobuf.Value;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
@@ -140,25 +144,22 @@ public class dbDAO {
     }
     public void getRandomPost(RandomPostCallBack callback){
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("BaiDang");
+        ArrayList<FamousUser> listPost = new ArrayList<>();
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<DataSnapshot> snapshots = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    snapshots.add(snapshot);
-                }
+                for (DataSnapshot data : dataSnapshot.getChildren()){
+                    String idBaiDang = data.getKey();
+                    String idNguoiDang = data.child("idNguoiDang").getValue(String.class);
+                    String title = data.child("tieuDe").getValue(String.class);
+                    String content = data.child("noiDung").getValue(String.class);
+                    String mainImage = data.child("img").getValue(String.class);
 
-                Collections.shuffle(snapshots);
-                List<DataSnapshot> randomSnapshots = snapshots.subList(0, Math.min(5, snapshots.size()));
-
-                ArrayList<String> postIds = new ArrayList<>();
-                for (DataSnapshot snapshot : randomSnapshots) {
-                    String postId = snapshot.getKey();  // Get post ID
-                    if (postId != null) {
-                        postIds.add(postId);
-                    }
+                    listPost.add(new FamousUser(idBaiDang, idNguoiDang, mainImage, content, title));
                 }
-                callback.onSuccess(postIds);
+                Collections.shuffle(listPost);
+                ArrayList<FamousUser> randomPosts = new ArrayList<>(listPost.subList(0, Math.min(5, listPost.size())));
+                callback.onSuccess(randomPosts);
             }
 
             @Override
@@ -169,7 +170,7 @@ public class dbDAO {
     }
 
     public interface RandomPostCallBack {
-        void onSuccess(ArrayList<String> listPostID);
+        void onSuccess(ArrayList<FamousUser> post);
         void onFailure(String errorMessage);
     }
 }

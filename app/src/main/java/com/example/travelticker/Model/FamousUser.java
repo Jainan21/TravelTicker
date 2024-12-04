@@ -1,32 +1,7 @@
 package com.example.travelticker.Model;
 
 public class FamousUser {
-    Integer linkImage, linkAvt;
-    String title, description, name;
-
-    public FamousUser(Integer linkImage, Integer linkAvt, String title, String description, String name) {
-        this.linkImage = linkImage;
-        this.linkAvt = linkAvt;
-        this.title = title;
-        this.description = description;
-        this.name = name;
-    }
-
-    public Integer getLinkImage() {
-        return linkImage;
-    }
-
-    public void setLinkImage(Integer linkImage) {
-        this.linkImage = linkImage;
-    }
-
-    public Integer getLinkAvt() {
-        return linkAvt;
-    }
-
-    public void setLinkAvt(Integer linkAvt) {
-        this.linkAvt = linkAvt;
-    }
+    String title, description, linkImage, idNguoiDang, idBaiDang;
 
     public String getTitle() {
         return title;
@@ -44,11 +19,35 @@ public class FamousUser {
         this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public String getLinkImage() {
+        return linkImage;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLinkImage(String linkImage) {
+        this.linkImage = linkImage;
+    }
+
+    public String getIdNguoiDang() {
+        return idNguoiDang;
+    }
+
+    public void setIdNguoiDang(String idNguoiDang) {
+        this.idNguoiDang = idNguoiDang;
+    }
+
+    public String getIdBaiDang() {
+        return idBaiDang;
+    }
+
+    public void setIdBaiDang(String idBaiDang) {
+        this.idBaiDang = idBaiDang;
+    }
+
+    public FamousUser(String idBaiDang, String idNguoiDang, String linkImage, String description, String title) {
+        this.idBaiDang = idBaiDang;
+        this.idNguoiDang = idNguoiDang;
+        this.linkImage = linkImage;
+        this.description = description;
+        this.title = title;
     }
 }
