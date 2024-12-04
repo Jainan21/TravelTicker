@@ -26,7 +26,7 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 
 public class BaiDang extends AppCompatActivity {
-    private String idBaiDang = "-OD5D1ftbnsnyTaBk6o7";
+    private String idBaiDang = "-ODF8lHF8_fbXLoUgK-z";
     dbDAO dbDAO = new dbDAO();
 
 
@@ -50,8 +50,8 @@ public class BaiDang extends AppCompatActivity {
                 }else {
                     mainimg.setImageResource(R.drawable.tienggian);
                 }
-                txtLocation.setText("1 nơi nào đó");
-                txtLocationName.setText("Noi nào đó ");
+                txtLocation.setText("12345");
+                txtLocationName.setText(post.getTieuDe());
             }
 
             @Override
