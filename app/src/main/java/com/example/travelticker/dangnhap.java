@@ -181,6 +181,5 @@ public class dangnhap extends AppCompatActivity {
         editor.putString("userPhoto", photoUrl);
         editor.putString("userId", userId);
         editor.apply();
-
     }
 }
