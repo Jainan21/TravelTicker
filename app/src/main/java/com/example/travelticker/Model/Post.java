@@ -7,33 +7,15 @@ public class Post {
     private ArrayList<String> imgPhu;
     private ArrayList<String> dichvu;
 
-    public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
+    public Post(){}
+
+    public Post(String idBaiDang, String idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idBaiDang = idBaiDang;
         this.idNguoiDang = idNguoiDang;
-        this.idTinh = idTinh;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
         this.img = img;
         this.ngayDang = ngayDang;
-        this.tieuDe = tieuDe;
-    }
-
-    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
-        this.idNguoiDang = idNguoiDang;
-        this.noiDung = noiDung;
-        this.diaChi = diaChi;
-        this.img = img;
-        this.ngayDang = ngayDang;
-        this.tieuDe = tieuDe;
-        this.imgPhu = imgPhu;
-        this.dichvu = dichvu;
-    }
-
-    public Post(String idNguoiDang, String noiDung, String diaChi, String img, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
-        this.idNguoiDang = idNguoiDang;
-        this.noiDung = noiDung;
-        this.diaChi = diaChi;
-        this.img = img;
         this.tieuDe = tieuDe;
         this.imgPhu = imgPhu;
         this.dichvu = dichvu;
@@ -42,36 +24,14 @@ public class Post {
     public Post(String idBaiDang, String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
         this.idBaiDang = idBaiDang;
         this.idNguoiDang = idNguoiDang;
-        this.idTinh = idTinh;
         this.noiDung = noiDung;
         this.diaChi = diaChi;
+        this.idTinh = idTinh;
         this.img = img;
         this.ngayDang = ngayDang;
         this.tieuDe = tieuDe;
         this.imgPhu = imgPhu;
         this.dichvu = dichvu;
-    }
-
-    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe, ArrayList<String> imgPhu, ArrayList<String> dichvu) {
-        this.idNguoiDang = idNguoiDang;
-        this.idTinh = idTinh;
-        this.noiDung = noiDung;
-        this.diaChi = diaChi;
-        this.img = img;
-        this.ngayDang = ngayDang;
-        this.tieuDe = tieuDe;
-        this.imgPhu = imgPhu;
-        this.dichvu = dichvu;
-    }
-
-    public Post(String idNguoiDang, String idTinh, String noiDung, String diaChi, String img, String ngayDang, String tieuDe) {
-        this.idNguoiDang = idNguoiDang;
-        this.idTinh = idTinh;
-        this.noiDung = noiDung;
-        this.diaChi = diaChi;
-        this.img = img;
-        this.ngayDang = ngayDang;
-        this.tieuDe = tieuDe;
     }
 
     public String getIdBaiDang() {
