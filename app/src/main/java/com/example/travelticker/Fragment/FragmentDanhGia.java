@@ -90,6 +90,39 @@ public class FragmentDanhGia extends Fragment {
         CommentAdapter adapter = new CommentAdapter(getContext(), list);
         recyclerComment.setAdapter(adapter);
 
+        btnUploadComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String commentText = txtComment.getText().toString().trim();
+                float ratingValue = ratingBar.getRating();
+
+                if (commentText.isEmpty()){
+                    Toast.makeText(getContext(), "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (ratingValue == 0){
+                    Toast.makeText(getContext(), "Vui lòng đánh giá sao", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String userName = "";
+                String currentDate = "";
+                String ratingString = ratingValue + "/5";
+                list.add(0, new Comment(R.drawable.monkey, ratingString, userName, commentText, currentDate));
+
+
+
+                adapter.notifyDataSetChanged();
+                recyclerComment.scrollToPosition(0);
+
+                txtComment.setText("");
+                ratingBar.setRating(0);
+                Toast.makeText(getContext(), "Bài đăng đã đc đăng", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
 

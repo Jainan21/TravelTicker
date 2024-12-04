@@ -393,7 +393,7 @@ public class PostActivity extends AppCompatActivity {
     }
 
     public void getUserId(){
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPref", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         userID = sharedPreferences.getString("userId", null);
 
         if (userID == null){
