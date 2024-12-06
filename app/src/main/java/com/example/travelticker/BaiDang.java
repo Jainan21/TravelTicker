@@ -39,17 +39,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-    ImageView imgBtnLike;
+
 
 public class BaiDang extends AppCompatActivity {
+    ImageView imgBtnLike;
     dbDAO dbDAO = new dbDAO();
 
     LikeDAO likeDAO = new LikeDAO();
     String userID;
     String idBaiDang;
     Boolean isLiked = false;
-
-
 
 
     String locationName;
@@ -64,11 +63,11 @@ public class BaiDang extends AppCompatActivity {
         TextView txtLocationName = findViewById(R.id.txtLocationName);
         TextView txtLocation = findViewById(R.id.txtLocation);
         imgBtnLike = findViewById(R.id.imgBtnLike);
-        backBaiDang =findViewById(R.id.backBaiDang);
+        backBaiDang = findViewById(R.id.backBaiDang);
         Bundle bundle = getIntent().getExtras();
 
         idBaiDang = bundle.getString("idBaiDang");
-
+        backBaiDang.setOnClickListener(v -> finish());
         getUserId();
         checkLike();
 
