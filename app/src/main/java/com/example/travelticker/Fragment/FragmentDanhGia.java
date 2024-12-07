@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.travelticker.Adapter.CommentAdapter;
+import com.example.travelticker.DAO.CommentDAO;
 import com.example.travelticker.DAO.UserDbDAO;
 import com.example.travelticker.Model.Comment;
 import com.example.travelticker.Model.User;
@@ -40,7 +42,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class FragmentDanhGia extends Fragment {
@@ -50,12 +54,8 @@ public class FragmentDanhGia extends Fragment {
     AppCompatButton btnUploadComment;
     ImageView imgAvtUserComment;
     RatingBar ratingBar;
+    CommentDAO cmtDao;
 
-    FirebaseDatabase database;
-    FirebaseStorage storage;
-    StorageReference storageRef;
-    FirebaseUser user;
-    DatabaseReference commentsRef;
 
     @SuppressLint("MissingInflatedId")
     @Nullable
@@ -72,13 +72,7 @@ public class FragmentDanhGia extends Fragment {
         ratingBar = view.findViewById(R.id.ratingBar);
         imgAvtUserComment = view.findViewById(R.id.imgAvtUserComment);
         txtUsernameComment = view.findViewById(R.id.txtUsernameComment);
-
-        database = FirebaseDatabase.getInstance();
-        commentsRef = database.getReference("comments");
-        storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference().child("avatars");
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        cmtDao = new CommentDAO();
 
 
 
@@ -119,56 +113,10 @@ public class FragmentDanhGia extends Fragment {
 
         CommentAdapter adapter = new CommentAdapter(getContext(), list);
         recyclerComment.setAdapter(adapter);
-
-        btnUploadComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String commentText = txtComment.getText().toString().trim();
-                float ratingValue = ratingBar.getRating();
-
-                if (commentText.isEmpty()){
-                    Toast.makeText(getContext(), "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (ratingValue == 0){
-                    Toast.makeText(getContext(), "Vui lòng đánh giá sao", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-                String avatarUrl = user != null && user.getPhotoUrl() != null
-                        ? user.getPhotoUrl().toString()
-                        : "https://i.pinimg.com/736x/cd/2b/d1/cd2bd1e52870c292ba5e0abfb96aa8c8.jpg";
-                String userName = (user != null && user.getDisplayName() != null) ? user.getDisplayName() : "Ẩn danh";
-                String currentDate = new java.text.SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new java.util.Date());
-                String ratingString = ratingValue + "/5";
-
-                //tạo id cho bình luận
-                String key = commentsRef.push().getKey();
-                if (key != null) {
-                    // Tạo đối tượng bình luận mới với ID
-                    Comment newComment = new Comment(key, avatarUrl, ratingString, userName, commentText, currentDate);
-
-                    commentsRef.child(key).setValue(newComment)
-                            .addOnSuccessListener(unused -> {
-                                Toast.makeText(getContext(), "Bình luận đã được lưu!", Toast.LENGTH_SHORT).show();
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(getContext(), "Lỗi khi lưu bình luận: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-
-                    // Thêm bình luận vào danh sách và cập nhật adapter
-                    list.add(0, newComment);
-                    adapter.notifyItemInserted(0);
-                    recyclerComment.scrollToPosition(0);
-                }
-                txtComment.setText("");
-                ratingBar.setRating(0);
-            }
-        });
+        btnUploadComment.setOnClickListener(v -> addComment());
         return view;
     }
+
     private int countWords(String input) {
         if (input.trim().isEmpty()) {
             return 0;
@@ -180,27 +128,86 @@ public class FragmentDanhGia extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+        loadComments();
+    }
 
-        // Lấy bình luận từ Firebase khi người dùng đăng nhập lại
-        commentsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Comment> list = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Comment comment = snapshot.getValue(Comment.class);
-                    if (comment != null) {
-                        list.add(comment);
-                    }
+    private void loadComments() {
+        String postId = getPostIdFromArguments();
+        if (postId != null) {
+            cmtDao.getComments(postId, new CommentDAO.OnCommentsLoadedListener() {
+                @Override
+                public void onSuccess(ArrayList<Comment> comments) {
+                    CommentAdapter adapter = new CommentAdapter(getContext(), comments);
+                    recyclerComment.setAdapter(adapter);
                 }
-                // Cập nhật adapter với danh sách bình luận mới
-                CommentAdapter adapter = new CommentAdapter(getContext(), list);
-                recyclerComment.setAdapter(adapter);
+
+                @Override
+                public void onFailure(String errorMessage) {
+                    Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private void addComment() {
+        String postId = getPostIdFromArguments();
+        if (postId != null) {
+            String commentText = txtComment.getText().toString().trim();
+            float ratingValue = ratingBar.getRating();
+
+            if (TextUtils.isEmpty(commentText)) {
+                Toast.makeText(getContext(), "Vui lòng nhập bình luận", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Lỗi khi tải bình luận", Toast.LENGTH_SHORT).show();
+            if (ratingValue == 0) {
+                Toast.makeText(getContext(), "Vui lòng đánh giá sao", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
+
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user != null) {
+                String userId = user.getUid();
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+                userRef.addListenerForSingleValueEvent(new ValueEventListener(){
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot){
+                        String linkAvt = snapshot.child("linkAvt").getValue(String.class);
+                        String username = snapshot.child("username").getValue(String.class);
+                        // lấy date
+                        long timestamp = System.currentTimeMillis();
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        String Date = sdf.format(new Date(timestamp));
+
+                        Comment comment = new Comment(userId, postId, linkAvt, String.valueOf(ratingValue), username, commentText, Date);
+                        cmtDao.addComment(comment, postId,new CommentDAO.OnCommentAddedListener() {
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(getContext(), "Bình luận đã được gửi", Toast.LENGTH_SHORT).show();
+                                txtComment.setText("");
+                                ratingBar.setRating(0);
+                                loadComments();
+                            }
+                            @Override
+                            public void onFailure(String errorMessage) {
+                                Toast.makeText(getContext(), "Lỗi khi gửi bình luận: " + errorMessage, Toast.LENGTH_SHORT).show();
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        }
+    }
+
+    private String getPostIdFromArguments() {
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("BaiDang", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("idBaiDang", null); // Trả về null nếu không có idBaiDang
     }
 }

@@ -1,14 +1,15 @@
 package com.example.travelticker.Model;
 
 public class Comment {
-    private String id, linkAvt, rating, username, content, time;
+    private String id, idPost,linkAvt, rating, username, content, time;
 
     public Comment(){
 
     }
 
-    public Comment(String id, String linkAvt, String rating, String username, String content, String time) {
+    public Comment(String id, String idPost, String linkAvt, String rating, String username, String content, String time) {
         this.id = id;
+        this.idPost = idPost;
         this.linkAvt = linkAvt;
         this.rating = rating;
         this.username = username;
@@ -22,6 +23,14 @@ public class Comment {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIdPost() {
+        return idPost;
+    }
+
+    public void setIdPost(String idPost) {
+        this.idPost = idPost;
     }
 
     public String getLinkAvt() {
