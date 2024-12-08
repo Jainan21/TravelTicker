@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +24,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     Context c;
     ArrayList<Comment> list;
     UserDbDAO userDbDAO;
-    String userId, userImg;
 
     public CommentAdapter(Context c, ArrayList<Comment> list) {
         this.c = c;
@@ -41,32 +41,43 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     public void onBindViewHolder(@NonNull CommentAdapter.CommentViewHolder holder, int i) {
         Comment cmt = list.get(i);
 
+        String userId = cmt.getId();
+
         Glide.with(holder.imgAvtComment.getContext()).load(cmt.getLinkAvt()).into(holder.imgAvtComment);
         holder.txtUsernameComment.setText(cmt.getUsername());
         holder.txtContentComment.setText(cmt.getContent());
         holder.txtTimeComment.setText(cmt.getTime());
         holder.txtRatingComment.setText(cmt.getRating());
 
-        SharedPreferences sharedPreferences = c.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        userId = sharedPreferences.getString("userId", "");
         userDbDAO = new UserDbDAO();
         userDbDAO.getUserById(userId, new UserDbDAO.UserCallBack() {
             @Override
             public void onSuccess(User user) {
-                userImg = user.getAvatarUrl();
-                if (userImg == null){
-                    Glide.with(c).load(R.drawable.avatar).into(holder.imgAvtComment);
-                }else{
-                    Glide.with(c).load(user.getAvatarUrl()).into(holder.imgAvtComment);
+                if (user != null) {
+                    // Cập nhật thông tin người dùng vào giao diện
+                    holder.txtUsernameComment.setText(user.getName());
+
+                    // Tải ảnh đại diện người dùng (nếu có)
+                    String avatarUrl = user.getAvatarUrl();
+                    if (avatarUrl != null) {
+                        Glide.with(holder.imgAvtComment.getContext())
+                                .load(avatarUrl)
+                                .into(holder.imgAvtComment);
+                    } else {
+                        // Nếu không có avatar, dùng ảnh mặc định
+                        Glide.with(holder.imgAvtComment.getContext())
+                                .load(R.drawable.avatar) // ảnh mặc định
+                                .into(holder.imgAvtComment);
+                    }
                 }
-                holder.txtUsernameComment.setText(user.getName());
+
             }
+
             @Override
             public void onError(String error) {
+                Toast.makeText(c, "Lỗi khi lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     @Override
