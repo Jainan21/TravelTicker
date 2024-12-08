@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import com.example.travelticker.Model.Post;
 import com.example.travelticker.Model.Tinh;
 import com.example.travelticker.Model.User;
 import com.example.travelticker.R;
+import com.example.travelticker.Search;
+import com.example.travelticker.TrangChu;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,7 @@ public class FragmentTrangChu extends Fragment {
 
     ImageView imgAvt;
     TextView txtWelcome, txtGreeting;
+    Button btnLoadSearch;
     RecyclerView recyclerFamousUser, recyclerLocation;
     ArrayList<Tinh> listTinh = new ArrayList<>();
     String userId, userImg;
@@ -45,6 +49,7 @@ public class FragmentTrangChu extends Fragment {
         txtWelcome = view.findViewById(R.id.txtWelcome);
         recyclerLocation = view.findViewById(R.id.recyclerLocation);
         recyclerFamousUser = view.findViewById(R.id.recyclerFamousUser);
+        btnLoadSearch = view.findViewById(R.id.btnLoadSearch);
 
         SharedPreferences sharedPreferences = requireContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userId = sharedPreferences.getString("userId", "");
@@ -112,6 +117,18 @@ public class FragmentTrangChu extends Fragment {
             }
         });
 
+        btnLoadSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadSearch();
+            }
+        });
+
         return view;
+    }
+
+    public void loadSearch(){
+        Intent intent = new Intent(requireContext(), Search.class);
+        startActivity(intent);
     }
 }

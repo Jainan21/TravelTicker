@@ -20,11 +20,13 @@ import java.util.ArrayList;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder>{
 
     ArrayList<Post> list;
+    ArrayList<Post> listLikePost;
     Context context;
 
-    public SearchAdapter(ArrayList<Post> list, Context context) {
+    public SearchAdapter(ArrayList<Post> list, Context context, ArrayList<Post> listLikePost) {
         this.list = list;
         this.context = context;
+        this.listLikePost = listLikePost;
     }
 
     @NonNull
@@ -41,6 +43,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         Glide.with(context).load(item.getImg()).into(holder.imgPost);
         holder.txtTomTat.setText(item.getNoiDung());
         holder.txtTieuDe.setText(item.getTieuDe());
+
+        if (listLikePost != null){
+            for (int i = 0; i < listLikePost.size(); i++){
+                if (listLikePost.get(i).getIdBaiDang().equals(item.getIdBaiDang())){
+                    holder.btnHasFavo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.favorite_24, 0, 0,0 );
+                    break;
+                }else {
+                    holder.btnHasFavo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.icon_fav_trangchu, 0, 0,0 );
+                }
+            }
+        }
     }
 
     @Override

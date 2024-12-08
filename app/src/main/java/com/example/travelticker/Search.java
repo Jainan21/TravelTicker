@@ -1,5 +1,6 @@
 package com.example.travelticker;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.travelticker.Adapter.PostAdapter;
 import com.example.travelticker.Adapter.SearchAdapter;
+import com.example.travelticker.DAO.LikeDAO;
 import com.example.travelticker.Model.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -33,10 +36,15 @@ public class Search extends AppCompatActivity {
     Button btnSearch;
     RecyclerView rcvSearch;
 
+    String userID;
+
     ArrayList<Post> listPost;
     ArrayList<Post> listSearch;
+    ArrayList<Post> listLikePost;
 
     SearchAdapter adapter;
+
+    LikeDAO likeDAO;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +56,11 @@ public class Search extends AppCompatActivity {
         edtSearch = findViewById(R.id.edtSearch);
         btnSearch = findViewById(R.id.btnSearch);
         rcvSearch = findViewById(R.id.rcvSearch);
+
+        getUserId();
+
+        likeDAO = new LikeDAO();
+        getListLike();
 
         listPost = new ArrayList<>();
 
@@ -99,10 +112,6 @@ public class Search extends AppCompatActivity {
                         Toast.makeText(Search.this, "Lỗi lưu dữ liệu !!!", Toast.LENGTH_SHORT).show();
                     }
                 }
-
-//                // Cập nhật adapter khi dữ liệu đã có
-//                adapter = new SearchAdapter(listPost, Search.this);
-//                rcvSearch.setAdapter(adapter);
                 Toast.makeText(Search.this, "Dữ liệu đã được tải thành công", Toast.LENGTH_SHORT).show();
             }
 
@@ -130,10 +139,39 @@ public class Search extends AppCompatActivity {
 
         // Cập nhật lại RecyclerView
         if (!listSearch.isEmpty()) {
-            adapter = new SearchAdapter(listSearch, this);
+            adapter = new SearchAdapter(listSearch, this, listLikePost);
             rcvSearch.setAdapter(adapter);
         } else {
             Toast.makeText(this, "Không tìm thấy kết quả", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void getListLike(){
+        if (userID != null){
+            likeDAO.getListLike(userID, new LikeDAO.ongetListLike() {
+                @Override
+                public void onSuccess(ArrayList<Post> listLike) {
+                    if (listLike != null){
+                        listLikePost = listLike;
+                    }else {
+                        Toast.makeText(Search.this, "Không có danh sách yêu thích", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailue(String errorMessage) {
+                    Toast.makeText(Search.this, "Lỗi !!!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    public void getUserId(){
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        userID = sharedPreferences.getString("userId", null);
+
+        if (userID == null){
+            Toast.makeText(Search.this, "Lấy Id người dùng thất bại", Toast.LENGTH_SHORT).show();
         }
     }
 }
