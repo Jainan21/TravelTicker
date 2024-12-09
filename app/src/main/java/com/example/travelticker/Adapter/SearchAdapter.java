@@ -46,7 +46,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         if (listLikePost != null){
             for (int i = 0; i < listLikePost.size(); i++){
-                if (listLikePost.get(i).getIdBaiDang().equals(item.getIdBaiDang())){
+                if (listLikePost.get(i).getIdBaiDang() == item.getIdBaiDang()){
                     holder.btnHasFavo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.favorite_24, 0, 0,0 );
                     break;
                 }else {

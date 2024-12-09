@@ -162,7 +162,7 @@ public class PostActivity extends AppCompatActivity {
                     int count = data.getClipData().getItemCount();
                     for (int i =0; i < count; i++){
                         Uri uri = data.getClipData().getItemAt(i).getUri();
-                        //thêm vào list
+                        //thêm
                         menupost.get(2).addAnotherImage(uri);
                     }
                 }else if (data.getData() != null){
@@ -230,7 +230,7 @@ public class PostActivity extends AppCompatActivity {
             listDis = new ArrayList<>();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             db.collection("DichVu")
-                    .get() // Lấy dữ liệu một lần
+                    .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             QuerySnapshot querySnapshot = task.getResult();
@@ -250,7 +250,6 @@ public class PostActivity extends AppCompatActivity {
                             isDisLoad = true;
 
                         } else {
-                            Log.w("FirebaseData", "Error getting documents.", task.getException());
                             Toast.makeText(PostActivity.this, "Lỗi khi tải dịch vụ", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -267,7 +266,7 @@ public class PostActivity extends AppCompatActivity {
         ArrayList<String> idDV = menuPost.getIdDV();
         if (selectedItems == null) {
             selectedItems = new ArrayList<>();
-            idDV = new ArrayList<>();// Khởi tạo nếu null
+            idDV = new ArrayList<>();
         }
 
         for (dichVu dis : listDis) {
@@ -320,7 +319,7 @@ public class PostActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         //chọn nhiểu ảnh
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        //trả về vị trí cập nhật
+        //trả về vị trí
         startActivityForResult(intent, 2);
     }
 
@@ -362,29 +361,35 @@ public class PostActivity extends AppCompatActivity {
         String noidung = txtContentPost.getText().toString();
         String ngaydang = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || mainImg != null){
+        if (tieude.isEmpty() || noidung.isEmpty() || menupost.get(1).getSelectedImages().isEmpty() || location.isEmpty() || menupost.get(2).getListAnotherImage().isEmpty() || imageUri == null){
             Toast.makeText(this, "Vui lòng nhập đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
 
         //kiểm tra upload ảnh
         if (imageUri != null && !menupost.get(2).getListAnotherImage().isEmpty()){
-            uploadMainImg(imageUri, imageUrls -> {
-                uploadAnotherImages(() -> {
-                    //lưu bài viết
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    String idBaiDang = databaseReference.push().getKey();
-                    Post post = new Post( idBaiDang, userID, noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getIdDV());
-                    if (idBaiDang != null){
-                        databaseReference.child("BaiDang").child(idBaiDang).setValue(post).addOnCompleteListener(task -> {
-                            if (task.isSuccessful()){
-                                Toast.makeText(this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
-                            }else {
-                                Toast.makeText(this, "Đăng bài thất bại", Toast.LENGTH_SHORT).show();
+            uploadMainImg(imageUri, new UploadCallback() {
+                @Override
+                public void onUploadSuccess(Uri imageUrls) {
+                    uploadAnotherImages(new Runnable() {
+                        @Override
+                        public void run() {
+                            //lưu bài viết
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            String idBaiDang = databaseReference.push().getKey();
+                            Post post = new Post( idBaiDang, userID, noidung, location, mainImg.toString(), ngaydang, tieude, anotherImages, menupost.get(1).getIdDV());
+                            if (idBaiDang != null){
+                                databaseReference.child("BaiDang").child(idBaiDang).setValue(post).addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(PostActivity.this, "Đăng bài thành công", Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(PostActivity.this, "Đăng bài thất bại", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             });
         }else {
             Toast.makeText(this, "Vui lòng chọn ảnh chính và phụ !!!", Toast.LENGTH_SHORT).show();

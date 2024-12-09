@@ -54,7 +54,7 @@ public class LikeDAO {
 
     public void unLike(String userID, String postID, final onUnLikeListener listener){
         if (userID == null || postID == null) {
-            listener.onFailure(); // Notify failure if either ID is null
+            listener.onFailure();
             return;
         }
 
@@ -90,7 +90,7 @@ public class LikeDAO {
                            if (task.isSuccessful() && task.getResult().exists()){
                                Post post = task.getResult().getValue(Post.class);
                                if (post != null){
-                                   listLike.add(post);//thêm vào ds
+                                   listLike.add(post);
                                }
                            }
 
