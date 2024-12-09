@@ -21,11 +21,10 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
     Context context;
     ArrayList<Uri> list;
     MenuPost menuPost;
-    OnDataChangedListener listener; // Thêm listener để thông báo thay đổi dữ liệu
+    OnDataChangedListener listener;
 
-    // Tạo giao diện để thông báo thay đổi dữ liệu
     public interface OnDataChangedListener {
-        void onDataChanged();  // Phương thức sẽ được gọi khi dữ liệu thay đổi
+        void onDataChanged();
     }
 
     // Cập nhật constructor để nhận listener
@@ -33,7 +32,7 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
         this.context = context;
         this.list = list;
         this.menuPost = menuPost;
-        this.listener = listener; // Lưu listener
+        this.listener = listener;
     }
 
     @NonNull
@@ -47,34 +46,21 @@ public class AnotherImageAdapter extends RecyclerView.Adapter<AnotherImageAdapte
     public void onBindViewHolder(@NonNull AnotherImageViewHolder holder, int position) {
         Uri img = list.get(position);
 
-        // Hiển thị ảnh
         Glide.with(context).load(img).into(holder.imgAnotherImage);
 
-        // Nhấn nút xóa
         holder.btnDeleteAnotherImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int index = holder.getAdapterPosition();
                 if (index != RecyclerView.NO_POSITION && !list.isEmpty()) {
-                    // Lấy URI đã bị xóa
                     Uri removedUri = list.remove(index);
 
-                    // Cập nhật lại danh sách ảnh trong MenuPost
+                    // Cập nhật lại MenuPost
                     menuPost.getListAnotherImage().remove(removedUri);
-
-                    // Giảm số lượng ảnh trong MenuPost
                     menuPost.setQuantity(menuPost.getQuantity() - 1);
-
-                    // Cập nhật lại RecyclerView
-                    notifyItemRemoved(index);
-                    notifyItemRangeChanged(index, list.size());
-
-                    // Cập nhật lại danh sách của adapter trong MenuPost
                     menuPost.setListAnotherImage(list);
-
-                    // Gọi listener để thông báo dữ liệu đã thay đổi
                     if (listener != null) {
-                        listener.onDataChanged();  // Thông báo cho adapter cha
+                        listener.onDataChanged();
                     }
                 }
             }
