@@ -76,8 +76,8 @@ public class FragmentDanhGia extends Fragment {
 
 
 
-        txtAvgRating.setText("4.7/5");
-        txtTotalRating.setText("300 đánh giá");
+        txtAvgRating.setText("");
+        txtTotalRating.setText("");
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -139,6 +139,22 @@ public class FragmentDanhGia extends Fragment {
                 public void onSuccess(ArrayList<Comment> comments) {
                     CommentAdapter adapter = new CommentAdapter(getContext(), comments);
                     recyclerComment.setAdapter(adapter);
+
+                    //cập nhật tổng số bình luận
+                    txtTotalRating.setText(comments.size() + " đánh giá");
+
+                    //cập nhật tổng số sao
+                    if (comments.size() > 0) {
+                        float totalRating = 0;
+                        for (Comment comment : comments) {
+                            totalRating += Float.parseFloat(comment.getRating());
+                        }
+                        float avgRating = totalRating / comments.size();
+                        txtAvgRating.setText(String.format(Locale.getDefault(), "%.1f/5", avgRating));
+                    } else {
+                        txtAvgRating.setText("0/5");
+                    }
+
                 }
 
                 @Override
@@ -179,6 +195,7 @@ public class FragmentDanhGia extends Fragment {
                         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
                         String Date = sdf.format(new Date(timestamp));
 
+                        //tạo bình luận mới
                         Comment comment = new Comment(userId, postId, linkAvt, String.valueOf(ratingValue), username, commentText, Date);
                         cmtDao.addComment(comment, postId,new CommentDAO.OnCommentAddedListener() {
                             @Override
