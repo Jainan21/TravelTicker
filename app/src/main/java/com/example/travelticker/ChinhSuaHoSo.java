@@ -202,26 +202,5 @@ public class ChinhSuaHoSo extends AppCompatActivity {
             });
         }
     }
-//    public void getUserId(){
-//        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-//        userID = sharedPreferences.getString("userId", null);
-//
-//        if (userID == null){
-//            Toast.makeText(this, "Lấy Id người dùng thất bại", Toast.LENGTH_SHORT).show();
-//        }else {
-//            userDbDAO = new UserDbDAO();
-//            userDbDAO.getUserById(userID, new UserDbDAO.UserCallBack() {
-//                @Override
-//                public void onSuccess(User user) {
-//                    Glide.with(getBaseContext()).load(user.getAvatarUrl()).into(imgUserPost);
-//                    editHoTen.setText(user.getName());
-//                }
-//
-//                @Override
-//                public void onError(String error) {
-//                    System.err.println(error);
-//                }
-//            });
-//        }
-//    }
+
 }
